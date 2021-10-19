@@ -1,5 +1,5 @@
-![pylint score](https://github.com/Kencho/practica-dms-2021-2022/workflows/pylint%20score/badge.svg)
-![mypy typechecking](https://github.com/Kencho/practica-dms-2021-2022/workflows/mypy%20typechecking/badge.svg)
+![pylint score](https://github.com/eca1001/practica-dms-2021-2022/workflows/pylint%20score/badge.svg)
+![mypy typechecking](https://github.com/eca1001/practica-dms-2021-2022/workflows/mypy%20typechecking/badge.svg)
 
 # DMS course project codebase, academic year 2021-2022
 
@@ -60,7 +60,7 @@ docker-compose -f docker/config/dev.yml build
 To stop and remove the containers:
 
 ```bash
-docker-compose -f docker/config/dev/yml rm -sfv
+docker-compose -f docker/config/dev.yml rm -sfv
 ```
 
 By default data will not be persisted across executions. The configuration file `docker/config/dev.yml` can be edited to mount persistent volumes and use them for the persistent data.
