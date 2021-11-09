@@ -59,6 +59,14 @@ def get_student():
 def get_teacher():
     return TeacherEndpoints.get_teacher(auth_service)
 
+@app.route("/teacher/questions", methods=['GET'])
+def get_teacher_questions():
+    return TeacherEndpoints.get_teacher_questions(auth_service)
+
+@app.route("/teacher/students", methods=['GET'])
+def get_teacher_students():
+    return TeacherEndpoints.get_teacher_students(auth_service)
+
 @app.route("/admin", methods=['GET'])
 def get_admin():
     return AdminEndpoints.get_admin(auth_service)

@@ -28,3 +28,38 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
         return render_template('teacher.html', name=name, roles=session['roles'])
+
+    
+    @staticmethod
+    def get_teacher_questions(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the questions administration endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('teacher/questions.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_teacher_students(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student progress endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('teacher/students.html', name=name, roles=session['roles'])
