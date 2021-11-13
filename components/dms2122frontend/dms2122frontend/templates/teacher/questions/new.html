@@ -1,7 +1,37 @@
 {% extends "teacher.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Create new question{% endblock %}
 {% block teachercontent %}
     {% block questioncontent %}
-    <p class="yellowbg">Under construction</p>
+    <form action="/teacher/questions/new" method="post">
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <dl>
+            <dt>Title</dt>
+            <dd>
+                <input type="text" name="title" placeholder="Title" autofocus />
+            </dd>
+            <dt>Body</dt>
+            <dd>
+                <input type="text" name="body" placeholder="Body" />
+            </dd>
+            <dt>Option 1</dt>
+            <dd>
+                <input type="text" name="option1" placeholder="Option 1" />
+            </dd>
+            <dt>Option 2</dt>
+            <dd>
+                <input type="text" name="option2" placeholder="Option 2" />
+            </dd>
+            <dt>Option 3</dt>
+            <dd>
+                <input type="text" name="option3" placeholder="Option 3" />
+            </dd>
+            <dt>Number of correct answer</dt>
+            <dd>
+                <input type="text" name="correct_answer" placeholder="1,2 or 3" />
+            </dd>
+        </dl>
+        <p class="alignright">{{ submit_button('bluebg', 'Create Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+    </form>
     {% endblock %}
 {% endblock %}
