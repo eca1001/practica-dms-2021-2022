@@ -2,7 +2,20 @@
 {% from "macros/buttons.html" import button with context %}
 {% block contentsubheading %}Question management{% endblock %}
 {% block teachercontent %}
-    {% block questioncontent %}
-    <p class="yellowbg">Under construction</p>
-    {% endblock %}
+<table class="fillwidth highlightrows">
+    <tbody>
+        <tr>
+            <th class="alignleft">Question Title</th><th></th>
+        </tr>
+        {% for question in questions %}
+            <tr class="highlightable">
+                <td class="alignleft">{{ question['title'] }}</td>
+                <td class="alignright">{{ button('bluebg', '/teacher/questions/preview?questiontitle=' + question['title'] + '&redirect_to=/teacher/questions', 'Preview') }}</td>
+                <td class="alignright">{{ button('bluebg', '/teacher/questions/edit?questiontitle=' + question['title'] + '&redirect_to=/teacher/questions', 'Edit') }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p class="alignright">{{ button('bluebg', '/teacher/questions/new', 'Create new question') }}</p>
+<p class="alignleft">{{ button('bluebg', '/teacher/questions/stats', 'View statistics') }}</p>
 {% endblock %}

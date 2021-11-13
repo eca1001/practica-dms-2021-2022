@@ -7,6 +7,7 @@ from werkzeug.wrappers import Response
 from dms2122common.data import Role
 from dms2122frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
+#from .webquestion import WebQuestion
 
 
 class TeacherEndpoints():
@@ -45,7 +46,9 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('teacher/questions.html', name=name, roles=session['roles'])
+
+        return render_template('teacher/questions.html', name=name, roles=session['roles'], 
+                                    questions=[{"title": "a"},{"title": "b"}])
     
     @staticmethod
     def get_teacher_students(auth_service: AuthService) -> Union[Response, Text]:
@@ -63,3 +66,72 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
         return render_template('teacher/students.html', name=name, roles=session['roles'])
+
+    
+    @staticmethod
+    def get_teacher_questions_new(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student progress endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('teacher/questions/new.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student progress endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('teacher/questions/edit.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_teacher_questions_preview(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student progress endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('teacher/questions/preview.html', name=name, roles=session['roles'])
+    
+    @staticmethod
+    def get_teacher_questions_stats(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student progress endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Teacher.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('teacher/questions/stats.html', name=name, roles=session['roles'])

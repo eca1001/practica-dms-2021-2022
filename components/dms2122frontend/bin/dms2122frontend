@@ -80,6 +80,22 @@ def get_teacher():
 def get_teacher_questions():
     return TeacherEndpoints.get_teacher_questions(auth_service)
 
+@app.route("/teacher/questions/new", methods=['GET'])
+def get_teacher_questions_new():
+    return TeacherEndpoints.get_teacher_questions_new(auth_service)
+
+@app.route("/teacher/questions/edit", methods=['GET'])
+def get_teacher_questions_edit():
+    return TeacherEndpoints.get_teacher_questions_edit(auth_service)
+
+@app.route("/teacher/questions/preview", methods=['GET'])
+def get_teacher_questions_preview():
+    return TeacherEndpoints.get_teacher_questions_preview(auth_service)
+
+@app.route("/teacher/questions/stats", methods=['GET'])
+def get_teacher_questions_stats():
+    return TeacherEndpoints.get_teacher_questions_stats(auth_service)
+
 @app.route("/teacher/students", methods=['GET'])
 def get_teacher_students():
     return TeacherEndpoints.get_teacher_students(auth_service)
