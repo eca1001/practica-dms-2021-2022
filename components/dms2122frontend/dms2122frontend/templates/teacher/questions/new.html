@@ -28,7 +28,7 @@
             </dd>
             <dt>Number of correct answer</dt>
             <dd>
-                <input type="text" name="correct_answer" placeholder="1,2 or 3" />
+                <input type="number" name="correct_answer", min=1, max=3 />
             </dd>
         </dl>
         <p class="alignright">{{ submit_button('bluebg', 'Create Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>

@@ -47,8 +47,16 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
 
+        questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
+                        "option1" : "A", "option2" : "B", "option3" : "C", 
+                        "correct_answer": 1},
+                    {"title" : "Pregunta de prueba 2", "body" : "cuerpo pregunta 2",
+                        "option1" : "A", "option2" : "B", "option3" : "C", 
+                        "correct_answer": 3}
+                   ]     
+
         return render_template('teacher/questions.html', name=name, roles=session['roles'], 
-                                    questions=[{"title": "a"},{"title": "b"}])
+                                    questions=questions)
     
     @staticmethod
     def get_teacher_students(auth_service: AuthService) -> Union[Response, Text]:
@@ -120,10 +128,11 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
+        title: str = str(request.args.get('questiontitle'))
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')
         return render_template('teacher/questions/edit.html', name=name, roles=session['roles'], 
-            redirect_to=redirect_to, title="Pregunta 1", body="Cuerpo", option1="A", option2="B",
-            option3="C",correct_answer=3)
+            redirect_to=redirect_to, title=title, body="(aqui ira el cuerpo cuando tengamos el backend)", 
+            option1="(lo mismo)", option2="(lo mismo 2)", option3="(lo mismo 3)",correct_answer=3)
 
     @staticmethod
     def post_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:

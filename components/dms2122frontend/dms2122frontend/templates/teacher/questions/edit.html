@@ -32,9 +32,9 @@
             <dd>
                 <input type="text" name="option3" value= "{{ option3 }}" />
             </dd>
-            <dt>Number of correct answer</dt>
+            <dt>Number of the correct answer</dt>
             <dd>
-                <input type="text" name="correct_answer" value= "{{ correct_answer }}"  />
+                <input type="number" name="correct_answer" min=1, max=3, value= "{{ correct_answer }}"  />
             </dd>
         </dl>
         <p class="alignright">{{ submit_button('bluebg', 'Change Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
