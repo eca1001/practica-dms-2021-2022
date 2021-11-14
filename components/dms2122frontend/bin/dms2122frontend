@@ -84,9 +84,17 @@ def get_teacher_questions():
 def get_teacher_questions_new():
     return TeacherEndpoints.get_teacher_questions_new(auth_service)
 
+@app.route("/teacher/questions/new", methods=['POST'])
+def post_teacher_questions_new():
+    return TeacherEndpoints.post_teacher_questions_new(auth_service)
+
 @app.route("/teacher/questions/edit", methods=['GET'])
 def get_teacher_questions_edit():
     return TeacherEndpoints.get_teacher_questions_edit(auth_service)
+
+@app.route("/teacher/questions/edit", methods=['POST'])
+def post_teacher_questions_edit():
+    return TeacherEndpoints.post_teacher_questions_edit(auth_service)
 
 @app.route("/teacher/questions/preview", methods=['GET'])
 def get_teacher_questions_preview():
