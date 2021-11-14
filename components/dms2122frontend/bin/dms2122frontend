@@ -67,6 +67,10 @@ def get_student_questions_answers():
 def get_student_questions_pending():
     return StudentEndpoints.get_student_questions_pending(auth_service)
 
+@app.route("/student/questions/pending/answer", methods=['GET'])
+def get_student_questions_pending_answer():
+    return StudentEndpoints.get_student_questions_pending_answer(auth_service)
+
 @app.route("/student/progress", methods=['GET'])
 def get_students_progress():
     return StudentEndpoints.get_students_progress(auth_service)

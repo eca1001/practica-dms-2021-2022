@@ -2,7 +2,7 @@
 """
 
 from typing import Text, Union
-from flask import redirect, url_for, session, render_template
+from flask import redirect, url_for, session, render_template, request
 from werkzeug.wrappers import Response
 from dms2122common.data import Role
 from dms2122frontend.data.rest.authservice import AuthService
@@ -95,4 +95,30 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('students/questions/pending.html', name=name, roles=session['roles'])
+        questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
+                        "option1" : "A", "option2" : "B", "option3" : "C", 
+                        "correct_answer": 1},
+                    {"title" : "Pregunta de prueba 2", "body" : "cuerpo pregunta 2",
+                        "option1" : "A", "option2" : "B", "option3" : "C", 
+                        "correct_answer": 3}
+                   ] 
+        redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
+        return render_template('students/questions/pending.html', name=name, roles=session['roles'],
+                            questions=questions)
+
+    @staticmethod
+    def get_student_questions_pending_answer(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student answered questions endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Student.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        name = session['user']
+        return render_template('students/questions/pending/answer.html', name=name, roles=session['roles'])

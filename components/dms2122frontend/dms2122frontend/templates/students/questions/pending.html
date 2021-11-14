@@ -1,9 +1,22 @@
 {% extends "student.html" %}
+{% from "macros/buttons.html" import button with context %}
 {% block contentsubheading %}Pending Questions{% endblock %}
 {% block studentcontent %}
     {% block questioncontent %}
         {% block pendingscontent %}
-        <p class="yellowbg">Under construction</p>
+        <table class="fillwidth highlightrows">
+            <tbody>
+                <tr>
+                    <th class="alignleft">Pending Questions</th><th></th>
+                </tr>
+                {% for question in questions %}
+                    <tr class="highlightable">
+                        <td class="alignleft">{{ question['title'] }}</td>
+                        <td class="alignright">{{ button('bluebg', '/student/questions/pending/answer?questiontitle=' + question['title'] + '&redirect_to=/student/questions/pending', 'Answer') }}</td>                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% endblock %}
     {% endblock %}
 {% endblock %}
