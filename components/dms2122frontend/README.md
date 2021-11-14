@@ -92,3 +92,19 @@ The following macros/components are provided:
     - Parameters:
       - `color_class` (See `button`)
       - `content` (See `button`)
+
+
+
+## Architecture 
+
+El diseño de frontend de la página web se divide en las siguientes partes: 
+
+- Manejo de endpoints: 
+
+los endpoints se declaran en el fichero de python dms2122frontend situado en la carpeta bin. Cada uno de estos endpoints tendrá una función que llamará a la función correspondiente de ficheros situados en la carpeta `presentation/web`. Esos ficheros serán `adminendpoints.py`, `commonendpoints.py`, `sessionendpoints.py`, `teacherendpoints.py` y `studentendpoints.py`, cada uno con las funciones correspondientes a su nombre. La estructura es así para poder mantener los principios SOLID de Single Responsibility e Interface Segregation, de modo que cada clase tenga solo sus responsabilidades de una parte concreta de la página web, y que dependa solamente de los métodos y clases necesarios para su funcionamiento. 
+
+- Comunicación con el backend: 
+
+para las operaciones de creación, listado, edición y similares sobre usuarios, el frontend utiliza dos partes importantes. La primera es la clase `authservice.py` de la carpeta `data/rest`, que utiliza el patrón adaptador para comunicarse con los diferentes métodos del servicio dms2122auth que manejan los usuarios y la base de datos, y adaptarlos para poder ser usados en el frontend. La segunda parte consiste en las clases de la carpeta `presentation/web` llamadas `WebAuth` y `WebUser`, que una vez más son implementación del patrón adaptador para obtener la información de la clase authservice y permitir su uso en los diferentes endpoints de los usuarios. Una vez más, están divididas estas funcionalidades en varias clases para respetar los principios SOLID. 
+
+Como en esta primera entrega solamente había que realizar el frontend sin nada de backend, no lo hemos implementado aún, pero su comunicación para el manejo de preguntas y respuestas seguiría la misma estructura, utilizando esta vez la clase `backendservice.py` y creando nuevas clases en el estilo de WebAuth y WebUser. 
