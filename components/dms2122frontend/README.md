@@ -55,7 +55,19 @@ The UI has the following templates hierarchy and structure:
   - `base_logged_in.html`: Base page when a user is logged in. Blocks used: `pagecontent`. Blocks defined: `contentheading`, `contentsubheading`, `maincontent`. Macros used: `flashedmessages`, `navbar`.
     - `home.html`: Home page/dashboard. Blocks used: `title`, `contentheading`, `maincontent`.
     - `student.html`: Main student panel. Blocks used: `title`, `contentheading`, `maincontent`. Blocks defined: `subtitle`, `studentcontent`.
+    - `student/progess.html`: Student progress panel. Blocks used: `contentsubheading`, `studentcontent`.
+    - `student/questions.html` : Student questions panel. Blocks used: `contentsubheading`, `studentcontent`.
+    - `student/questions/answered.html` : Answered questions panel. Blocks used: `contentsubheading`, `studentcontent`. Macros used: `button`.
+    - `student/questions/pending.html` : Pending questions panel. Blocks used: `contentsubheading`, `studentcontent`. Macros used: `button`.
+    - `student/questions/answered/view.html` : View answered questions panel. Blocks used: `contentsubheading`, `studentcontent`. Macros used: `button`.
+    - `student/questions/pending/answer.html` : Answer pending questions panel. Blocks used: `contentsubheading`, `studentcontent`. Macros used: `button`, `submit_button`.
     - `teacher.html`: Main teacher panel. Blocks used: `title`, `contentheading`, `maincontent`. Blocks defined: `subtitle`, `teachercontent`.
+    - `teacher/students.html` : Students progress panel. Blocks used: `contentsubheading`, `teachercontent`.
+    - `teacher/questions.html` : Questions panel. Blocks used: `contentsubheading`, `teachercontent`. Macros used: `button`.
+    - `teacher/questions/edit.html` : Edit questions panel. Blocks used: `contentsubheading`, `teachercontent`. Macros used: `button`, `submit_button`.
+    - `teacher/questions/new.html` : New questions panel. Blocks used: `contentsubheading`, `teachercontent`. Macros used: `button`, `submit_button`.
+    - `teacher/questions/preview.html` : Preview questions panel. Blocks used: `contentsubheading`, `teachercontent`. Macros used: `button`.
+    - `teacher/questions/stats.html` : Stats questions panel. Blocks used: `contentsubheading`, `teachercontent`. 
     - `admin.html`: Main administration panel. Blocks used: `title`, `contentheading`, `maincontent`. Blocks defined: `subtitle`, `administrationcontent`.
     - `admin/users.html`: Users administration listing. Blocks used: `contentsubheading`, `administrationcontent`. Macros used: `button`.
     - `admin/users/new.html`: User creation form page. Blocks used: `contentsubheading`, `administrationcontent`. Macros used: `button`, `submit_button`.
