@@ -167,7 +167,10 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('teacher/questions/preview.html', name=name, roles=session['roles'])
+        title: str = str(request.args.get('questiontitle'))
+        redirect_to = request.args.get('redirect_to', default='/teacher/questions')  
+        return render_template('teacher/questions/preview.html', name=name, roles=session['roles'],
+                                redirect_to=redirect_to, title=title)
     
     @staticmethod
     def get_teacher_questions_stats(auth_service: AuthService) -> Union[Response, Text]:
