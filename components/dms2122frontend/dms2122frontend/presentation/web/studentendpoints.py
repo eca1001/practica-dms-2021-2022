@@ -31,7 +31,7 @@ class StudentEndpoints():
 
     @staticmethod
     def get_student_questions(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the questions administration endpoint.
+        """ Handles the GET requests to the questions menu endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -65,7 +65,7 @@ class StudentEndpoints():
 
     @staticmethod
     def get_student_questions_answered(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student answered questions endpoint.
+        """ Handles the GET requests to the student's answered questions endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -78,13 +78,15 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
+
+        #test values until backfront is completed
         answers=[ {"title" : "Pregunta de prueba 3", "score" : "1"}]
         return render_template('student/questions/answered.html', name=name, roles=session['roles'],
                                 answers=answers)
 
     @staticmethod
     def get_student_questions_answered_view(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student progress endpoint.
+        """ Handles the GET requests to the student's answered questions viewing endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -99,14 +101,12 @@ class StudentEndpoints():
         name = session['user']
         title: str = str(request.args.get('questiontitle'))
         redirect_to = request.args.get('redirect_to', default='/student/questions/answered')
-        return render_template('student/questions/answered/view.html', name=name, roles=session['roles'],
-                                redirect_to=redirect_to, title=title)
-
-
+        return render_template('student/questions/answered/view.html', name=name, 
+                                roles=session['roles'], redirect_to=redirect_to, title=title)
 
     @staticmethod
     def get_student_questions_pending(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student pending questions endpoint.
+        """ Handles the GET requests to the student's pending questions endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -119,6 +119,8 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
+
+        #test values until backfront is completed
         questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
                         "option1" : "A", "option2" : "B", "option3" : "C", 
                         "correct_answer": 1},
@@ -132,7 +134,7 @@ class StudentEndpoints():
 
     @staticmethod
     def get_student_questions_pending_answer(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student answered questions endpoint.
+        """ Handles the GET requests to the question answering endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -147,12 +149,12 @@ class StudentEndpoints():
         name = session['user']
         title: str = str(request.args.get('questiontitle'))
         redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
-        return render_template('student/questions/pending/answer.html', name=name, roles=session['roles'],
-                                redirect_to=redirect_to, title=title)
+        return render_template('student/questions/pending/answer.html', name=name, 
+                                roles=session['roles'], redirect_to=redirect_to, title=title)
 
     @staticmethod
     def post_student_questions_pending_answer(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student answered questions endpoint.
+        """ Handles the GET requests to the question answering endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.

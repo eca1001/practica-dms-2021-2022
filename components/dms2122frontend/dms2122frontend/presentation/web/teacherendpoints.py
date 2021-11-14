@@ -47,6 +47,7 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
 
+        #test values until backfront is completed
         questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
                         "option1" : "A", "option2" : "B", "option3" : "C", 
                         "correct_answer": 1},
@@ -78,7 +79,7 @@ class TeacherEndpoints():
     
     @staticmethod
     def get_teacher_questions_new(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student progress endpoint.
+        """ Handles the GET requests to the question creation endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -92,12 +93,12 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')
-        return render_template('teacher/questions/new.html', name=name, roles=session['roles'],
-                               redirect_to=redirect_to)
+        return render_template('teacher/questions/new.html', name=name, 
+                                roles=session['roles'], redirect_to=redirect_to)
 
     @staticmethod
     def post_teacher_questions_new(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the POST requests to create a new question.
+        """ Handles the POST requests to the question creation endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -115,7 +116,7 @@ class TeacherEndpoints():
     
     @staticmethod
     def get_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student progress endpoint.
+        """ Handles the GET requests to the question editing endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -136,7 +137,7 @@ class TeacherEndpoints():
 
     @staticmethod
     def post_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the POST requests to edit a question.
+        """ Handles the POST requests to the question editing endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -154,7 +155,7 @@ class TeacherEndpoints():
     
     @staticmethod
     def get_teacher_questions_preview(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student progress endpoint.
+        """ Handles the GET requests to the question preview endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
@@ -174,7 +175,7 @@ class TeacherEndpoints():
     
     @staticmethod
     def get_teacher_questions_stats(auth_service: AuthService) -> Union[Response, Text]:
-        """ Handles the GET requests to the student progress endpoint.
+        """ Handles the GET requests to the question statistics endpoint.
 
         Args:
             - auth_service (AuthService): The authentication service.
