@@ -5,7 +5,7 @@
     {% block questioncontent %}
         {% block pendingscontent %}
             {% block answercontent %}
-            <form action="/students/pending/answer" method="post">
+            <form action="/student/questions/pending/answer" method="post">
                 <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
                 <dl>
                     <dt>Title</dt>

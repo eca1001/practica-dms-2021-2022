@@ -44,10 +44,10 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('students/questions.html', name=name, roles=session['roles'])
+        return render_template('student/questions.html', name=name, roles=session['roles'])
     
     @staticmethod
-    def get_students_progress(auth_service: AuthService) -> Union[Response, Text]:
+    def get_student_progress(auth_service: AuthService) -> Union[Response, Text]:
         """ Handles the GET requests to the student progress endpoint.
 
         Args:
@@ -61,7 +61,7 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('students/progress.html', name=name, roles=session['roles'])
+        return render_template('student/progress.html', name=name, roles=session['roles'])
 
     @staticmethod
     def get_student_questions_answered(auth_service: AuthService) -> Union[Response, Text]:
@@ -79,7 +79,7 @@ class StudentEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
         answers=[ {"title" : "Pregunta de prueba 3", "score" : "1"}]
-        return render_template('students/questions/answered.html', name=name, roles=session['roles'],
+        return render_template('student/questions/answered.html', name=name, roles=session['roles'],
                                 answers=answers)
 
     @staticmethod
@@ -97,7 +97,7 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('students/questions/answered/view.html', name=name, roles=session['roles'])
+        return render_template('student/questions/answered/view.html', name=name, roles=session['roles'])
 
 
     @staticmethod
@@ -123,7 +123,7 @@ class StudentEndpoints():
                         "correct_answer": 3}
                    ] 
         redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
-        return render_template('students/questions/pending.html', name=name, roles=session['roles'],
+        return render_template('student/questions/pending.html', name=name, roles=session['roles'],
                             questions=questions)
 
     @staticmethod
@@ -141,4 +141,25 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('students/questions/pending/answer.html', name=name, roles=session['roles'])
+        title: str = str(request.args.get('questiontitle'))
+        redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
+        return render_template('student/questions/pending/answer.html', name=name, roles=session['roles'],
+                                redirect_to=redirect_to, title=title)
+
+    @staticmethod
+    def post_student_questions_pending_answer(auth_service: AuthService) -> Union[Response, Text]:
+        """ Handles the GET requests to the student answered questions endpoint.
+
+        Args:
+            - auth_service (AuthService): The authentication service.
+
+        Returns:
+            - Union[Response,Text]: The generated response to the request.
+        """
+        if not WebAuth.test_token(auth_service):
+            return redirect(url_for('get_login'))
+        if Role.Student.name not in session['roles']:
+            return redirect(url_for('get_home'))
+        
+        redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
+        return redirect(redirect_to)
