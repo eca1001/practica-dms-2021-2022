@@ -2,30 +2,19 @@
 {% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Answer Question{% endblock %}
 {% block studentcontent %}
-    {% block questioncontent %}
-        {% block pendingscontent %}
-            {% block answercontent %}
-            <form action="/student/questions/pending/answer" method="post">
-                <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
-                <dl>
-                    <dt>Title</dt>
-                    <dd>
-                        {{ title }}
-                    </dd>
-                    <dt>Body</dt>
-                    <dd>
-                        Aquí irá el cuerpo de cada pregunta una vez tengamos el backend
-                    </dd>
-                    <dt>Choose one</dt>
-                    <dd>
-                        <input type="radio" name="option" value="opcion1" >Esta será la opción 1<br>
-                        <input type="radio" name="option" value="opcion2" >Esta será la opción 2<br>
-                        <input type="radio" name="option" value="opcion3" >Esta será la opción 3<br>
-                    </dd>
-                </dl>
-                <p class="alignright">{{ submit_button('bluebg', 'Answer Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
-            </form>
-            {% endblock %}
-        {% endblock %}
-    {% endblock %}
+    <form action="/student/questions/pending/answer" method="post">
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <dl>
+            <dt>{{ title }}</dt>
+            <dd id="questiondd">
+                Aquí irá el cuerpo de cada pregunta una vez tengamos el backend
+            </dd>
+            <dd id="questiondd">
+                <input type="radio" name="option" value="opcion1" >Esta será la opción 1<br>
+                <input type="radio" name="option" value="opcion2" >Esta será la opción 2<br>
+                <input type="radio" name="option" value="opcion3" >Esta será la opción 3<br>
+            </dd>
+        </dl>
+        <p class="alignright">{{ submit_button('bluebg', 'Answer Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+    </form>
 {% endblock %}

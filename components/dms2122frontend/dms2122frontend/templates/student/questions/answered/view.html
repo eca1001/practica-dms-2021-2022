@@ -1,11 +1,20 @@
 {% extends "student.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}View Question{% endblock %}
 {% block studentcontent %}
-    {% block questioncontent %}
-        {% block answersscontent %}
-            {% block viewcontent %}
-            <p class="yellowbg">Under construction</p>
-            {% endblock %}
-        {% endblock %}
-    {% endblock %}
+    <form action="/student/questions/pending/answer" method="post">
+        <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+        <dl>
+            <dt>{{ title }}</dt>
+            <dd id="questiondd">
+                Aquí irá el cuerpo de cada pregunta una vez tengamos el backend
+            </dd>
+            <dd id="questiondd">
+                <input type="radio" name="option" value="opcion1" disabled>Esta será la opción 1<br>
+                <input type="radio" name="option" value="opcion2" checked>Esta será la opción 2<br>
+                <input type="radio" name="option" value="opcion3" disabled>Esta será la opción 3<br>
+            </dd>
+        </dl>
+        <p class="alignright">{{ button('redbg', redirect_to, 'Back') }}</p>
+    </form>
 {% endblock %}

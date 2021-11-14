@@ -2,8 +2,6 @@
 {% from "macros/buttons.html" import button with context %}
 {% block contentsubheading %}Answered questions{% endblock %}
 {% block studentcontent %}
-    {% block questioncontent %}
-        {% block answersscontent %}
         <table class="fillwidth highlightrows">
             <tbody>
                 <tr>                    
@@ -20,6 +18,4 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% endblock %}
-    {% endblock %}
 {% endblock %}

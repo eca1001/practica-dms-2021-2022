@@ -97,9 +97,16 @@ a {
     color: #253aa7;
 }
 
+#questiondd {
+    font-size: medium;
+    color: rgb(70, 70, 70);
+}
+
 dd {
     font-size: smaller;
     color: #888;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 table {

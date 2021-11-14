@@ -97,7 +97,11 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('student/questions/answered/view.html', name=name, roles=session['roles'])
+        title: str = str(request.args.get('questiontitle'))
+        redirect_to = request.args.get('redirect_to', default='/student/questions/answered')
+        return render_template('student/questions/answered/view.html', name=name, roles=session['roles'],
+                                redirect_to=redirect_to, title=title)
+
 
 
     @staticmethod
