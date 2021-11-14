@@ -1,9 +1,25 @@
 {% extends "student.html" %}
+{% from "macros/buttons.html" import button with context %}
 {% block contentsubheading %}Answered questions{% endblock %}
 {% block studentcontent %}
     {% block questioncontent %}
         {% block answersscontent %}
-        <p class="yellowbg">Under construction</p>
+        <table class="fillwidth highlightrows">
+            <tbody>
+                <tr>                    
+                    <th class="alignleft">Title</th>
+                    <th class="aligncenter">Score</th><th></th>
+                    <th class="alignright"></th><th></th>
+                </tr>
+                {% for answer in answers %}
+                    <tr class="highlightable">
+                        <td class="alignleft">{{ answer['title'] }}</td>
+                        <td class="aligncenter">{{ answer['score'] }}</td>
+                        <td class="alignright">{{ button('bluebg', '/student/questions/answered/view?questiontitle=' + answer['title'] + '&redirect_to=/student/questions/answered', 'View') }}</td>                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% endblock %}
     {% endblock %}
 {% endblock %}
