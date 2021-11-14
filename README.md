@@ -5,6 +5,11 @@
 
 The goal of this project is to implement a basic online evaluation appliance deployed across several interconnected services.
 
+## Authors
+- [Diego García Muñoz](https://github.com/dgm1003)
+- [Ismael Franco Hernando](https://github.com/ifh1001)
+- [Enrique Camarero Alonso](https://github.com/eca1001)
+
 ## Components
 
 The source code of the components is available under the `components` direcotry.
