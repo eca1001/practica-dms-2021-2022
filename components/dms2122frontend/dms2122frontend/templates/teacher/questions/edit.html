@@ -11,6 +11,8 @@
         <input type="hidden" name="option2" value="{{ option2 }}" />
         <input type="hidden" name="option3" value="{{ option3 }}" />
         <input type="hidden" name="correct_answer" value="{{ correct_answer }}" />
+        <input type="hidden" name="punctuation" value="{{ punctuation }}" />
+        <input type="hidden" name="penalty" value="{{ penalty }}" />
         <dl>
             <dt>Title</dt>
             <dd>
@@ -18,7 +20,7 @@
             </dd>
             <dt>Body</dt>
             <dd>
-                <input type="text" name="body" value= "{{ body }}"  />
+                <textarea name="Body" rows="10" cols="50"> {{ body }} </textarea> 
             </dd>
             <dt>Option 1</dt>
             <dd>
@@ -34,8 +36,17 @@
             </dd>
             <dt>Number of the correct answer</dt>
             <dd>
-                <input type="number" name="correct_answer" min=1, max=3, value= "{{ correct_answer }}"  />
+                <input type="number" name="correct_answer" min="1", max="3", value= "{{ correct_answer }}"  />
             </dd>
+            <dt>Punctuation</dt>
+            <dd>
+                <input type="number" name="punctuation", step="0.1", min="0", max="10.0", value= "{{ punctuation }}" />
+            </dd>
+            <dt>Penalty</dt>
+            <dd>
+                <input type="number" name="penalty", step="0.1", min="0", max="10.0", value= "{{ penalty }}" />
+            </dd>
+        </dl>
         </dl>
         <p class="alignright">{{ submit_button('bluebg', 'Change Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
     </form>

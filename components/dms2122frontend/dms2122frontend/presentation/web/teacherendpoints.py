@@ -50,10 +50,10 @@ class TeacherEndpoints():
         #test values until backfront is completed
         questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
                         "option1" : "A", "option2" : "B", "option3" : "C", 
-                        "correct_answer": 1},
+                        "correct_answer": 1, "punctuation": 1.5, "penalty": 0.5},
                     {"title" : "Pregunta de prueba 2", "body" : "cuerpo pregunta 2",
                         "option1" : "A", "option2" : "B", "option3" : "C", 
-                        "correct_answer": 3}
+                        "correct_answer": 3, "punctuation": 1, "penalty": 0.2}
                    ]     
 
         return render_template('teacher/questions.html', name=name, roles=session['roles'], 
@@ -133,7 +133,8 @@ class TeacherEndpoints():
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')
         return render_template('teacher/questions/edit.html', name=name, roles=session['roles'], 
             redirect_to=redirect_to, title=title, body="(aqui ira el cuerpo cuando tengamos el backend)", 
-            option1="(lo mismo)", option2="(lo mismo 2)", option3="(lo mismo 3)",correct_answer=3)
+            option1="(lo mismo)", option2="(lo mismo 2)", option3="(lo mismo 3)",correct_answer=3, 
+            punctuation=1.5, penalty=0.5)
 
     @staticmethod
     def post_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:

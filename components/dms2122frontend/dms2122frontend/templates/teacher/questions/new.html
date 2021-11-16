@@ -12,7 +12,7 @@
             </dd>
             <dt>Body</dt>
             <dd>
-                <input type="text" name="body" placeholder="Body" />
+                <textarea name="Body" rows="10" cols="50"> Write here... </textarea>
             </dd>
             <dt>Option 1</dt>
             <dd>
@@ -28,7 +28,15 @@
             </dd>
             <dt>Number of correct answer</dt>
             <dd>
-                <input type="number" name="correct_answer", min=1, max=3 />
+                <input type="number" name="correct_answer", placeholder="2", min="1", max="3" />
+            </dd>
+            <dt>Punctuation</dt>
+            <dd>
+                <input type="number" name="punctuation", placeholder="1.0", step="0.1", min="0", max="10.0" />
+            </dd>
+            <dt>Penalty</dt>
+            <dd>
+                <input type="number" name="penalty", placeholder="1.0", step="0.1", min="0", max="10.0" />
             </dd>
         </dl>
         <p class="alignright">{{ submit_button('bluebg', 'Create Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
