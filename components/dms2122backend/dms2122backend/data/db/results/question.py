@@ -38,3 +38,4 @@ class Question(ResultBase):
         Returns:
             - Dict: A dictionary with the mapping properties.
         """
+        

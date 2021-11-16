@@ -6,8 +6,8 @@ from sqlalchemy.engine import Engine  # type: ignore
 from sqlalchemy.ext.declarative import declarative_base  # type: ignore
 from sqlalchemy.orm import sessionmaker, scoped_session  # type: ignore
 from sqlalchemy.orm.session import Session  # type: ignore
-from dms2122auth.data.config import AuthConfiguration
-from dms2122auth.data.db.results import User, UserRole
+from dms2122backend.data.config import BackendConfiguration
+from dms2122backend.data.db.results import Answer, Question
 
 
 # Required for SQLite to enforce FK integrity when supported
@@ -27,13 +27,13 @@ class Schema():
     """ Class responsible of the schema initialization and session generation.
     """
 
-    def __init__(self, config: AuthConfiguration):
+    def __init__(self, config: BackendConfiguration):
         """ Constructor method.
 
         Initializes the schema, deploying it if necessary.
 
         Args:
-            - config (AuthConfiguration): The instance with the schema connection parameters.
+            - config (BackendConfiguration): The instance with the schema connection parameters.
 
         Raises:
             - RuntimeError: When the connection cannot be created/established.
@@ -47,8 +47,8 @@ class Schema():
         self.__create_engine = create_engine(db_connection_string)
         self.__session_maker = scoped_session(sessionmaker(bind=self.__create_engine))
 
-        User.map(self.__declarative_base.metadata)
-        UserRole.map(self.__declarative_base.metadata)
+        Question.map(self.__declarative_base.metadata)
+        Answer.map(self.__declarative_base.metadata)
         self.__declarative_base.metadata.create_all(self.__create_engine)
 
     def new_session(self) -> Session:
