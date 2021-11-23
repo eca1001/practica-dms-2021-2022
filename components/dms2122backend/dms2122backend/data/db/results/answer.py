@@ -2,11 +2,9 @@
 """
 
 from typing import Dict
-from sqlalchemy import Table, MetaData, ForeignKey, Column, String  # type: ignore
+from sqlalchemy import Table, MetaData, ForeignKey, Column, String, Integer  # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2122backend.data.db.results.resultbase import ResultBase
-from dms2122auth.data.db.results.user import User
-
 class Answer(ResultBase):
     """ Definition and storage of answer ORM records.
     """
@@ -40,6 +38,6 @@ class Answer(ResultBase):
             'answers',
             metadata,
             Column('user', String(32), ForeignKey('user.username'), primary_key=True),
-            Column('number', int, primary_key=True),
-            Column('title', String(64), nullable=False)
+            Column('number', Integer, nullable=False),
+            Column('title', String(64), ForeignKey('questions.title'), primaryKey=True)
         )
