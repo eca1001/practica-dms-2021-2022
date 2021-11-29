@@ -75,7 +75,7 @@ class Questions():
         """
         try:
             query = session.query(Question).filter_by(title=title, body=body, option1=option1, option2=option2, option3=option3, correct_answer=correct_answer, punctuation=punctuation, penalty=penalty)
-            query.one()
+            question: Question = query.one()
         except NoResultFound:
             return None
-        return query.one_or_none()
+        return question

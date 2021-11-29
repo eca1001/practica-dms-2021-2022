@@ -5,6 +5,7 @@ from typing import Dict
 from sqlalchemy import Table, MetaData, Column, String, Integer, Float  # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2122backend.data.db.results.resultbase import ResultBase
+from dms2122backend.data.db.results import Answer
 
 class Question(ResultBase):
     """ Definition and storage of question ORM records.
@@ -49,7 +50,8 @@ class Question(ResultBase):
         return Table(
             'questions',
             metadata,
-            Column('title', String(64), primary_key=True),
+            Column('id', Integer, autoincrement= 'auto', primary_key=True),
+            Column('title', String(64), nullable=False),
             Column('body', String(256), nullable=False),
             Column('option1', String(256), nullable=False),
             Column('option2', String(256), nullable=False),
@@ -58,4 +60,16 @@ class Question(ResultBase):
             Column('punctuation', Float(2,2), nullable=False),
             Column('penalty', Float(2,2), nullable=False)
         )
+
+    @staticmethod
+    def _mapping_properties() -> Dict:
+        """ Gets the mapping properties dictionary.
+
+        Returns:
+            - Dict: A dictionary with the mapping properties.
+        """
+        return {
+            'rights': relationship(Answer, backref='question')
+        }
+
          
