@@ -14,7 +14,7 @@ class Answers():
     """ Class responsible of table-level answers operations.
     """
     @staticmethod
-    def answer(session: Session) -> Answer:
+    def answer(session: Session, username: str, questionId: str, number: int) -> Answer:
         """ Answers a question.
 
         Note:
@@ -24,12 +24,86 @@ class Answers():
             - session (Session): The session object.
             - 
 
-        Raises:
-            - ValueError: If either the title or the [AAAAAAAAAAAAAAAAAAAAAAA COMPLETAAAAAAAAAAAAAAAAR] is empty.
+        Raises:  
+            - ValueError: If any field is empty.
             - UserNotFoundError: If the user who answers the question does not exist.
             - QuestionNotFoundError: If the question to be answered does not exist.
 
         Returns:
             - Answer: The created `Answer` result.
         """
+        if not username or not questionId or not number:
+            raise ValueError('All fields are required.')
+        try:
+            new_answer = Answer(username, questionId, number)
+            session.add(new_answer)
+            session.commit()
+            return new_answer
+        except IntegrityError as ex:
+            session.rollback()
+            raise QuestionNotFoundError() from ex #change later to QuestionOrUserNotFoundError
+        except:
+            session.rollback()
+            raise
         
+    @staticmethod
+    def list_all_for_user(session: Session, user: str) -> List[Answer]:
+        """Lists the `answers made by a certain user.
+
+        Args:
+            - session (Session): The session object.
+            - user (str): The user name string.
+
+        Raises:
+            - ValueError: If the username is missing.
+
+        Returns:
+            - List[Answer]: A list of answer registers with the user answers.
+        """
+        if not user:
+            raise ValueError('A username is required.')
+        query = session.query(Answer).filter_by(
+            user=user
+        )
+        return query.all()
+
+    @staticmethod
+    def list_all_for_question(session: Session, id: str) -> List[Answer]:
+        """Lists the `answers made to a certain question.
+
+        Args:
+            - session (Session): The session object.
+            - id (str): The question id.
+
+        Raises:
+            - ValueError: If the question id is missing.
+
+        Returns:
+            - List[Answer]: A list of answer registers with the question answers.
+        """
+        if not id:
+            raise ValueError('A question id is required.')
+        query = session.query(Answer).filter_by(
+            id=id
+        )
+        return query.all()
+
+    @staticmethod
+    def question_has_answers(session: Session, id: str) -> bool:
+        """Finds out if a certain question has been answered.
+
+        Args:
+            - session (Session): The session object.
+            - id (str): The question id.
+
+        Raises:
+            - ValueError: If the question id is missing.
+
+        Returns:
+            - bool: a boolean that indicates whether a question has answers.
+        """
+        if not id:
+            raise ValueError('A question id is required.')
+        questions = Answers.list_all_for_question(session, id)
+
+        return len(questions) != 0
