@@ -11,7 +11,7 @@ class AnswersServices():
     """
 
     @staticmethod
-    def answer(session: Session, username: str, number: int, questionId: int, schema: Schema) -> None:
+    def answer(username: str, number: int, questionId: int, schema: Schema) -> None:
         """Answer a question.
 
         Args:
@@ -28,7 +28,7 @@ class AnswersServices():
         session: Session = schema.new_session()
         out: Dict = {}
         try:
-            Answers.create(session, username, number, questionId, schema)
+            Answers.answer(session, username, number, questionId, schema)
 
         except Exception as ex:
             raise ex
@@ -36,7 +36,7 @@ class AnswersServices():
             schema.remove_session()
 
     @staticmethod
-    def list_all_for_user(schema: Schema, username: str) -> List[Dict]:
+    def list_all_for_user(schema: Schema, username: str) -> List[Answer]:
         """Lists the existing questions.
 
         Args:
@@ -52,7 +52,7 @@ class AnswersServices():
 
 
     @staticmethod
-    def list_all_for_question(schema: Schema, questionId: id) -> List[Dict]:
+    def list_all_for_question(schema: Schema, questionId: int) -> List[Answer]:
         """Lists the existing questions.
 
         Args:
@@ -67,7 +67,7 @@ class AnswersServices():
         return answer
 
     @staticmethod
-    def question_has_answers(schema: Schema, questionId: id) -> bool:
+    def question_has_answers(schema: Schema, questionId: int) -> bool:
 
         session: Session = schema.new_session()
         answer = Answers.list_all_for_question(session, questionId)
