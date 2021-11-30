@@ -9,19 +9,18 @@ class Answer(ResultBase):
     """ Definition and storage of answer ORM records.
     """
 
-    def __init__(self, user: str, number: int, title: str):
+    def __init__(self, user: str, number: int, id: int):
         """ Constructor method.
 
         Initializes an answer record.
 
         Args:
-            User: A string with students' name
-            Number: Student questions' answer
-            Tile: Questions' title
-        """
+            User: A string with student's name
+            Number: Student question's answer
+            id: Question's id    """
         self.user : str = user
         self.number : int = number
-        self.title : str = title
+        self.id : int = id
 
     @staticmethod
     def _table_definition(metadata: MetaData) -> Table:

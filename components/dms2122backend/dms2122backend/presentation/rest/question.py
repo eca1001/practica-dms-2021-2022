@@ -5,8 +5,8 @@ from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 from flask import current_app
 from dms2122backend.data.db.exc import QuestionExistsError
-from dms2122auth.service import  RoleServices
 from dms2122backend.service import QuestionsServices
+from dms2122auth.service.roleservices import  RoleServices
 from dms2122common.data.role import Role
 
 def list_questions() -> Tuple[List[Dict], Optional[int]]:
@@ -71,7 +71,7 @@ def get_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Option
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            question: Dict = QuestionsServices.get_question(
+            question = QuestionsServices.get_question(
                 body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:
@@ -99,7 +99,7 @@ def get_question_by_id(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], 
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            question: Dict = QuestionsServices.get_question(
+            question = QuestionsServices.get_question_by_id(
                 body['id'], current_app.db
             )
         except ValueError:

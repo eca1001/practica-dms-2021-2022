@@ -14,7 +14,7 @@ class Answers():
     """ Class responsible of table-level answers operations.
     """
     @staticmethod
-    def answer(session: Session, username: str, questionId: str, number: int) -> Answer:
+    def answer(session: Session, username: str, number: int, questionId: int) -> Answer:
         """ Answers a question.
 
         Note:
@@ -35,7 +35,7 @@ class Answers():
         if not username or not questionId or not number:
             raise ValueError('All fields are required.')
         try:
-            new_answer = Answer(username, questionId, number)
+            new_answer = Answer(username, number, questionId)
             session.add(new_answer)
             session.commit()
             return new_answer
@@ -68,7 +68,7 @@ class Answers():
         return query.all()
 
     @staticmethod
-    def list_all_for_question(session: Session, id: str) -> List[Answer]:
+    def list_all_for_question(session: Session, id: int) -> List[Answer]:
         """Lists the `answers made to a certain question.
 
         Args:
@@ -89,7 +89,7 @@ class Answers():
         return query.all()
 
     @staticmethod
-    def question_has_answers(session: Session, id: str) -> bool:
+    def question_has_answers(session: Session, id: int) -> bool:
         """Finds out if a certain question has been answered.
 
         Args:

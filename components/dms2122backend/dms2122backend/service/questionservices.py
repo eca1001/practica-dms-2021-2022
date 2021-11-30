@@ -22,9 +22,9 @@ class QuestionsServices():
         """        
         
         session: Session = schema.new_session()
-        question_exists: Question = Questions.get_question(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+        question = Questions.get_question(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
         schema.remove_session()
-        return question_exists
+        return question
 
     @staticmethod
     def get_question_by_id( id: int, schema: Schema)-> Optional[Question]:
@@ -38,9 +38,9 @@ class QuestionsServices():
         """        
         
         session: Session = schema.new_session()
-        question_exists: Question = Questions.get_question_by_id(session, id)
+        question = Questions.get_question_by_id(session, id)
         schema.remove_session()
-        return question_exists
+        return question
 
     @staticmethod
     def list_questions(schema: Schema) -> List[Dict]:
