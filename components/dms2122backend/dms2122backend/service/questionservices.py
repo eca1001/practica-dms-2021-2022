@@ -1,6 +1,6 @@
 """ QuestionServices class module.
 """
-from typing import List, Dict
+from typing import List, Dict, Optional
 from sqlalchemy.orm.session import Session  # type: ignore
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.db.results import Question
@@ -11,7 +11,7 @@ class QuestionsServices():
     """
 
     @staticmethod
-    def get_question(title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float, schema: Schema)-> Question or None:
+    def get_question(title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float, schema: Schema)-> Optional[Question]:
         """
 
         Args:
@@ -23,6 +23,22 @@ class QuestionsServices():
         
         session: Session = schema.new_session()
         question_exists: Question = Questions.get_question(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+        schema.remove_session()
+        return question_exists
+
+    @staticmethod
+    def get_question_by_id( id: int, schema: Schema)-> Optional[Question]:
+        """
+
+        Args:
+            - schema (Schema): A database handler where the users are mapped into.
+            
+        Returns:
+            -
+        """        
+        
+        session: Session = schema.new_session()
+        question_exists: Question = Questions.get_question_by_id(session, id)
         schema.remove_session()
         return question_exists
 

@@ -2,7 +2,7 @@
 """
 
 import hashlib
-from typing import List
+from typing import List, Optional
 from sqlalchemy.exc import IntegrityError  # type: ignore
 from sqlalchemy.orm.session import Session  # type: ignore
 from sqlalchemy.orm.exc import NoResultFound  # type: ignore
@@ -57,7 +57,7 @@ class Questions():
         return query.all()
 
     @staticmethod
-    def get_question(session: Session, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Question or NotImplemented:
+    def get_question(session: Session, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
         """ Determines whether a question exists or not.
 
         Args:
@@ -75,6 +75,24 @@ class Questions():
         """
         try:
             query = session.query(Question).filter_by(title=title, body=body, option1=option1, option2=option2, option3=option3, correct_answer=correct_answer, punctuation=punctuation, penalty=penalty)
+            question: Question = query.one()
+        except NoResultFound:
+            return None
+        return question
+
+    @staticmethod
+    def get_question_by_id(session: Session, id: int,) -> Optional[Question]:
+        """ Determines whether a question exists or not.
+
+        Args:
+            - id (int): A integer for the id question.
+
+
+        Returns:
+            - bool: `True` if a question with the given credentials exists; `False` otherwise.
+        """
+        try:
+            query = session.query(Question).filter_by(id=id)
             question: Question = query.one()
         except NoResultFound:
             return None
