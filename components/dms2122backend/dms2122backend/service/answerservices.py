@@ -28,7 +28,7 @@ class AnswersServices():
         session: Session = schema.new_session()
         out: Dict = {}
         try:
-            Answers.answer(session, username, number, questionId, schema)
+            Answers.answer(session, username, number, questionId)
 
         except Exception as ex:
             raise ex
