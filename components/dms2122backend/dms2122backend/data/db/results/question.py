@@ -69,7 +69,7 @@ class Question(ResultBase):
             - Dict: A dictionary with the mapping properties.
         """
         return {
-            'rights': relationship(Answer, backref='question')
+            'questions': relationship(Answer, backref='question')
         }
 
          

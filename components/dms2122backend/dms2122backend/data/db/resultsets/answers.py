@@ -10,7 +10,7 @@ from dms2122backend.data.db.results import Answer
 from dms2122backend.data.db.exc import QuestionNotFoundError
 from dms2122backend.data.db.exc import UserNotFoundError
 
-class Questions():
+class Answers():
     """ Class responsible of table-level answers operations.
     """
     @staticmethod

@@ -1,5 +1,5 @@
 """ Authentication ORM resultsets (i.e., tables).
 """
 
-from .questions import Question
-from .answers import Answer
+from .questions import Questions
+from .answers import Answers

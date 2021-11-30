@@ -57,7 +57,7 @@ class Questions():
         return query.all()
 
     @staticmethod
-    def get_question(session: Session, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Question:
+    def get_question(session: Session, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Question or NotImplemented:
         """ Determines whether a question exists or not.
 
         Args:
