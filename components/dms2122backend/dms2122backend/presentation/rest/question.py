@@ -3,7 +3,7 @@
 
 from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
-from flask import current_app
+from flask import current_app, session
 from dms2122backend.data.db.exc import QuestionExistsError
 from dms2122backend.data.db.results import Question
 from dms2122backend.service import QuestionsServices
@@ -37,7 +37,7 @@ def create_question(authservice: AuthService, body: Dict, token_info: Dict) -> T
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(token_info['user_token']['user'], "Teacher")
+        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
         if response.is_successful() == False:
             return (
                 'Current user has not enough privileges to create a question',
@@ -68,7 +68,7 @@ def get_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tupl
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(token_info['user_token']['user'], "Teacher")
+        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
         if response.is_successful() == False:
             return (
                 'Current user has not enough privileges to create a question',
@@ -97,7 +97,7 @@ def get_question_by_id(authservice: AuthService, body: Dict, token_info: Dict) -
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(token_info['user_token']['user'], "Teacher")
+        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
         if response.is_successful() == False:
             return (
                 'Current user has not enough privileges to create a question',
