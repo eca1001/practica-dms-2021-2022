@@ -8,7 +8,6 @@ from dms2122backend.data.db.exc import QuestionExistsError
 from dms2122backend.data.db.results import Question
 from dms2122backend.service import QuestionsServices
 from dms2122backend.data.rest.authservice import AuthService
-from dms2122common.data.role import Role
 from dms2122common.data.rest import ResponseData
 
 def list_questions() -> Tuple[List[Dict], Optional[int]]:

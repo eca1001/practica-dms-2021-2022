@@ -100,7 +100,7 @@ def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
-def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[bool, Optional[int]]:
+def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[bool,str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:

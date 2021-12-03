@@ -33,6 +33,29 @@ paths:
                 type: string
       tags:
         - server
+  /questions:
+    get:
+      summary: Gets a listing of questions.
+      operationId: dms2122backend.presentation.rest.user.list_questions
+      responses:
+        '200':
+          description: A list of questions.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionsFullListModel'
+      tags:
+        - questions
+      security:
+        - user_token: []
+          api_key: []
+  /question/new:
+    # TODO
+
+
+
+
+
 components:
   schemas:
     UserFullModel:
@@ -55,6 +78,40 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/UserFullModel'
+
+    QuestionFullModel:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        option1:
+          type: string
+        option2:
+          type: string
+        option3:
+          type: string
+        correct_answer:
+          type: int
+        punctuation:
+          type: float
+        penalty:
+          type: float
+      required:
+        - title
+        - body
+        - option1
+        - option2
+        - option3
+        - correct_answer
+        - punctuation
+        - penalty
+    QuestionsFullListModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/QuestionFullModel'
+
   securitySchemes:
     api_key:
       type: apiKey
