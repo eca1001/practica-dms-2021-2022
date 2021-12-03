@@ -26,7 +26,6 @@ class AnswersServices():
         """
 
         session: Session = schema.new_session()
-        out: Dict = {}
         try:
             Answers.answer(session, username, number, questionId)
 
@@ -65,6 +64,7 @@ class AnswersServices():
         answer = Answers.list_all_for_question(session, questionId)
         schema.remove_session()
         return answer
+
 
     @staticmethod
     def question_has_answers(schema: Schema, questionId: int) -> bool:
