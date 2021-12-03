@@ -3,11 +3,13 @@
 
 from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
-from flask import current_app
+from flask import current_app, session
 from dms2122backend.data.db.exc import QuestionExistsError
+from dms2122backend.data.db.results import Question
 from dms2122backend.service import QuestionsServices
-from dms2122auth.service.roleservices import  RoleServices
+from dms2122backend.data.rest.authservice import AuthService
 from dms2122common.data.role import Role
+from dms2122common.data.rest import ResponseData
 
 def list_questions() -> Tuple[List[Dict], Optional[int]]:
     """Lists the existing questions.
@@ -20,7 +22,7 @@ def list_questions() -> Tuple[List[Dict], Optional[int]]:
         questions: List[Dict] = QuestionsServices.list_questions(current_app.db)
     return (questions, HTTPStatus.OK.value)
 
-def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
+def create_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
     """Creates a question if the requestor has the Teacher role.
 
     Args:
@@ -35,7 +37,8 @@ def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Opt
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        if not RoleServices.has_role(token_info['user_token']['user'], Role.Teacher, current_app.db):
+        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
+        if response.is_successful() == False:
             return (
                 'Current user has not enough privileges to create a question',
                 HTTPStatus.FORBIDDEN.value
@@ -50,7 +53,7 @@ def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Opt
             return ('A question with the same title already exists', HTTPStatus.CONFLICT.value)
     return (question, HTTPStatus.OK.value)
 
-def get_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
+def get_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[Optional[Question], str], Optional[int]]:
     """Creates a question if the requestor has the Teacher role.
 
     Args:
@@ -65,7 +68,8 @@ def get_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Option
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        if not RoleServices.has_role(token_info['user_token']['user'], Role.Teacher, current_app.db):
+        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
+        if response.is_successful() == False:
             return (
                 'Current user has not enough privileges to create a question',
                 HTTPStatus.FORBIDDEN.value
@@ -78,7 +82,7 @@ def get_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Option
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (question, HTTPStatus.OK.value)
 
-def get_question_by_id(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
+def get_question_by_id(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[Optional[Question], str], Optional[int]]:
     """Creates a question if the requestor has the Teacher role.
 
     Args:
@@ -93,7 +97,8 @@ def get_question_by_id(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], 
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        if not RoleServices.has_role(token_info['user_token']['user'], Role.Teacher, current_app.db):
+        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
+        if response.is_successful() == False:
             return (
                 'Current user has not enough privileges to create a question',
                 HTTPStatus.FORBIDDEN.value
