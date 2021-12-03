@@ -70,10 +70,6 @@ class AnswersServices():
     def question_has_answers(schema: Schema, questionId: int) -> bool:
 
         session: Session = schema.new_session()
-        answer = Answers.list_all_for_question(session, questionId)
-        tam = len(answer)
+        answer = Answers.question_has_answers(session, questionId)
         schema.remove_session()
-        if tam == 0:
-            return False
-        else:
-            return True
+        return answer
