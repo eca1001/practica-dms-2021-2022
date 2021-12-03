@@ -6,11 +6,12 @@ from http import HTTPStatus
 from flask import current_app, session
 from dms2122backend.data.db.exc import QuestionExistsError
 from dms2122backend.service import AnswersServices
+from dms2122backend.data.db.results.answer import Answer
 from dms2122backend.data.rest.authservice import AuthService
 from dms2122common.data.role import Role
 from dms2122common.data.rest import ResponseData
 
-def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
+def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Optional[str], Optional[int]]:
     """Answer a question if the requestor has the Student role.
 
     Args:
@@ -40,7 +41,7 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Unio
     return (None, HTTPStatus.OK.value)
 
 
-def list_all_for_user(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[List[str], str], Optional[int]]:
+def list_all_for_user(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
     """List all question of an specific user if the requestor has the Student role.
 
     Args:
@@ -70,7 +71,7 @@ def list_all_for_user(authservice: AuthService, body: Dict, token_info: Dict) ->
     return (answer, HTTPStatus.OK.value)
 
 
-def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[List[str], str], Optional[int]]:
+def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -99,7 +100,7 @@ def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
-def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[bool, Optional[int]]:
+def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[List[str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
