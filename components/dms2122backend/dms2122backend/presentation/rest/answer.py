@@ -63,7 +63,7 @@ def list_all_for_user(authservice: AuthService, body: Dict, token_info: Dict) ->
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            answer: List[str] = AnswersServices.list_all_for_user(
+            answer: List[Answer] = AnswersServices.list_all_for_user(
                 body['user'], current_app.db
             )
         except ValueError:
@@ -93,14 +93,14 @@ def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            answer: List[str] = AnswersServices.list_all_for_question(
+            answer: List[Answer] = AnswersServices.list_all_for_question(
                 body['id'], current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
-def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[List[str], Optional[int]]:
+def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[bool, Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
