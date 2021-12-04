@@ -10,6 +10,59 @@ The goal of this project is to implement a basic online evaluation appliance dep
 - [Ismael Franco Hernando](https://github.com/ifh1001)
 - [Enrique Camarero Alonso](https://github.com/eca1001)
 
+## MANUAL DE INSTALACIÓN
+Para descargar el repositorio en nuestro ordenador, debemos descargarlo desde la ventana inicial del propio repositorio en github. 
+Pinchando en el botón Code, el cual se encuentra coloreado en verde, se abrirá una ventana habilitándose una opción de descargar en forma de zip la cual empezará la descarga una vez se pinche.
+ 
+![image](https://user-images.githubusercontent.com/56863859/144721061-f6e80329-70be-40aa-912f-7f23ca8e2bc7.png)
+
+Una vez descargado, nos dirigimos a la ruta en la cual se encuentra y descomprimimos el zip. Esto permite ya que se pueda utilizar el programa ejecutándose desde el terminal.
+
+## MANUAL DE EJECUCIÓN
+Para poder ejecutar el programa debemos acceder a la carpeta con los siguientes pasos:
+- Abrir el terminal de Ubuntu
+-	Ir a la ruta en la cual se encuentra el programa con la opción cd
+-	Entrar en la carpeta con el comando 
+```bash
+cd practica-dms-2021-2022
+```
+ 
+![image](https://user-images.githubusercontent.com/56863859/144721055-66581532-f3f2-499d-b66a-2d2a75ec3610.png)
+
+Una vez nos encontremos en la carpeta tendremos 3 comandos:
+-	Si es la primera vez que se descarga el programa en el ordenador se debe ejecutar el comando:
+```bash
+docker-compose -f docker/config/dev.yml build
+```
+-	Una vez instalado para ejecutar la aplicación utilizando Docker se utiliza el comando:
+```bash
+docker-compose -f docker/config/dev.yml up -d
+```
+-	Para detener la ejecución una vez se ha lanzado el programa se utiliza el comando:
+```bash
+docker-compose -f docker/config/dev.yml rm -sfv 
+```
+Para comprobar que el programa ha sido lanzado y parado exitosamente los servicios de auth, backend y frontend deben aparecer junto a un done en color verde.
+
+![image](https://user-images.githubusercontent.com/56863859/144721052-0e4ba5f4-1cf2-4a62-af89-69643eb55196.png)
+
+## MANUAL DE USO
+En el buscador se debe acceder a la página 127.10.1.30/login, y acceder con un usuario y contraseña válidos (usuario: admin, contraseña: admin).
+En la parte superior tenemos las posibles ventanas a las que puede acceder cada usuario. Estas son: Home (común a todos), Student (para estudiantes), Teacher (para profesores) y Admin (para administradores).
+Los permisos a cada usuario deben darse desde Admin, seleccionando el usuario al que queremos cambiar desde “Edit” y seleccionando los permisos que deseamos que tenga.
+
+![image](https://user-images.githubusercontent.com/56863859/144721042-2d5e14c3-b358-44dc-b955-b5807938355b.png)
+ 
+Los profesores, desde la ventana “Teacher” puede ver y crear preguntas desde “Question management” o ver el progreso de los alumnos desde “Student progress”. La primera opción nos permite ver una pregunta como si fuésemos un estudiante y contestarla (no cuanta para las estadísticas) con la opción “Preview”, editar una pregunta si todavía no ha sido contestado con la opción “Edit” y crear nuevas preguntas con “Create new question”.
+
+![image](https://user-images.githubusercontent.com/56863859/144721035-30eb9f31-59cd-4cb8-b2ca-916a99e200d2.png)
+ 
+Para crear una pregunta se deben rellenar todos los campos, los cuales son: un título, el cuerpo de la pregunta, 3 opciones, indicador de la opción correcta, puntuación de la pregunta, y penalización de esta.
+Los alumnos, pueden acceder a “Questions” donde pueden contestar las preguntas y “Student progress” para consultar su progreso. La primera opción nos permite ver que preguntas faltan por contestar y cuales han sido contestadas. Para contestar una pregunta pincharemos en “Answer”.
+ 
+![image](https://user-images.githubusercontent.com/56863859/144721023-8e219f3c-7ee9-4568-9d96-375df559a6b6.png)
+
+
 ## Components
 
 The source code of the components is available under the `components` direcotry.
