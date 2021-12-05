@@ -5,6 +5,7 @@ from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 from flask import current_app, session
 from dms2122backend.data.db.exc import QuestionExistsError
+from dms2122backend.data.db.exc.questionorusernotfounderror import QuestionOrUserNotFoundError
 from dms2122backend.data.db.results import Question
 from dms2122backend.service import QuestionsServices
 from dms2122backend.data.rest.authservice import AuthService
@@ -130,6 +131,8 @@ def edit_question(authservice: AuthService, body: Dict, id: int, token_info: Dic
                 id, body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:
-            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
+            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)
+        except QuestionOrUserNotFoundError:
+            return ('Question or User not found', HTTPStatus.NOT_FOUND.value)
     return (question, HTTPStatus.OK.value)
 
