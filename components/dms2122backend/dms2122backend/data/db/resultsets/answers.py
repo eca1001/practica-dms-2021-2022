@@ -73,7 +73,7 @@ class Answers():
 
         Args:
             - session (Session): The session object.
-            - id (str): The question id.
+            - id (int): The question id.
 
         Raises:
             - ValueError: If the question id is missing.
@@ -94,7 +94,7 @@ class Answers():
 
         Args:
             - session (Session): The session object.
-            - id (str): The question id.
+            - id (int): The question id.
 
         Raises:
             - ValueError: If the question id is missing.
@@ -107,3 +107,25 @@ class Answers():
         questions = Answers.list_all_for_question(session, id)
 
         return len(questions) != 0
+
+    @staticmethod
+    def answer_question_for_user(session: Session, user: str, id: int) -> Answer:
+        """Return a answer of a certain question and user.
+
+        Args:
+            - session (Session): The session object.
+            - user (str): The user name string.
+            - id (int): The question id.
+
+        Raises:
+            - ValueError: If the username is missing.
+
+        Returns:
+            - Answer: Answer of the question.
+        """
+        if not user:
+            raise ValueError('A username is required.')
+        query = session.query(Answer).filter_by(
+            user=user, id=id
+        )
+        return query.one_or_none()

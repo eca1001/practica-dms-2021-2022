@@ -68,8 +68,35 @@ class AnswersServices():
 
     @staticmethod
     def question_has_answers(questionId: int, schema: Schema) -> bool:
+        """Return True or False if a certain question has answers.
 
+        Args:
+            - schema (Schema): A database handler where the questions are mapped into.
+
+        Returns:
+            - nool: True if question has answers, False if not
+        """
         session: Session = schema.new_session()
         answer = Answers.question_has_answers(session, questionId)
+        schema.remove_session()
+        return answer
+
+    @staticmethod
+    def answer_question_for_user(user: str, id: int, schema: Schema) -> Answer:
+        """Return a answer of a certain question and user.
+
+        Args:
+            - session (Session): The session object.
+            - user (str): The user name string.
+            - id (int): The question id.
+
+        Raises:
+            - ValueError: If the username is missing.
+
+        Returns:
+            - Answer: Answer of the question.
+        """
+        session: Session = schema.new_session()
+        answer = Answers.answer_question_for_user(session, user, id)
         schema.remove_session()
         return answer

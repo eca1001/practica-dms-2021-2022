@@ -71,7 +71,7 @@ class Questions():
             - penalty (float): A float with the penalty of fail the question.
 
         Returns:
-            - bool: `True` if a question with the given credentials exists; `False` otherwise.
+            - Optional[Question]: The created `Question` result.
         """
         try:
             query = session.query(Question).filter_by(title=title, body=body, option1=option1, option2=option2, option3=option3, correct_answer=correct_answer, punctuation=punctuation, penalty=penalty)
@@ -89,7 +89,7 @@ class Questions():
 
 
         Returns:
-            - bool: `True` if a question with the given credentials exists; `False` otherwise.
+            - Optional[Question]: The created `Question` result.
         """
         try:
             query = session.query(Question).filter_by(id=id)
@@ -97,3 +97,34 @@ class Questions():
         except NoResultFound:
             return None
         return question
+
+    @staticmethod
+    def edit(session: Session, id: int, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
+        """ Edit an exist question.
+
+        Args:
+            - id (int): A question id.
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question.
+
+        Returns:
+            - Optional[Question]: The edited `Question` result.
+        """
+        edit_question = Questions.get_question_by_id(session, id)
+        edit_question.title = title
+        edit_question.body = body
+        edit_question.option1 = option1
+        edit_question.option2 = option2
+        edit_question.option3 = option3
+        edit_question.correct_answer = correct_answer
+        edit_question.punctuation = punctuation
+        edit_question.penalty = penalty
+
+        return edit_question
+

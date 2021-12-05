@@ -87,3 +87,38 @@ class QuestionsServices():
         finally:
             schema.remove_session()
         return out
+
+    @staticmethod
+    def edit_question(id: int, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float, schema: Schema) -> Optional[Question]:
+        """ Edit an exist question.
+
+        Args:
+            - id (int): A question id.
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question.
+
+        Returns:
+            - Optional[Question]: The edited `Question` result.
+        """
+        session: Session = schema.new_session()
+        try:
+            question = Questions.get_question_by_id(session, id)
+            question.title = title
+            question.body = body
+            question.option1 = option1
+            question.option2 = option2
+            question.option3 = option3
+            question.correct_answer = correct_answer
+            question.punctuation = punctuation
+            question.penalty = penalty
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return question
