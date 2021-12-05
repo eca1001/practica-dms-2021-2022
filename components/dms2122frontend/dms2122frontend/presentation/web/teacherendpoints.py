@@ -5,9 +5,11 @@ from typing import Text, Union
 from flask import redirect, url_for, session, render_template, request
 from werkzeug.wrappers import Response
 from dms2122common.data import Role
+from dms2122frontend.data.rest import backendservice
 from dms2122frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
-#from .webquestion import WebQuestion
+from .webquestion import WebQuestion
+from .webanswer import WebAnswer
 
 
 class TeacherEndpoints():
@@ -57,7 +59,7 @@ class TeacherEndpoints():
                    ]     
 
         return render_template('teacher/questions.html', name=name, roles=session['roles'], 
-                                    questions=questions)
+                                    questions=WebQuestion.list_questions(backendservice))
     
     @staticmethod
     def get_teacher_students(auth_service: AuthService) -> Union[Response, Text]:
@@ -129,12 +131,10 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        title: str = str(request.args.get('questiontitle'))
+        id: int = int(request.args.get('questionid'))
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')
         return render_template('teacher/questions/edit.html', name=name, roles=session['roles'], 
-            redirect_to=redirect_to, title=title, body="(aqui ira el cuerpo cuando tengamos el backend)", 
-            option1="(lo mismo)", option2="(lo mismo 2)", option3="(lo mismo 3)",correct_answer=3, 
-            punctuation=1.5, penalty=0.5)
+            redirect_to=redirect_to, question = WebQuestion.get_question(backendservice ,id))
 
     @staticmethod
     def post_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:
@@ -151,8 +151,23 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
 
+        successful: bool = True
+        successful &= WebQuestion.edit_question(auth_service,
+                                                request.form['questionid'],
+                                                request.form['title'],
+                                                request.form['body'],
+                                                request.form['option1'],
+                                                request.form['option2'],
+                                                request.form['option3'],
+                                                request.form['correct_amswer'],
+                                                request.form['punctuation'],
+                                                request.form['penalty']
+                                                )
+        session['questions'] = WebQuestion.get_question(auth_service, session['question'])
+
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')        
         return redirect(redirect_to)
+        
     
     @staticmethod
     def get_teacher_questions_preview(auth_service: AuthService) -> Union[Response, Text]:

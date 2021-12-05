@@ -7,6 +7,8 @@ from werkzeug.wrappers import Response
 from dms2122common.data import Role
 from dms2122frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
+from .webquestion import WebQuestion
+from .webanswer import WebAnswer
 
 
 class StudentEndpoints():
