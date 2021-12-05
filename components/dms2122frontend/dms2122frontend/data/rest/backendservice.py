@@ -138,7 +138,7 @@ class BackendService():
         return response_data
 
 
-    def question_has_answers(self, token: Optional[str], id: str) -> ResponseData:
+    def question_has_answers(self, token: Optional[str], id: int) -> ResponseData:
         """ Checks if a question has been answered by anyone.
 
         Args:
