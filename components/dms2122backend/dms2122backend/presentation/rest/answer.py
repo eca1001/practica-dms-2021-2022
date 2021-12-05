@@ -34,14 +34,14 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Opti
             )
         try:
             AnswersServices.answer(
-                body['session'], body['username'],  body['number'], body['questionId']
+                body['username'],  body['number'], body['questionId'], current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)
     return (None, HTTPStatus.OK.value)
 
 
-def list_all_for_user(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
+def list_all_for_user(authservice: AuthService, username: str, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
     """List all question of an specific user if the requestor has the Student role.
 
     Args:
@@ -59,19 +59,19 @@ def list_all_for_user(authservice: AuthService, body: Dict, token_info: Dict) ->
         response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Student")
         if response.is_successful() == False:
             return (
-                'Current user has not enough privileges to create a question',
+                'Current user has not enough privileges to see list',
                 HTTPStatus.FORBIDDEN.value
             )
         try:
             answer: List[Answer] = AnswersServices.list_all_for_user(
-                body['user'], current_app.db
+                username, current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
 
-def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
+def list_all_for_question(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -89,18 +89,18 @@ def list_all_for_question(authservice: AuthService, body: Dict, token_info: Dict
         response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
         if response.is_successful() == False:
             return (
-                'Current user has not enough privileges to create a question',
+                'Current user has not enough privileges to see list',
                 HTTPStatus.FORBIDDEN.value
             )
         try:
             answer: List[Answer] = AnswersServices.list_all_for_question(
-                body['id'], current_app.db
+                questionId, current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
-def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[bool,str], Optional[int]]:
+def question_has_answers(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[bool,str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -123,7 +123,7 @@ def question_has_answers(authservice: AuthService, body: Dict, token_info: Dict)
             )
         try:
             answer = AnswersServices.question_has_answers(
-                body['id'], current_app.db
+                questionId, current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
