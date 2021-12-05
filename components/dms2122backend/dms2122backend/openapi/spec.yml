@@ -90,6 +90,45 @@ paths:
         - user_token: []
           api_key: []
   /question/{id}:
+    put:
+      summary: Edit a question given an ID.
+      operationId: dms2122backend.presentation.rest.question.edit_question
+      requestBody:
+        description: Question's data.
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/QuestionFullIdModel'
+      responses:
+        '200':
+          description: Data of the requested question.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionFullIdModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: The requesting user has no permission to do this operation.
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '404':
+          description: The given question does not have any answers, or the question does not exist.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - user_token: []
+          api_key: []
     get:
       summary: Obtains a question given an ID.
       operationId: dms2122backend.presentation.rest.question.get_question_by_id
@@ -193,11 +232,9 @@ paths:
       security:
         - user_token: []
           api_key: []
-
-  /answers/{questionId}:
     get:
-      summary: Gets all answers to a question.
-      operationId: dms2122backend.presentation.rest.answer.list_all_for_question
+      summary: Gets a answer of a question.
+      operationId: dms2122backend.presentation.rest.answer.get_answer
       parameters:
         - name: questionId
           in: path
@@ -213,6 +250,40 @@ paths:
                 $ref: '#/components/schemas/AnswersFullListModel'
         '403':
           description: The requesting user has no permission to do this operation.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - user_token: []
+          api_key: []
+  /answers/{questionId}:
+    get:
+      summary: Gets all answers to a question.
+      operationId: dms2122backend.presentation.rest.answer.list_all_for_question
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: int
+      responses:
+        '200':
+          description: The list of answers for that question.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersFullListModel'
+        '400':
+          description: Errors in the request.
           content:
             'text/plain':
               schema:

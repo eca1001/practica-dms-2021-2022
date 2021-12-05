@@ -82,7 +82,7 @@ class AnswersServices():
         return answer
 
     @staticmethod
-    def answer_question_for_user(user: str, id: int, schema: Schema) -> Answer:
+    def get_answer(user: str, id: int, schema: Schema) -> Answer:
         """Return a answer of a certain question and user.
 
         Args:
@@ -97,6 +97,6 @@ class AnswersServices():
             - Answer: Answer of the question.
         """
         session: Session = schema.new_session()
-        answer = Answers.answer_question_for_user(session, user, id)
+        answer = Answers.get_answer(session, user, id)
         schema.remove_session()
         return answer

@@ -109,7 +109,7 @@ class Answers():
         return len(questions) != 0
 
     @staticmethod
-    def answer_question_for_user(session: Session, user: str, id: int) -> Answer:
+    def get_answer(session: Session, user: str, id: int) -> Answer:
         """Return a answer of a certain question and user.
 
         Args:

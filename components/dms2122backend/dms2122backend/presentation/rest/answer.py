@@ -132,7 +132,7 @@ def question_has_answers(authservice: AuthService, questionId: int, token_info: 
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
-def answer_question_for_user(authservice: AuthService, username: str, id: int, token_info: Dict) -> Tuple[Union[Answer, str], Optional[int]]:
+def get_answer(username: str, id: int) -> Tuple[Union[Answer, str], Optional[int]]:
     """Return the answer of an specific question and user.
 
     Args:
@@ -149,7 +149,7 @@ def answer_question_for_user(authservice: AuthService, username: str, id: int, t
     """
     with current_app.app_context():
         try:
-            answer: Answer = AnswersServices.answer_question_for_user(
+            answer: Answer = AnswersServices.get_answer(
                 username, id, current_app.db
             )
         except ValueError:
