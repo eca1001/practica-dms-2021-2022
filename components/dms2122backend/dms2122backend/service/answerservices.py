@@ -35,7 +35,7 @@ class AnswersServices():
             schema.remove_session()
 
     @staticmethod
-    def list_all_for_user(schema: Schema, username: str) -> List[Answer]:
+    def list_all_for_user(username: str, schema: Schema) -> List[Answer]:
         """Lists the existing questions.
 
         Args:
@@ -51,7 +51,7 @@ class AnswersServices():
 
 
     @staticmethod
-    def list_all_for_question(schema: Schema, questionId: int) -> List[Answer]:
+    def list_all_for_question(questionId: int, schema: Schema) -> List[Answer]:
         """Lists the existing questions.
 
         Args:
@@ -67,7 +67,7 @@ class AnswersServices():
 
 
     @staticmethod
-    def question_has_answers(schema: Schema, questionId: int) -> bool:
+    def question_has_answers(questionId: int, schema: Schema) -> bool:
 
         session: Session = schema.new_session()
         answer = Answers.question_has_answers(session, questionId)
