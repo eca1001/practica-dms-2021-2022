@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError  # type: ignore
 from sqlalchemy.orm.session import Session  # type: ignore
 from sqlalchemy.orm.exc import NoResultFound  # type: ignore
 from dms2122backend.data.db.results import Answer
-from dms2122backend.data.db.exc import QuestionNotFoundError
+from dms2122backend.data.db.exc.questionorusernotfounderror import QuestionOrUserNotFoundError
 from dms2122backend.data.db.exc import UserNotFoundError
 
 class Answers():
@@ -41,7 +41,7 @@ class Answers():
             return new_answer
         except IntegrityError as ex:
             session.rollback()
-            raise QuestionNotFoundError() from ex #change later to QuestionOrUserNotFoundError
+            raise QuestionOrUserNotFoundError() from ex
         except:
             session.rollback()
             raise

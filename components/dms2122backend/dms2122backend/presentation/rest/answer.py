@@ -10,6 +10,7 @@ from dms2122backend.data.db.results.answer import Answer
 from dms2122backend.data.rest.authservice import AuthService
 from dms2122common.data.role import Role
 from dms2122common.data.rest import ResponseData
+from dms2122backend.data.db.exc.questionorusernotfounderror import QuestionOrUserNotFoundError
 
 def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Optional[str], Optional[int]]:
     """Answer a question if the requestor has the Student role.
@@ -38,6 +39,8 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Opti
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)
+        except QuestionOrUserNotFoundError:
+            return ('Question or User does not exist', HTTPStatus.NOT_FOUND.value)
     return (None, HTTPStatus.OK.value)
 
 
