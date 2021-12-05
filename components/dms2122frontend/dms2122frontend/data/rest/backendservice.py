@@ -74,8 +74,14 @@ class BackendService():
 
         Args:
             - token (Optional[str]): The user session token.
-            - username (str): The new user's name.
-            - password (str): The new user's password.
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question.
 
         Returns:
             - ResponseData: If successful, the contents hold the new question's data.
@@ -230,6 +236,76 @@ class BackendService():
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.get(
             self.__base_url() + f'/answers/{username}',
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+            response_data.set_content([])
+        return response_data
+
+    def edit_question(self, token: Optional[str], id: int, title: str,  body: str, option1: str, option2: str, option3: str,
+             correct_answer: int, punctuation: float, penalty: float) -> ResponseData:
+        """ Edit a question.
+
+        Args:
+            - token (Optional[str]): The user session token.
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question.
+
+        Returns:
+            - ResponseData: If successful, the contents hold the new question's data.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.post(
+            self.__base_url() + f'/question/{id}',
+            json={
+                'id': id,
+                'title': title,
+                'body': body,
+                'option1': option1,
+                'option2': option2,
+                'option3': option3,
+                'correct_answer': correct_answer,
+                'punctuation': punctuation,
+                'penalty': penalty
+            },
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+        return response_data
+
+    def get_answer(self, token: Optional[str], username: str, id: int) -> ResponseData:
+        """ Get answer for a certain question.
+
+        Args:
+            token (Optional[str]): The user session token.
+
+        Returns:
+            - ResponseData: If successful, the contents hold a list of question data dictionaries.
+              Otherwise, the contents will be an empty list.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f'/question/{id}/answer/{username}',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
