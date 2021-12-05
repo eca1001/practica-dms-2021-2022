@@ -48,3 +48,36 @@ When a request under that security schema receives a request, the key in this he
 This service also has its own API key to integrate itself with the authentication service. This key must be thus whitelisted in the authentication service in order to operate.
 
 As some operations required in the authentication service require a user session, clients using this backend must obtain and keep a valid user session token, that will be passed in the requests to this service to authenticate and authorize them.
+
+
+## Comunicaciones entre servicios y arquitectura
+
+Para poder acceder a los diferentes datos desde el frontend, se especifica en el archivo `openapi/spec.yml` las diferentes rutas que forman este servicio, y los métodos get, post y put de cada una de ellas. Al entrar a una ruta, esta llamará a la función correspondiente de la capa de presentación, pasándole los parámetros indicados, ya sea aquellos incluidos en la url o aquellos guardados en un paquete json. 
+
+Las funciones de la capa de presentación serán `presentation/rest/question` y `presentation/rest/answer`, que se encargan de comprobar los permisos de acceso a los usuarios, llamar a los métodos de la capa de servicios, obtener sus datos, y transformarlos en datos que puedan ser utilizados por el frontend. Esto último principalmente conlleva transformar las diferentes excepciones en valores de estado de HTTP, con sus correspondientes mensajes de error.
+
+A continuación, la capa de servicios consiste en los métodos incluidos en los archivos `service/answerservices` y `service/questionservices`, los cuales son los responsables de crear sesiones en la base de datos, llamar a las funciones de las tablas de esas bases de datos, y guardar los resultados en clases, listas o diccionarios más fácilmente manejables en ficheros python. También relanzará las excepciones que le lleguen de la capa de datos.
+
+Por último, en cuanto la capa de almacenamiento de los datos, se maneja en `data/db`, la cual contiene las clases correspondientes a las tablas de preguntas (`question`) y respuestas (`answer`), además de las clases que contienen los métodos para modificar estas tablas (`questions` y `answers`).
+
+
+
+En cuanto a los diferentes endpoints del backend, serán los siguientes:
+
+ - `/questions`: 
+   - `get`: obtendrá una lista de todas las preguntas de la base de datos. Llama a la función `list_questions`.
+ - `/question/new`:
+   - `post`: creará una nueva pregunta. Llama a la función `create_question`.
+ - `/question/{id}`:
+   - `put`: actualizará la información de una pregunta. Llama a la función `edit_question`.
+   - `get`: obtendrá la información de una pregunta dada su id. Llama a la función `get_question_by_id`.
+ - `/question/{id}/answers`:
+   - `get`: Indicará si una pregunta ha sido respondida por algún alumno o no. Llama a la función `question_has_answers`.
+ - `/question/{id}/answer/{username}`:
+   - `post`: guardará una nueva respuesta a una pregunta por un alumno. Llama a la función `answer`.
+   - `get`: obtendrá la respuesta a la pregunta indicada por el alumno indicado. Llama a la función `get_answer`.
+ - `/answers/{id}`:
+   - `get`: obtendrá todas las respuestas relacionadas con una pregunta dada su id. Llama a la función `list_all_for_question`.
+ - `/answers/{username}`:
+   - `get`: obtendrá todas las respuestas relacionadas con un usuario dado su nombre de usuario. Llama a la función `list_all_for_user`.
+
