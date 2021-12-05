@@ -117,7 +117,7 @@ class Questions():
         Returns:
             - Optional[Question]: The edited `Question` result.
         """
-        edit_question: Question = Questions.get_question_by_id(session, id)
+        edit_question = Questions.get_question_by_id(session, id)
 
         if edit_question is not None:
             edit_question.title = title

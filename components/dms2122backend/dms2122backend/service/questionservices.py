@@ -108,15 +108,7 @@ class QuestionsServices():
         """
         session: Session = schema.new_session()
         try:
-            question = Questions.get_question_by_id(session, id)
-            question.title = title
-            question.body = body
-            question.option1 = option1
-            question.option2 = option2
-            question.option3 = option3
-            question.correct_answer = correct_answer
-            question.punctuation = punctuation
-            question.penalty = penalty
+            question = Questions.edit(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
         except Exception as ex:
             raise ex
         finally:
