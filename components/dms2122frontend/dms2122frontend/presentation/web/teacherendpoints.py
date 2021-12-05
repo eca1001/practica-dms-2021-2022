@@ -117,7 +117,7 @@ class TeacherEndpoints():
         return redirect(redirect_to)
     
     @staticmethod
-    def get_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:
+    def get_teacher_questions_edit(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the GET requests to the question editing endpoint.
 
         Args:
@@ -134,10 +134,10 @@ class TeacherEndpoints():
         id: int = int(request.args.get('questionid'))
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')
         return render_template('teacher/questions/edit.html', name=name, roles=session['roles'], 
-            redirect_to=redirect_to, question = WebQuestion.get_question(backendservice ,id))
+            redirect_to=redirect_to, question = WebQuestion.get_question(backend_service ,id))
 
     @staticmethod
-    def post_teacher_questions_edit(auth_service: AuthService) -> Union[Response, Text]:
+    def post_teacher_questions_edit(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the POST requests to the question editing endpoint.
 
         Args:
@@ -170,7 +170,7 @@ class TeacherEndpoints():
         
     
     @staticmethod
-    def get_teacher_questions_preview(auth_service: AuthService) -> Union[Response, Text]:
+    def get_teacher_questions_preview(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the GET requests to the question preview endpoint.
 
         Args:
@@ -190,7 +190,7 @@ class TeacherEndpoints():
                                 redirect_to=redirect_to, title=title)
     
     @staticmethod
-    def get_teacher_questions_stats(auth_service: AuthService) -> Union[Response, Text]:
+    def get_teacher_questions_stats(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the GET requests to the question statistics endpoint.
 
         Args:
