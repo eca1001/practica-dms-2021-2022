@@ -98,7 +98,7 @@ paths:
           in: path
           required: true
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: Data of the newly created question.
@@ -126,7 +126,7 @@ paths:
           in: path
           required: true
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: The given question has some answers.
@@ -194,7 +194,7 @@ paths:
         - user_token: []
           api_key: []
 
-  /answers/{id}:
+  /answers/{questionId}:
     get:
       summary: Gets all answers to a question.
       operationId: dms2122backend.presentation.rest.answer.list_all_for_question
@@ -203,7 +203,7 @@ paths:
           in: path
           required: true
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: The list of answers for that question.
@@ -291,7 +291,7 @@ components:
         option3:
           type: string
         correct_answer:
-          type: int
+          type: integer
         punctuation:
           type: float
         penalty:
@@ -309,7 +309,7 @@ components:
       type: object
       properties:
         id:
-          type: int
+          type: integer
         title:
           type: string
         body:
@@ -321,7 +321,7 @@ components:
         option3:
           type: string
         correct_answer:
-          type: int
+          type: integer
         punctuation:
           type: float
         penalty:
@@ -347,9 +347,9 @@ components:
         username:
           type: string
         number:
-          type: int
+          type: integer
         questionId:
-          type: int
+          type: integer
       required:
         - username
         - number
