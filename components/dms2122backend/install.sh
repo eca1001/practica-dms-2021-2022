@@ -9,3 +9,6 @@ pushd "${TEMP_DIR}"
 popd
 
 rm -R "${TEMP_DIR}"
+
+#create questions for testing purposes
+dms2122backend-create-questions
