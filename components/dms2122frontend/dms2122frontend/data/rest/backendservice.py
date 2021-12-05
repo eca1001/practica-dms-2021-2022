@@ -117,7 +117,7 @@ class BackendService():
         """
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.get(
-            self.__base_url() + '/question/{id}',
+            self.__base_url() + f'/question/{id}',
             headers={
                 'Authorization': f'Bearer {token}',
                 self.__apikey_header: self.__apikey_secret
@@ -159,9 +159,8 @@ class BackendService():
             response_data.set_content([])
         return response_data
     
-    """
-    def answer_question(self, token: Optional[str], questionId: int, number: int, username: str) -> ResponseData:
-         Requests a question creation.
+    def answer_question(self, token: Optional[str], id: int, number: int, username: str) -> ResponseData:
+        """ Requests a question creation.
 
         Args:
             - token (Optional[str]): The user session token.
@@ -170,19 +169,15 @@ class BackendService():
 
         Returns:
             - ResponseData: If successful, the contents hold the new question's data.
-        
+        """
+
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + '/question/new',
+            self.__base_url() + f'/question/{id}/answer{username}',
             json={
-                'title': title,
-                'body': body,
-                'option1': option1,
-                'option2': option2,
-                'option3': option3,
-                'correct_answer': correct_answer,
-                'punctuation': punctuation,
-                'penalty': penalty
+                'username': username,
+                'number': number,
+                'id': id
             },
             headers={
                 'Authorization': f'Bearer {token}',
@@ -194,4 +189,56 @@ class BackendService():
             response_data.set_content(response.json())
         else:
             response_data.add_message(response.content.decode('ascii'))
-        return response_data"""
+        return response_data
+
+    def list_all_for_question(self, token: Optional[str], id: int) -> ResponseData:
+        """ Requests a list of answers for a certain question.
+
+        Args:
+            token (Optional[str]): The user session token.
+
+        Returns:
+            - ResponseData: If successful, the contents hold a list of question data dictionaries.
+              Otherwise, the contents will be an empty list.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f'/answers/{id}',
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+            response_data.set_content([])
+        return response_data
+
+    def list_all_for_user(self, token: Optional[str], username: str) -> ResponseData:
+        """ Requests a list of answers for a certain user.
+
+        Args:
+            token (Optional[str]): The user session token.
+
+        Returns:
+            - ResponseData: If successful, the contents hold a list of question data dictionaries.
+              Otherwise, the contents will be an empty list.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f'/answers/{username}',
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+            response_data.set_content([])
+        return response_data

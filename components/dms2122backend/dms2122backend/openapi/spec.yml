@@ -161,7 +161,7 @@ paths:
       summary: Gets whether a question has answers.
       operationId: dms2122backend.presentation.rest.answer.question_has_answers
       parameters:
-        - name: questionId
+        - name: id
           in: path
           required: true
           schema:
@@ -236,7 +236,7 @@ paths:
       summary: Gets a answer of a question.
       operationId: dms2122backend.presentation.rest.answer.get_answer
       parameters:
-        - name: questionId
+        - name: id
           in: path
           required: true
           schema:
@@ -260,21 +260,16 @@ paths:
       security:
         - user_token: []
           api_key: []
-  /answers/{questionId}:
+  /answers/{id}:
     get:
       summary: Gets all answers to a question.
       operationId: dms2122backend.presentation.rest.answer.list_all_for_question
       parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
         - name: id
           in: path
           required: true
           schema:
-            type: int
+            type: integer
       responses:
         '200':
           description: The list of answers for that question.
@@ -284,6 +279,12 @@ paths:
                 $ref: '#/components/schemas/AnswersFullListModel'
         '400':
           description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+        '403':
+          description: The requesting user has no permission to do this operation.
           content:
             'text/plain':
               schema:
@@ -419,12 +420,12 @@ components:
           type: string
         number:
           type: integer
-        questionId:
+        id:
           type: integer
       required:
         - username
         - number
-        - questionId
+        - id
     AnswersFullListModel:
       type: array
       items:
