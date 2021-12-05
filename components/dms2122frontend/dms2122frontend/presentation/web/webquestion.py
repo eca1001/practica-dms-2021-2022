@@ -78,7 +78,7 @@ class WebQuestion():
 
 
     @staticmethod
-    def question_has_answers(backend_service: BackendService, id: id) -> bool:
+    def question_has_answers(backend_service: BackendService, id: int) -> bool:
         """ Updates the user roles in the authentication service.
 
         Args:

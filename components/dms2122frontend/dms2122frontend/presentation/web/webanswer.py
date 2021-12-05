@@ -6,7 +6,6 @@ from flask import session
 from dms2122common.data.rest import ResponseData
 from dms2122frontend.data.rest.backendservice import BackendService
 from .webutils import WebUtils
-from dms2122backend.data.db.results import Answer
 
 class WebAnswer():
     """ Monostate class responsible of the question operation utilities.
