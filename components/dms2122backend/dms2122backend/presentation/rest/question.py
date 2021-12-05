@@ -82,7 +82,7 @@ def get_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tupl
     return (question, HTTPStatus.OK.value)
 
 def get_question_by_id(authservice: AuthService, id: int, token_info: Dict) -> Tuple[Union[Optional[Question], str], Optional[int]]:
-    """Creates a question if the requestor has the Teacher role.
+    """Get a question by id.
 
     Args:
         - body (Dict): A dictionary with the new question's data.
@@ -96,12 +96,6 @@ def get_question_by_id(authservice: AuthService, id: int, token_info: Dict) -> T
             - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
-        if response.is_successful() == False:
-            return (
-                'Current user has not enough privileges to create a question',
-                HTTPStatus.FORBIDDEN.value
-            )
         try:
             question = QuestionsServices.get_question_by_id(
                 id, current_app.db
@@ -133,7 +127,7 @@ def edit_question(authservice: AuthService, body: Dict, id: int, token_info: Dic
             )
         try:
             question = QuestionsServices.edit_question(
-                id, body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db,current_app.db
+                id, body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        

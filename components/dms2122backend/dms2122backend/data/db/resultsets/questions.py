@@ -8,6 +8,7 @@ from sqlalchemy.orm.session import Session  # type: ignore
 from sqlalchemy.orm.exc import NoResultFound  # type: ignore
 from dms2122backend.data.db.results import Question
 from dms2122backend.data.db.exc import QuestionExistsError
+from dms2122backend.data.db.exc.questionorusernotfounderror import QuestionOrUserNotFoundError
 
 
 class Questions():
@@ -117,14 +118,20 @@ class Questions():
             - Optional[Question]: The edited `Question` result.
         """
         edit_question = Questions.get_question_by_id(session, id)
-        edit_question.title = title
-        edit_question.body = body
-        edit_question.option1 = option1
-        edit_question.option2 = option2
-        edit_question.option3 = option3
-        edit_question.correct_answer = correct_answer
-        edit_question.punctuation = punctuation
-        edit_question.penalty = penalty
 
-        return edit_question
+        if edit_question is not None:
+            edit_question.title = title
+            edit_question.body = body
+            edit_question.option1 = option1
+            edit_question.option2 = option2
+            edit_question.option3 = option3
+            edit_question.correct_answer = correct_answer
+            edit_question.punctuation = punctuation
+            edit_question.penalty = penalty
+
+            session.commit()
+
+            return edit_question
+        
+        raise QuestionOrUserNotFoundError()
 
