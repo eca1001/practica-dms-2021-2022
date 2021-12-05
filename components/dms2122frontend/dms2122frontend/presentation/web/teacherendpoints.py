@@ -5,7 +5,7 @@ from typing import Text, Union
 from flask import redirect, url_for, session, render_template, request
 from werkzeug.wrappers import Response
 from dms2122common.data import Role
-from dms2122frontend.data.rest import backendservice
+from dms2122frontend.data.rest.backendservice import BackendService
 from dms2122frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from .webquestion import WebQuestion
@@ -34,7 +34,7 @@ class TeacherEndpoints():
 
     
     @staticmethod
-    def get_teacher_questions(auth_service: AuthService) -> Union[Response, Text]:
+    def get_teacher_questions(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the GET requests to the questions administration endpoint.
 
         Args:
@@ -59,7 +59,7 @@ class TeacherEndpoints():
                    ]     
 
         return render_template('teacher/questions.html', name=name, roles=session['roles'], 
-                                    questions=WebQuestion.list_questions(backendservice))
+                                    questions=WebQuestion.list_questions(backend_service))
     
     @staticmethod
     def get_teacher_students(auth_service: AuthService) -> Union[Response, Text]:
@@ -80,7 +80,7 @@ class TeacherEndpoints():
 
     
     @staticmethod
-    def get_teacher_questions_new(auth_service: AuthService) -> Union[Response, Text]:
+    def get_teacher_questions_new(auth_service: AuthService, backend_service: BackendService ) -> Union[Response, Text]:
         """ Handles the GET requests to the question creation endpoint.
 
         Args:

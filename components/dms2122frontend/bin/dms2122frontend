@@ -6,7 +6,8 @@ import os
 from typing import Dict
 import dms2122frontend
 from dms2122frontend.data.config import FrontendConfiguration
-from dms2122frontend.data.rest import AuthService, BackendService
+from dms2122frontend.data.rest import AuthService
+from dms2122frontend.data.rest.backendservice import BackendService
 from dms2122frontend.presentation.web import \
     AdminEndpoints, CommonEndpoints, SessionEndpoints, StudentEndpoints, TeacherEndpoints
 
@@ -90,7 +91,7 @@ def get_teacher():
 
 @app.route("/teacher/questions", methods=['GET'])
 def get_teacher_questions():
-    return TeacherEndpoints.get_teacher_questions(auth_service)
+    return TeacherEndpoints.get_teacher_questions(auth_service, backend_service)
 
 @app.route("/teacher/questions/new", methods=['GET'])
 def get_teacher_questions_new():
