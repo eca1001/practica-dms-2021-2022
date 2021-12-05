@@ -108,7 +108,7 @@ class QuestionsServices():
         """
         session: Session = schema.new_session()
         try:
-            question = Questions.edit(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+            question = Questions.edit(session, id, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
         except Exception as ex:
             raise ex
         finally:
