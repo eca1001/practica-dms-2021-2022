@@ -15,7 +15,10 @@ class AnswersServices():
         """Answer a question.
 
         Args:
-            - schema (Schema): A database handler where the users are mapped into.            
+            - username (str): The user name string.
+            - number (int): Answer's selection number by the student.
+            - questionId (int): Id of the question.
+            - schema (Schema): A database handler where the users are mapped into.
 
         Raises:
             - ValueError: If either the username or the password_hash is empty.
@@ -40,6 +43,7 @@ class AnswersServices():
 
         Args:
             - schema (Schema): A database handler where the questions are mapped into.
+            - username (str): The user name string.
 
         Returns:
             - List[Dict]: A list of dictionaries with the questions' data.
@@ -56,6 +60,7 @@ class AnswersServices():
 
         Args:
             - schema (Schema): A database handler where the questions are mapped into.
+            - questionId (int): Id of the question.
 
         Returns:
             - List[Dict]: A list of dictionaries with the questions' data.
@@ -72,6 +77,7 @@ class AnswersServices():
 
         Args:
             - schema (Schema): A database handler where the questions are mapped into.
+            - questionId (int): Id of the question.
 
         Returns:
             - nool: True if question has answers, False if not
@@ -86,12 +92,9 @@ class AnswersServices():
         """Return a answer of a certain question and user.
 
         Args:
-            - session (Session): The session object.
+            - schema (Schema): A database handler where the questions are mapped into.
             - user (str): The user name string.
             - id (int): The question id.
-
-        Raises:
-            - ValueError: If the username is missing.
 
         Returns:
             - Answer: Answer of the question.

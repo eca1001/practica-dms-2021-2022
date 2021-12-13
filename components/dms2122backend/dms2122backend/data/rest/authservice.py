@@ -48,6 +48,7 @@ class AuthService():
         Args:
             - token (Optional[str]): The user session token.
             - username (str): The name of the queried user.
+            - rolename (str): The role of the user.
 
         Returns:
             - ResponseData: If successful, the contents hold a list of role names. Otherwise an

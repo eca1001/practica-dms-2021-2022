@@ -15,10 +15,18 @@ class QuestionsServices():
         """
 
         Args:
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question.
             - schema (Schema): A database handler where the users are mapped into.
             
         Returns:
-            -
+            - Optional[Question]: The edited `Question` result.
         """        
         
         session: Session = schema.new_session()
@@ -32,9 +40,10 @@ class QuestionsServices():
 
         Args:
             - schema (Schema): A database handler where the users are mapped into.
+            - id (int): A question id.
             
         Returns:
-            -
+            - Optional[Question]: The edited `Question` result.
         """        
         
         session: Session = schema.new_session()
@@ -67,6 +76,14 @@ class QuestionsServices():
         """Creates a question.
 
         Args:
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question.
             - schema (Schema): A database handler where the users are mapped into.            
 
         Raises:

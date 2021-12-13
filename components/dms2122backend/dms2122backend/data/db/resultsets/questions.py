@@ -23,7 +23,14 @@ class Questions():
 
         Args:
             - session (Session): The session object.
-            - 
+            - title: (str): A string with the question title.
+            - body (str): A string with the question body.
+            - option1 (str): A string with option1.
+            - option2 (str): A string with option2.
+            - option3 (str): A string with option3.
+            - correct_answer (int): A integer for the correct option on question.
+            - punctuation (float): A float with the punctuation of the question.
+            - penalty (float): A float with the penalty of fail the question. 
 
         Raises:
             - ValueError: If any field is empty.
@@ -62,6 +69,7 @@ class Questions():
         """ Determines whether a question exists or not.
 
         Args:
+            - session (Session): The session object.
             - title: (str): A string with the question title.
             - body (str): A string with the question body.
             - option1 (str): A string with option1.
@@ -86,6 +94,7 @@ class Questions():
         """ Determines whether a question exists or not.
 
         Args:
+            - session (Session): The session object.
             - id (int): A integer for the id question.
 
 
@@ -113,7 +122,6 @@ class Questions():
             - correct_answer (int): A integer for the correct option on question.
             - punctuation (float): A float with the punctuation of the question.
             - penalty (float): A float with the penalty of fail the question.
-
         Returns:
             - Optional[Question]: The edited `Question` result.
         """

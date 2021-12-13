@@ -22,7 +22,9 @@ class Answers():
 
         Args:
             - session (Session): The session object.
-            - 
+            - username (str): The user name string.
+            - number (int): Answer's selection number by the student.
+            - questionId (int): Id of the question.
 
         Raises:  
             - ValueError: If any field is empty.
