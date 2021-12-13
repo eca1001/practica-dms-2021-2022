@@ -36,7 +36,7 @@ class Answer(ResultBase):
         return Table(
             'answers',
             metadata,
-            Column('user', String(32), ForeignKey('user.username'), primary_key=True),
+            Column('user', String(32), primary_key=True),
             Column('number', Integer, nullable=False),
-            Column('id', Integer, ForeignKey('questions.id'), primaryKey=True)
+            Column('id', Integer, ForeignKey('questions.id'), primary_key=True)
         )

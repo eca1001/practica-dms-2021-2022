@@ -5,7 +5,7 @@ from typing import Dict
 from sqlalchemy import Table, MetaData, Column, String, Integer, Float  # type: ignore
 from sqlalchemy.orm import relationship  # type: ignore
 from dms2122backend.data.db.results.resultbase import ResultBase
-from dms2122backend.data.db.results import Answer
+from dms2122backend.data.db.results.answer import Answer
 
 class Question(ResultBase):
     """ Definition and storage of question ORM records.

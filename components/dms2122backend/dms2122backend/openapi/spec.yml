@@ -21,7 +21,7 @@ servers:
   - url: /api/v1
 paths:
   '/':
-      head:
+    head:
       summary: Health test for the service
       operationId: dms2122backend.presentation.rest.server.health_test
       responses:
@@ -36,7 +36,7 @@ paths:
   /questions:
     get:
       summary: Gets a listing of questions.
-      operationId: dms2122backend.presentation.rest.user.list_questions
+      operationId: dms2122backend.presentation.rest.question.list_questions
       responses:
         '200':
           description: A list of questions.
@@ -47,14 +47,13 @@ paths:
       tags:
         - questions
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
   /question/new:
     post:
       summary: Creates a new question.
       operationId: dms2122backend.presentation.rest.question.create_question
       requestBody:
-        description: Question's ID.
+        description: Question's parameters.
         content:
           'application/json':
             schema:
@@ -87,12 +86,17 @@ paths:
       tags:
         - questions
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
   /question/{id}:
     put:
       summary: Edit a question given an ID.
       operationId: dms2122backend.presentation.rest.question.edit_question
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         description: Question's data.
         content:
@@ -127,8 +131,7 @@ paths:
       tags:
         - questions
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
     get:
       summary: Obtains a question given an ID.
       operationId: dms2122backend.presentation.rest.question.get_question_by_id
@@ -154,8 +157,7 @@ paths:
       tags:
         - questions
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
   /question/{id}/answers:
     get:
       summary: Gets whether a question has answers.
@@ -189,12 +191,22 @@ paths:
         - questions
         - answers
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
   /question/{id}/answer/{username}:
     post:
       summary: Answers a question by a user.
       operationId: dms2122backend.presentation.rest.answer.answer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         description: Answer data.
         content:
@@ -230,8 +242,7 @@ paths:
         - questions
         - answers
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
     get:
       summary: Gets a answer of a question.
       operationId: dms2122backend.presentation.rest.answer.get_answer
@@ -241,6 +252,11 @@ paths:
           required: true
           schema:
             type: integer
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: The list of answers for that question.
@@ -258,8 +274,7 @@ paths:
         - questions
         - answers
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
   /answers/{id}:
     get:
       summary: Gets all answers to a question.
@@ -293,8 +308,7 @@ paths:
         - questions
         - answers
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
   /answers/{username}:
     get:
       summary: Gets all answers to a question.
@@ -322,8 +336,7 @@ paths:
         - questions
         - answers
       security:
-        - user_token: []
-          api_key: []
+        - api_key: []
 
 
 components:
@@ -365,9 +378,9 @@ components:
         correct_answer:
           type: integer
         punctuation:
-          type: float
+          type: number
         penalty:
-          type: float
+          type: number
       required:
         - title
         - body
@@ -395,9 +408,9 @@ components:
         correct_answer:
           type: integer
         punctuation:
-          type: float
+          type: number
         penalty:
-          type: float
+          type: number
       required:
         - id
         - title
@@ -411,7 +424,7 @@ components:
     QuestionsFullListModel:
       type: array
       items:
-        $ref: '#/components/schemas/QuestionFullModel'
+        $ref: '#/components/schemas/QuestionFullIdModel'
 
     AnswerFullModel:
       type: object
