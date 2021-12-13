@@ -23,8 +23,8 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Opti
         - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to create the question.
-            - 409 CONFLICT if an existing user already has all or part of the unique user's data.
+            - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
+            - 404 NOT FOUND if an user or question does not exist.
     """
     with current_app.app_context():
         response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Student")
@@ -55,8 +55,7 @@ def list_all_for_user(authservice: AuthService, username: str, token_info: Dict)
         - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to create the question.
-            - 409 CONFLICT if an existing user already has all or part of the unique user's data.
+            - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
     """
     with current_app.app_context():
         response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Student")
@@ -85,8 +84,7 @@ def list_all_for_question(authservice: AuthService, questionId: int, token_info:
         - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to create the question.
-            - 409 CONFLICT if an existing user already has all or part of the unique user's data.
+            - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
     """
     with current_app.app_context():
         response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
@@ -114,8 +112,7 @@ def question_has_answers(authservice: AuthService, questionId: int, token_info: 
         - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to create the question.
-            - 409 CONFLICT if an existing user already has all or part of the unique user's data.
+            - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
     """
     with current_app.app_context():
         response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
@@ -144,8 +141,6 @@ def get_answer(username: str, id: int) -> Tuple[Union[Answer, str], Optional[int
         - Tuple[Union[Answer, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to create the question.
-            - 409 CONFLICT if an existing user already has all or part of the unique user's data.
     """
     with current_app.app_context():
         try:
