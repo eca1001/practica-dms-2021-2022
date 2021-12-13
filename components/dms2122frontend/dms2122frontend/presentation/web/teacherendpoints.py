@@ -99,7 +99,7 @@ class TeacherEndpoints():
                                 roles=session['roles'], redirect_to=redirect_to)
 
     @staticmethod
-    def post_teacher_questions_new(auth_service: AuthService) -> Union[Response, Text]:
+    def post_teacher_questions_new(auth_service: AuthService,backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the POST requests to the question creation endpoint.
 
         Args:

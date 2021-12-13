@@ -95,27 +95,27 @@ def get_teacher_questions():
 
 @app.route("/teacher/questions/new", methods=['GET'])
 def get_teacher_questions_new():
-    return TeacherEndpoints.get_teacher_questions_new(auth_service)
+    return TeacherEndpoints.get_teacher_questions_new(auth_service, backend_service)
 
 @app.route("/teacher/questions/new", methods=['POST'])
 def post_teacher_questions_new():
-    return TeacherEndpoints.post_teacher_questions_new(auth_service)
+    return TeacherEndpoints.post_teacher_questions_new(auth_service,backend_service)
 
 @app.route("/teacher/questions/edit", methods=['GET'])
 def get_teacher_questions_edit():
-    return TeacherEndpoints.get_teacher_questions_edit(auth_service)
+    return TeacherEndpoints.get_teacher_questions_edit(auth_service,backend_service)
 
 @app.route("/teacher/questions/edit", methods=['POST'])
 def post_teacher_questions_edit():
-    return TeacherEndpoints.post_teacher_questions_edit(auth_service)
+    return TeacherEndpoints.post_teacher_questions_edit(auth_service,backend_service)
 
 @app.route("/teacher/questions/preview", methods=['GET'])
 def get_teacher_questions_preview():
-    return TeacherEndpoints.get_teacher_questions_preview(auth_service)
+    return TeacherEndpoints.get_teacher_questions_preview(auth_service,backend_service)
 
 @app.route("/teacher/questions/stats", methods=['GET'])
 def get_teacher_questions_stats():
-    return TeacherEndpoints.get_teacher_questions_stats(auth_service)
+    return TeacherEndpoints.get_teacher_questions_stats(auth_service,backend_service)
 
 @app.route("/teacher/students", methods=['GET'])
 def get_teacher_students():
