@@ -152,7 +152,7 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
 
         successful: bool = True
-        successful &= WebQuestion.edit_question(auth_service,
+        successful &= WebQuestion.edit_question(backend_service,
                                                 request.form['questionid'],
                                                 request.form['title'],
                                                 request.form['body'],
@@ -163,7 +163,7 @@ class TeacherEndpoints():
                                                 request.form['punctuation'],
                                                 request.form['penalty']
                                                 )
-        session['questions'] = WebQuestion.get_question(auth_service, session['question'])
+        session['questions'] = WebQuestion.get_question(backend_service, session['question'])
 
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')        
         return redirect(redirect_to)
