@@ -5,13 +5,14 @@ from sqlalchemy.orm.session import Session  # type: ignore
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.db.results import Answer
 from dms2122backend.logic.answerlogic import AnswerLogic
+from dms2122backend.data.rest import AuthService
 
 class AnswersServices():
     """ Monostate class that provides high-level services to handle answer-related use cases.
     """
 
     @staticmethod
-    def answer(username: str, number: int, questionId: int, schema: Schema) -> None:
+    def answer(auth_service: AuthService, token_info: Dict, username: str, number: int, questionId: int, schema: Schema) -> None:
         """Answer a question.
 
         Args:
@@ -30,7 +31,7 @@ class AnswersServices():
 
         session: Session = schema.new_session()
         try:
-            AnswerLogic.create(session, username, number, questionId)
+            AnswerLogic.create(auth_service,token_info,session, username, number, questionId)
 
         except Exception as ex:
             raise ex
@@ -86,7 +87,7 @@ class AnswersServices():
 
 
     @staticmethod
-    def question_has_answers(questionId: int, schema: Schema) -> bool:
+    def question_has_answers(auth_service: AuthService, token_info: Dict,questionId: int, schema: Schema) -> bool:
         """Return True or False if a certain question has answers.
 
         Args:
@@ -97,7 +98,7 @@ class AnswersServices():
             - bool: True if question has answers, False if not
         """
         session: Session = schema.new_session()
-        answer: bool = AnswerLogic.question_has_answers(session, questionId)
+        answer: bool = AnswerLogic.question_has_answers(auth_service,token_info,session, questionId)
         schema.remove_session()
         return answer
 

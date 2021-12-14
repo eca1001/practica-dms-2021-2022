@@ -11,8 +11,9 @@ from dms2122backend.data.rest.authservice import AuthService
 from dms2122common.data.role import Role
 from dms2122common.data.rest import ResponseData
 from dms2122backend.data.db.exc.questionorusernotfounderror import QuestionOrUserNotFoundError
+from dms2122backend.logic.exc.forbiddenoperationerror import ForbiddenOperationError
 
-def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Optional[str], Optional[int]]:
+def answer(body: Dict, token_info: Dict) -> Tuple[Optional[str], Optional[int]]:
     """Answer a question if the requestor has the Student role.
 
     Args:
@@ -26,25 +27,24 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Opti
             - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
             - 404 NOT FOUND if an user or question does not exist.
     """
-    with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Student")
-        if response.is_successful() == False:
-            return (
-                'Current user has not enough privileges to create a question',
-                HTTPStatus.FORBIDDEN.value
-            )
+    with current_app.app_context():            
         try:
-            AnswersServices.answer(
+            AnswersServices.answer(current_app.authservice, token_info,
                 body['username'],  body['number'], body['questionId'], current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)
         except QuestionOrUserNotFoundError:
             return ('Question or User does not exist', HTTPStatus.NOT_FOUND.value)
+        except ForbiddenOperationError:
+            return (
+                'Current user has not enough privileges to create a question',
+                HTTPStatus.FORBIDDEN.value
+            )
     return (None, HTTPStatus.OK.value)
 
 
-def list_all_for_user(authservice: AuthService, username: str, token_info: Dict) -> Tuple[Union[List[Dict], str], Optional[int]]:
+def list_all_for_user(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
     """List all question of an specific user if the requestor has the Student role.
 
     Args:
@@ -55,15 +55,8 @@ def list_all_for_user(authservice: AuthService, username: str, token_info: Dict)
         - Tuple[Union[List[Dict], str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Student")
-        if response.is_successful() == False:
-            return (
-                'Current user has not enough privileges to see list',
-                HTTPStatus.FORBIDDEN.value
-            )
         try:
             answers: List[Dict] = AnswersServices.list_all_for_user(
                 username, current_app.db
@@ -73,7 +66,7 @@ def list_all_for_user(authservice: AuthService, username: str, token_info: Dict)
     return (answers, HTTPStatus.OK.value)
 
 
-def list_all_for_question(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[List[Dict], str], Optional[int]]:
+def list_all_for_question(questionId: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -84,15 +77,8 @@ def list_all_for_question(authservice: AuthService, questionId: int, token_info:
         - Tuple[Union[List[Dict], str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
-        if response.is_successful() == False:
-            return (
-                'Current user has not enough privileges to see list',
-                HTTPStatus.FORBIDDEN.value
-            )
         try:
             answers: List[Dict] = AnswersServices.list_all_for_question(
                 questionId, current_app.db
@@ -101,7 +87,7 @@ def list_all_for_question(authservice: AuthService, questionId: int, token_info:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answers, HTTPStatus.OK.value)
 
-def question_has_answers(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[bool,str], Optional[int]]:
+def question_has_answers( questionId: int, token_info: Dict) -> Tuple[Union[bool,str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -115,18 +101,17 @@ def question_has_answers(authservice: AuthService, questionId: int, token_info: 
             - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
     """
     with current_app.app_context():
-        response: ResponseData = authservice.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
-        if response.is_successful() == False:
+        try:
+            answer = AnswersServices.question_has_answers(current_app.authservice, token_info,
+                questionId, current_app.db
+            )
+        except ValueError:
+            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)  
+        except ForbiddenOperationError:
             return (
                 'Current user has not enough privileges to create a question',
                 HTTPStatus.FORBIDDEN.value
             )
-        try:
-            answer = AnswersServices.question_has_answers(
-                questionId, current_app.db
-            )
-        except ValueError:
-            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
 def get_answer(username: str, id: int) -> Tuple[Union[Dict, str], Optional[int]]:
