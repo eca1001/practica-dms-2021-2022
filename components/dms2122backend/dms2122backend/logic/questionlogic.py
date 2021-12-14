@@ -118,6 +118,7 @@ class QuestionLogic():
         Args:
             - auth_service (AuthService): the authentication service
             - token_info (Dict): A dictionary of information provided by the security schema handlers.
+            - session (Session): The session object.
             - id (int): A question id.
             - title: (str): A string with the question title.
             - body (str): A string with the question body.

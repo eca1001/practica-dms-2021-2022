@@ -94,7 +94,7 @@ class AnswersServices():
             - questionId (int): Id of the question.
 
         Returns:
-            - nool: True if question has answers, False if not
+            - bool: True if question has answers, False if not
         """
         session: Session = schema.new_session()
         answer: bool = AnswerLogic.question_has_answers(session, questionId)
