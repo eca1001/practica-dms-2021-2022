@@ -4,7 +4,7 @@ from typing import List, Dict
 from sqlalchemy.orm.session import Session  # type: ignore
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.db.results import Answer
-from dms2122backend.data.db.resultsets import Answers
+from dms2122backend.logic.answerlogic import AnswerLogic
 
 class AnswersServices():
     """ Monostate class that provides high-level services to handle answer-related use cases.
@@ -30,7 +30,7 @@ class AnswersServices():
 
         session: Session = schema.new_session()
         try:
-            Answers.answer(session, username, number, questionId)
+            AnswerLogic.create(session, username, number, questionId)
 
         except Exception as ex:
             raise ex
@@ -50,7 +50,7 @@ class AnswersServices():
         """
         out: List[Dict] = []
         session: Session = schema.new_session()
-        answers: List[Answer] = Answers.list_all_for_user(session, username)
+        answers: List[Answer] = AnswerLogic.list_all_for_user(session, username)
         for answer in answers:
             out.append({
                 'id': answer.id,
@@ -58,7 +58,7 @@ class AnswersServices():
                 'number': answer.number
             })
         schema.remove_session()
-        return answers
+        return out
 
 
     @staticmethod
@@ -74,7 +74,7 @@ class AnswersServices():
         """
         out: List[Dict] = []
         session: Session = schema.new_session()
-        answers: List[Answer] = Answers.list_all_for_question(session, questionId)
+        answers: List[Answer] = AnswerLogic.list_all_for_question(session, questionId)
         for answer in answers:
             out.append({
                 'id': answer.id,
@@ -82,7 +82,7 @@ class AnswersServices():
                 'number': answer.number
             })
         schema.remove_session()
-        return answer
+        return out
 
 
     @staticmethod
@@ -97,7 +97,7 @@ class AnswersServices():
             - nool: True if question has answers, False if not
         """
         session: Session = schema.new_session()
-        answer = Answers.question_has_answers(session, questionId)
+        answer: bool = AnswerLogic.question_has_answers(session, questionId)
         schema.remove_session()
         return answer
 
@@ -115,9 +115,9 @@ class AnswersServices():
         """
         session: Session = schema.new_session()
         out: Dict = {}
-        answer = Answers.get_answer(session, user, id)
+        answer: Answer = AnswerLogic.get_answer(session, user, id)
         out['id'] = answer.id
         out['username'] = answer.user
         out['number'] = answer.number
         schema.remove_session()
-        return answer
+        return out
