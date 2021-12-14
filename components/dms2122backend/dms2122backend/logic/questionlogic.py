@@ -16,7 +16,7 @@ class QuestionLogic():
 
     @staticmethod
     def create(auth_service: AuthService, token_info: Dict, session: Session, title: str,  body: str, option1: str, 
-                    option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
+                    option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Question:
         """ Creates a new question record.
 
         Note:
@@ -67,32 +67,6 @@ class QuestionLogic():
         return Questions.list_all(session)
 
     @staticmethod
-    def get_question(session: Session, title: str,  body: str, option1: str, 
-            option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
-        """ Determines whether a question exists or not.
-
-        Args:
-            - session (Session): The session object.
-            - title: (str): A string with the question title.
-            - body (str): A string with the question body.
-            - option1 (str): A string with option1.
-            - option2 (str): A string with option2.
-            - option3 (str): A string with option3.
-            - correct_answer (int): A integer for the correct option on question.
-            - punctuation (float): A float with the punctuation of the question.
-            - penalty (float): A float with the penalty of fail the question.
-
-        Returns:
-            - Optional[Question]: The requested `Question` result.
-        """
-        try:
-            question: Question = Questions.get_question(session, title, body, option1, option2, option3, 
-                                correct_answer, punctuation, penalty)
-        except Exception as ex:
-            raise ex
-        return question
-
-    @staticmethod
     def get_question_by_id(session: Session, id: int,) -> Optional[Question]:
         """ Determines whether a question exists or not.
 
@@ -112,7 +86,7 @@ class QuestionLogic():
 
     @staticmethod
     def edit(auth_service: AuthService, token_info: Dict, session: Session, id: int, title: str,  body: str, option1: str, option2: str,
-             option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
+             option3: str, correct_answer: int, punctuation: float, penalty: float) -> Question:
         """ Edit an exist question.
 
         Args:

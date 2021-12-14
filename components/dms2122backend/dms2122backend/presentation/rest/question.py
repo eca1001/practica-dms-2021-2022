@@ -50,26 +50,6 @@ def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Opt
             )
     return (question, HTTPStatus.OK.value)
 
-def get_question(body: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
-    """Creates a question if the requestor has the Teacher role.
-
-    Args:
-        - body (Dict): A dictionary with the question's data.
-
-    Returns:
-        - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
-          new question data and a code 200 OK. On error, a description message and code:
-            - 400 BAD REQUEST when a mandatory argument is missing.
-    """
-    with current_app.app_context():
-        try:
-            question: Dict = QuestionsServices.get_question(
-                body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
-            )
-        except ValueError:
-            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
-    return (question, HTTPStatus.OK.value)
-
 def get_question_by_id(id: int) -> Tuple[Union[Dict, str], Optional[int]]:
     """Get a question by id.
 

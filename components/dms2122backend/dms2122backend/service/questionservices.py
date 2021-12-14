@@ -12,46 +12,6 @@ class QuestionsServices():
     """
 
     @staticmethod
-    def get_question(title: str,  body: str, option1: str, option2: str, option3: str, 
-                correct_answer: int, punctuation: float, penalty: float, schema: Schema)-> Dict:
-        """
-
-        Args:
-            - title: (str): A string with the question title.
-            - body (str): A string with the question body.
-            - option1 (str): A string with option1.
-            - option2 (str): A string with option2.
-            - option3 (str): A string with option3.
-            - correct_answer (int): A integer for the correct option on question.
-            - punctuation (float): A float with the punctuation of the question.
-            - penalty (float): A float with the penalty of fail the question.
-            - schema (Schema): A database handler where the users are mapped into.
-            
-        Returns:
-            - Dict: A dictionary with the requested question's data.
-        """        
-        
-        session: Session = schema.new_session()
-        out: Dict = {}
-        try:
-            question = QuestionLogic.get_question(session, title, body, option1, option2, option3, 
-                                    correct_answer, punctuation, penalty)
-            out['id'] = question.id
-            out['title'] = question.title
-            out['body'] = question.body
-            out['option1'] = question.option1
-            out['option2'] = question.option2
-            out['option3'] = question.option3
-            out['correct_answer'] = question.correct_answer
-            out['punctuation'] = question.punctuation
-            out['penalty'] = question.penalty
-        except Exception as ex:
-            raise ex
-        finally:
-            schema.remove_session()
-        return out
-
-    @staticmethod
     def get_question_by_id(id: int, schema: Schema)-> Dict:
         """
 
@@ -67,15 +27,16 @@ class QuestionsServices():
         out: Dict = {}
         try:
             question = QuestionLogic.get_question_by_id(session, id)
-            out['id'] = question.id
-            out['title'] = question.title
-            out['body'] = question.body
-            out['option1'] = question.option1
-            out['option2'] = question.option2
-            out['option3'] = question.option3
-            out['correct_answer'] = question.correct_answer
-            out['punctuation'] = question.punctuation
-            out['penalty'] = question.penalty
+            if question is not None:
+                out['id'] = question.id
+                out['title'] = question.title
+                out['body'] = question.body
+                out['option1'] = question.option1
+                out['option2'] = question.option2
+                out['option3'] = question.option3
+                out['correct_answer'] = question.correct_answer
+                out['punctuation'] = question.punctuation
+                out['penalty'] = question.penalty
         except Exception as ex:
             raise ex
         finally:
