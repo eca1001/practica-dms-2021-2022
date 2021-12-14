@@ -20,7 +20,7 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Opti
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
-        - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
+        - Tuple[Optional[str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
             - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
@@ -44,7 +44,7 @@ def answer(authservice: AuthService, body: Dict, token_info: Dict) -> Tuple[Opti
     return (None, HTTPStatus.OK.value)
 
 
-def list_all_for_user(authservice: AuthService, username: str, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
+def list_all_for_user(authservice: AuthService, username: str, token_info: Dict) -> Tuple[Union[List[Dict], str], Optional[int]]:
     """List all question of an specific user if the requestor has the Student role.
 
     Args:
@@ -52,7 +52,7 @@ def list_all_for_user(authservice: AuthService, username: str, token_info: Dict)
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
-        - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
+        - Tuple[Union[List[Dict], str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
             - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
@@ -65,15 +65,15 @@ def list_all_for_user(authservice: AuthService, username: str, token_info: Dict)
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            answer: List[Answer] = AnswersServices.list_all_for_user(
+            answers: List[Dict] = AnswersServices.list_all_for_user(
                 username, current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
-    return (answer, HTTPStatus.OK.value)
+    return (answers, HTTPStatus.OK.value)
 
 
-def list_all_for_question(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[List[Answer], str], Optional[int]]:
+def list_all_for_question(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[List[Dict], str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -81,7 +81,7 @@ def list_all_for_question(authservice: AuthService, questionId: int, token_info:
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
-        - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
+        - Tuple[Union[List[Dict], str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
             - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
@@ -94,12 +94,12 @@ def list_all_for_question(authservice: AuthService, questionId: int, token_info:
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            answer: List[Answer] = AnswersServices.list_all_for_question(
+            answers: List[Dict] = AnswersServices.list_all_for_question(
                 questionId, current_app.db
             )
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
-    return (answer, HTTPStatus.OK.value)
+    return (answers, HTTPStatus.OK.value)
 
 def question_has_answers(authservice: AuthService, questionId: int, token_info: Dict) -> Tuple[Union[bool,str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
@@ -109,7 +109,7 @@ def question_has_answers(authservice: AuthService, questionId: int, token_info: 
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
-        - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
+        - Tuple[Union[bool, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
             - 403 FORBIDDEN when the requestor does not have the rights to answer the question.
@@ -129,7 +129,7 @@ def question_has_answers(authservice: AuthService, questionId: int, token_info: 
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answer, HTTPStatus.OK.value)
 
-def get_answer(username: str, id: int) -> Tuple[Union[Answer, str], Optional[int]]:
+def get_answer(username: str, id: int) -> Tuple[Union[Dict, str], Optional[int]]:
     """Return the answer of an specific question and user.
 
     Args:
@@ -138,13 +138,13 @@ def get_answer(username: str, id: int) -> Tuple[Union[Answer, str], Optional[int
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
-        - Tuple[Union[Answer, str], Optional[int]]: On success, a tuple with the dictionary of the
+        - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
     """
     with current_app.app_context():
         try:
-            answer: Answer = AnswersServices.get_answer(
+            answer: Dict = AnswersServices.get_answer(
                 username, id, current_app.db
             )
         except ValueError:

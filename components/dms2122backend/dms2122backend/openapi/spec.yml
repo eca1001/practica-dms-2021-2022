@@ -447,7 +447,7 @@ components:
   securitySchemes:
     api_key:
       type: apiKey
-      name: X-ApiKey-Auth
+      name: X-ApiKey-Backend
       in: header
       x-apikeyInfoFunc: dms2122backend.presentation.rest.security.verify_api_key
 

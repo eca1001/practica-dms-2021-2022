@@ -38,7 +38,7 @@ class AnswersServices():
             schema.remove_session()
 
     @staticmethod
-    def list_all_for_user(username: str, schema: Schema) -> List[Answer]:
+    def list_all_for_user(username: str, schema: Schema) -> List[Dict]:
         """Lists the existing questions.
 
         Args:
@@ -46,16 +46,23 @@ class AnswersServices():
             - username (str): The user name string.
 
         Returns:
-            - List[Dict]: A list of dictionaries with the questions' data.
+            - List[Dict]: A list of dictionaries with the answers' data.
         """
+        out: List[Dict] = []
         session: Session = schema.new_session()
-        answer = Answers.list_all_for_user(session, username)
+        answers: List[Answer] = Answers.list_all_for_user(session, username)
+        for answer in answers:
+            out.append({
+                'id': answer.id,
+                'username': answer.user,
+                'number': answer.number
+            })
         schema.remove_session()
-        return answer
+        return answers
 
 
     @staticmethod
-    def list_all_for_question(questionId: int, schema: Schema) -> List[Answer]:
+    def list_all_for_question(questionId: int, schema: Schema) -> List[Dict]:
         """Lists the existing questions.
 
         Args:
@@ -63,10 +70,17 @@ class AnswersServices():
             - questionId (int): Id of the question.
 
         Returns:
-            - List[Dict]: A list of dictionaries with the questions' data.
+            - List[Dict]: A list of dictionaries with the answers' data.
         """
+        out: List[Dict] = []
         session: Session = schema.new_session()
-        answer = Answers.list_all_for_question(session, questionId)
+        answers: List[Answer] = Answers.list_all_for_question(session, questionId)
+        for answer in answers:
+            out.append({
+                'id': answer.id,
+                'username': answer.user,
+                'number': answer.number
+            })
         schema.remove_session()
         return answer
 
@@ -88,7 +102,7 @@ class AnswersServices():
         return answer
 
     @staticmethod
-    def get_answer(user: str, id: int, schema: Schema) -> Answer:
+    def get_answer(user: str, id: int, schema: Schema) -> Dict:
         """Return a answer of a certain question and user.
 
         Args:
@@ -97,9 +111,13 @@ class AnswersServices():
             - id (int): The question id.
 
         Returns:
-            - Answer: Answer of the question.
+            - Dict: Answer of the question.
         """
         session: Session = schema.new_session()
+        out: Dict = {}
         answer = Answers.get_answer(session, user, id)
+        out['id'] = answer.id
+        out['username'] = answer.user
+        out['number'] = answer.number
         schema.remove_session()
         return answer

@@ -73,7 +73,7 @@ def get_question(authservice: AuthService, body: Dict, token_info: Dict) -> Tupl
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            question = QuestionsServices.get_question(
+            question: Dict = QuestionsServices.get_question(
                 body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:
@@ -96,7 +96,7 @@ def get_question_by_id(authservice: AuthService, id: int, token_info: Dict) -> T
     """
     with current_app.app_context():
         try:
-            question = QuestionsServices.get_question_by_id(
+            question: Dict = QuestionsServices.get_question_by_id(
                 id, current_app.db
             )
         except ValueError:
@@ -126,7 +126,7 @@ def edit_question(authservice: AuthService, body: Dict, id: int, token_info: Dic
                 HTTPStatus.FORBIDDEN.value
             )
         try:
-            question = QuestionsServices.edit_question(
+            question: Dict = QuestionsServices.edit_question(
                 id, body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:

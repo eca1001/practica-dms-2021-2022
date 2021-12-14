@@ -11,7 +11,8 @@ class QuestionsServices():
     """
 
     @staticmethod
-    def get_question(title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float, schema: Schema)-> Optional[Question]:
+    def get_question(title: str,  body: str, option1: str, option2: str, option3: str, 
+                correct_answer: int, punctuation: float, penalty: float, schema: Schema)-> Dict:
         """
 
         Args:
@@ -26,16 +27,27 @@ class QuestionsServices():
             - schema (Schema): A database handler where the users are mapped into.
             
         Returns:
-            - Optional[Question]: The edited `Question` result.
+            - Dict: A dictionary with the requested question's data.
         """        
         
         session: Session = schema.new_session()
-        question = Questions.get_question(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+        out: Dict = {}
+        question = Questions.get_question(session, title, body, option1, option2, option3, 
+                                correct_answer, punctuation, penalty)
+        out['id'] = question.id
+        out['title'] = question.title
+        out['body'] = question.body
+        out['option1'] = question.option1
+        out['option2'] = question.option2
+        out['option3'] = question.option3
+        out['correct_answer'] = question.correct_answer
+        out['punctuation'] = question.punctuation
+        out['penalty'] = question.penalty
         schema.remove_session()
-        return question
+        return out
 
     @staticmethod
-    def get_question_by_id( id: int, schema: Schema)-> Optional[Question]:
+    def get_question_by_id( id: int, schema: Schema)-> Dict:
         """
 
         Args:
@@ -43,13 +55,23 @@ class QuestionsServices():
             - id (int): A question id.
             
         Returns:
-            - Optional[Question]: The edited `Question` result.
+            - Dict: A dictionary with the requested question's data.
         """        
         
         session: Session = schema.new_session()
+        out: Dict = {}
         question = Questions.get_question_by_id(session, id)
+        out['id'] = question.id
+        out['title'] = question.title
+        out['body'] = question.body
+        out['option1'] = question.option1
+        out['option2'] = question.option2
+        out['option3'] = question.option3
+        out['correct_answer'] = question.correct_answer
+        out['punctuation'] = question.punctuation
+        out['penalty'] = question.penalty
         schema.remove_session()
-        return question
+        return out
 
     @staticmethod
     def list_questions(schema: Schema) -> List[Dict]:
@@ -66,13 +88,22 @@ class QuestionsServices():
         questions: List[Question] = Questions.list_all(session)
         for question in questions:
             out.append({
-                'title': question.title
+                'id': question.id,
+                'title': question.title,
+                'body': question.body,
+                'option1': question.option1,
+                'option2': question.option2,
+                'option3': question.option3,
+                'correct_answer': question.correct_answer,
+                'punctuation': question.punctuation,
+                'penalty': question.penalty
             })
         schema.remove_session()
         return out
 
     @staticmethod
-    def create_question(title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float, schema: Schema) -> Dict:
+    def create_question(title: str,  body: str, option1: str, option2: str, option3: str, 
+                correct_answer: int, punctuation: float, penalty: float, schema: Schema) -> Dict:
         """Creates a question.
 
         Args:
@@ -91,14 +122,22 @@ class QuestionsServices():
             - UserExistsError: If a user with the same username already exists.
 
         Returns:
-            - Dict: A dictionary with the new user's data.
+            - Dict: A dictionary with the new question's data.
         """
 
         session: Session = schema.new_session()
         out: Dict = {}
         try:
             new_question: Question = Questions.create(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+            out['id'] = new_question.id
             out['title'] = new_question.title
+            out['body'] = new_question.body
+            out['option1'] = new_question.option1
+            out['option2'] = new_question.option2
+            out['option3'] = new_question.option3
+            out['correct_answer'] = new_question.correct_answer
+            out['punctuation'] = new_question.punctuation
+            out['penalty'] = new_question.penalty
         except Exception as ex:
             raise ex
         finally:
@@ -121,13 +160,23 @@ class QuestionsServices():
             - penalty (float): A float with the penalty of fail the question.
 
         Returns:
-            - Optional[Question]: The edited `Question` result.
+            - Dict: A dictionary with the edited question's data.
         """
         session: Session = schema.new_session()
+        out: Dict = {}
         try:
             question = Questions.edit(session, id, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+            out['id'] = question.id
+            out['title'] = question.title
+            out['body'] = question.body
+            out['option1'] = question.option1
+            out['option2'] = question.option2
+            out['option3'] = question.option3
+            out['correct_answer'] = question.correct_answer
+            out['punctuation'] = question.punctuation
+            out['penalty'] = question.penalty
         except Exception as ex:
             raise ex
         finally:
             schema.remove_session()
-        return question
+        return out
