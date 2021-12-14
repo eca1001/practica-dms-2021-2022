@@ -2,16 +2,17 @@
 """
 from typing import List, Dict, Optional
 from sqlalchemy.orm.session import Session  # type: ignore
+from dms2122backend.data.rest import AuthService
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.db.results import Question
-from dms2122backend.data.db.resultsets import Questions
+from dms2122backend.logic import QuestionLogic
 
 class QuestionsServices():
     """ Monostate class that provides high-level services to handle question-related use cases.
     """
 
     @staticmethod
-    def get_question(title: str,  body: str, option1: str, option2: str, option3: str, 
+    def get_question(auth_service: AuthService, title: str,  body: str, option1: str, option2: str, option3: str, 
                 correct_answer: int, punctuation: float, penalty: float, schema: Schema)-> Dict:
         """
 
@@ -32,22 +33,26 @@ class QuestionsServices():
         
         session: Session = schema.new_session()
         out: Dict = {}
-        question = Questions.get_question(session, title, body, option1, option2, option3, 
-                                correct_answer, punctuation, penalty)
-        out['id'] = question.id
-        out['title'] = question.title
-        out['body'] = question.body
-        out['option1'] = question.option1
-        out['option2'] = question.option2
-        out['option3'] = question.option3
-        out['correct_answer'] = question.correct_answer
-        out['punctuation'] = question.punctuation
-        out['penalty'] = question.penalty
-        schema.remove_session()
+        try:
+            question = QuestionLogic.get_question(auth_service, session, title, body, option1, option2, option3, 
+                                    correct_answer, punctuation, penalty)
+            out['id'] = question.id
+            out['title'] = question.title
+            out['body'] = question.body
+            out['option1'] = question.option1
+            out['option2'] = question.option2
+            out['option3'] = question.option3
+            out['correct_answer'] = question.correct_answer
+            out['punctuation'] = question.punctuation
+            out['penalty'] = question.penalty
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
         return out
 
     @staticmethod
-    def get_question_by_id( id: int, schema: Schema)-> Dict:
+    def get_question_by_id(auth_service: AuthService, id: int, schema: Schema)-> Dict:
         """
 
         Args:
@@ -60,21 +65,25 @@ class QuestionsServices():
         
         session: Session = schema.new_session()
         out: Dict = {}
-        question = Questions.get_question_by_id(session, id)
-        out['id'] = question.id
-        out['title'] = question.title
-        out['body'] = question.body
-        out['option1'] = question.option1
-        out['option2'] = question.option2
-        out['option3'] = question.option3
-        out['correct_answer'] = question.correct_answer
-        out['punctuation'] = question.punctuation
-        out['penalty'] = question.penalty
-        schema.remove_session()
+        try:
+            question = QuestionLogic.get_question_by_id(auth_service, session, id)
+            out['id'] = question.id
+            out['title'] = question.title
+            out['body'] = question.body
+            out['option1'] = question.option1
+            out['option2'] = question.option2
+            out['option3'] = question.option3
+            out['correct_answer'] = question.correct_answer
+            out['punctuation'] = question.punctuation
+            out['penalty'] = question.penalty
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
         return out
 
     @staticmethod
-    def list_questions(schema: Schema) -> List[Dict]:
+    def list_questions(auth_service: AuthService, schema: Schema) -> List[Dict]:
         """Lists the existing questions.
 
         Args:
@@ -85,7 +94,7 @@ class QuestionsServices():
         """
         out: List[Dict] = []
         session: Session = schema.new_session()
-        questions: List[Question] = Questions.list_all(session)
+        questions: List[Question] = QuestionLogic.list_all(auth_service, session)
         for question in questions:
             out.append({
                 'id': question.id,
@@ -102,7 +111,7 @@ class QuestionsServices():
         return out
 
     @staticmethod
-    def create_question(title: str,  body: str, option1: str, option2: str, option3: str, 
+    def create_question(auth_service: AuthService, title: str,  body: str, option1: str, option2: str, option3: str, 
                 correct_answer: int, punctuation: float, penalty: float, schema: Schema) -> Dict:
         """Creates a question.
 
@@ -128,7 +137,8 @@ class QuestionsServices():
         session: Session = schema.new_session()
         out: Dict = {}
         try:
-            new_question: Question = Questions.create(session, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+            new_question: Question = QuestionLogic.create(auth_service, session, title, body, option1, 
+                                        option2, option3, correct_answer, punctuation, penalty)
             out['id'] = new_question.id
             out['title'] = new_question.title
             out['body'] = new_question.body
@@ -145,7 +155,8 @@ class QuestionsServices():
         return out
 
     @staticmethod
-    def edit_question(id: int, title: str,  body: str, option1: str, option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float, schema: Schema) -> Optional[Question]:
+    def edit_question(auth_service: AuthService, id: int, title: str,  body: str, option1: str, option2: str, option3: str,
+                 correct_answer: int, punctuation: float, penalty: float, schema: Schema) -> Optional[Question]:
         """ Edit an exist question.
 
         Args:
@@ -165,7 +176,8 @@ class QuestionsServices():
         session: Session = schema.new_session()
         out: Dict = {}
         try:
-            question = Questions.edit(session, id, title, body, option1, option2, option3, correct_answer, punctuation, penalty)
+            question = QuestionLogic.edit(auth_service, session, id, title, body, option1, option2, 
+                            option3, correct_answer, punctuation, penalty)
             out['id'] = question.id
             out['title'] = question.title
             out['body'] = question.body
