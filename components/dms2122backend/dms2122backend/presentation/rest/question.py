@@ -23,11 +23,10 @@ def list_questions() -> Tuple[List[Dict], Optional[int]]:
         questions: List[Dict] = QuestionsServices.list_questions(current_app.db)
     return (questions, HTTPStatus.OK.value)
 
-def create_question(auth_service: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
+def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
     """Creates a question if the requestor has the Teacher role.
 
     Args:
-        - auth_service (AuthService): allows to verify users roles.
         - body (Dict): A dictionary with the new question's data.
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
@@ -39,7 +38,7 @@ def create_question(auth_service: AuthService, body: Dict, token_info: Dict) -> 
     """
     with current_app.app_context():
         try:
-            question: Dict = QuestionsServices.create_question(auth_service, 
+            question: Dict = QuestionsServices.create_question(current_app.authservice, token_info,
                 body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:
@@ -51,27 +50,18 @@ def create_question(auth_service: AuthService, body: Dict, token_info: Dict) -> 
             )
     return (question, HTTPStatus.OK.value)
 
-def get_question(auth_service: AuthService, body: Dict, token_info: Dict) -> Tuple[Union[Optional[Question], str], Optional[int]]:
+def get_question(body: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
     """Creates a question if the requestor has the Teacher role.
 
     Args:
-        - auth_service (AuthService): allows to verify users roles.
         - body (Dict): A dictionary with the question's data.
-        - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
         - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
-            - 403 FORBIDDEN when the requestor does not have the rights to create the question.
     """
     with current_app.app_context():
-        response: ResponseData = auth_service.get_user_has_role(session.get('token'), token_info['user_token']['user'], "Teacher")
-        if response.is_successful() == False:
-            return (
-                'Current user has not enough privileges to create a question',
-                HTTPStatus.FORBIDDEN.value
-            )
         try:
             question: Dict = QuestionsServices.get_question(
                 body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
@@ -80,14 +70,11 @@ def get_question(auth_service: AuthService, body: Dict, token_info: Dict) -> Tup
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (question, HTTPStatus.OK.value)
 
-def get_question_by_id(auth_service: AuthService, id: int, token_info: Dict) -> Tuple[Union[Optional[Question], str], Optional[int]]:
+def get_question_by_id(id: int) -> Tuple[Union[Dict, str], Optional[int]]:
     """Get a question by id.
 
     Args:
-        - auth_service (AuthService): allows to verify users roles.
-        - body (Dict): A dictionary with the question's data.
         - id (int): A id for a question.
-        - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
     Returns:
         - Tuple[Union[Dict, str], Optional[int]]: On success, a tuple with the dictionary of the
@@ -103,11 +90,10 @@ def get_question_by_id(auth_service: AuthService, id: int, token_info: Dict) -> 
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (question, HTTPStatus.OK.value)
 
-def edit_question(auth_service: AuthService, body: Dict, id: int, token_info: Dict):
+def edit_question(body: Dict, id: int, token_info: Dict) -> Tuple[Union[Dict, str], Optional[int]]:
     """Edits a question if the requestor has the Teacher role.
 
     Args:
-        - auth_service (AuthService): allows to verify users roles.
         - id (int): A id for a question.
         - token_info (Dict): A dictionary of information provided by the security schema handlers.
 
@@ -120,7 +106,7 @@ def edit_question(auth_service: AuthService, body: Dict, id: int, token_info: Di
     """
     with current_app.app_context():
         try:
-            question: Dict = QuestionsServices.edit_question( auth_service,
+            question: Dict = QuestionsServices.edit_question(current_app.authservice, token_info,
                 id, body['title'], body['body'],  body['option1'], body['option2'], body['option3'], body['correct_answer'], body['punctuation'],body['penalty'],current_app.db
             )
         except ValueError:

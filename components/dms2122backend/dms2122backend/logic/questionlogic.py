@@ -16,7 +16,7 @@ class QuestionLogic():
 
     @staticmethod
     def create(auth_service: AuthService, token_info: Dict, session: Session, title: str,  body: str, option1: str, 
-                    option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Question:
+                    option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
         """ Creates a new question record.
 
         Note:
@@ -24,6 +24,7 @@ class QuestionLogic():
 
         Args:
             - auth_service (AuthService): the authentication service
+            - token_info (Dict): A dictionary of information provided by the security schema handlers.
             - session (Session): The session object.
             - title: (str): A string with the question title.
             - body (str): A string with the question body.
@@ -54,7 +55,7 @@ class QuestionLogic():
         return new_question
 
     @staticmethod
-    def list_all(auth_service: AuthService, session: Session) -> List[Question]:
+    def list_all(session: Session) -> List[Question]:
         """Lists every question.
 
         Args:
@@ -66,7 +67,7 @@ class QuestionLogic():
         return Questions.list_all(session)
 
     @staticmethod
-    def get_question(auth_service: AuthService, session: Session, title: str,  body: str, option1: str, 
+    def get_question(session: Session, title: str,  body: str, option1: str, 
             option2: str, option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Question]:
         """ Determines whether a question exists or not.
 
@@ -82,7 +83,7 @@ class QuestionLogic():
             - penalty (float): A float with the penalty of fail the question.
 
         Returns:
-            - Optional[Question]: The created `Question` result.
+            - Optional[Question]: The requested `Question` result.
         """
         try:
             question: Question = Questions.get_question(session, title, body, option1, option2, option3, 
@@ -92,7 +93,7 @@ class QuestionLogic():
         return question
 
     @staticmethod
-    def get_question_by_id(auth_service: AuthService, session: Session, id: int,) -> Optional[Question]:
+    def get_question_by_id(session: Session, id: int,) -> Optional[Question]:
         """ Determines whether a question exists or not.
 
         Args:
@@ -101,7 +102,7 @@ class QuestionLogic():
 
 
         Returns:
-            - Optional[Question]: The created `Question` result.
+            - Optional[Question]: The requested `Question` result.
         """
         try:
             question = Questions.get_question_by_id(session, id)
@@ -116,6 +117,7 @@ class QuestionLogic():
 
         Args:
             - auth_service (AuthService): the authentication service
+            - token_info (Dict): A dictionary of information provided by the security schema handlers.
             - id (int): A question id.
             - title: (str): A string with the question title.
             - body (str): A string with the question body.

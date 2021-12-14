@@ -4,12 +4,14 @@ import os
 import inspect
 import logging
 import connexion
+from typing import Dict
 from connexion.apps.flask_app import FlaskJSONEncoder
 from flask import current_app
 from flask.logging import default_handler
 import dms2122backend
 from dms2122backend.data.config import BackendConfiguration
 from dms2122backend.data.db import Schema
+from dms2122backend.data.rest import AuthService
 
 
 if __name__ == '__main__':
@@ -27,12 +29,21 @@ if __name__ == '__main__':
             "serve_spec": True
         }
     )
+
+    auth_service_cfg: Dict = cfg.get_auth_service()
+    auth_service: AuthService = AuthService(
+        auth_service_cfg['host'], auth_service_cfg['port'],
+        apikey_header='X-ApiKey-Auth',
+        apikey_secret=auth_service_cfg['apikey_secret']
+    )
+
     app.add_api("spec.yml", strict_validation=True)
     flask_app = app.app
     flask_app.json_encoder = FlaskJSONEncoder
     with flask_app.app_context():
         current_app.db = db
         current_app.cfg = cfg
+        current_app.authservice = auth_service
 
     root_logger = logging.getLogger()
     root_logger.addHandler(default_handler)
@@ -43,3 +54,4 @@ if __name__ == '__main__':
         debug=cfg.get_debug_flag(),
         use_reloader=False
     )
+
