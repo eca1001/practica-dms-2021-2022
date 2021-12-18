@@ -138,4 +138,4 @@ class AnswersServices():
             raise ex
         finally:
             schema.remove_session()
-        return answer
+        return out
