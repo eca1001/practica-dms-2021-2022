@@ -51,15 +51,20 @@ class AnswersServices():
         """
         out: List[Dict] = []
         session: Session = schema.new_session()
-        answers: List[Answer] = AnswerLogic.list_all_for_user(session, username)
-        for answer in answers:
-            out.append({
-                'id': answer.id,
-                'username': answer.user,
-                'number': answer.number
-            })
-        schema.remove_session()
+        try:
+            answers: List[Answer] = AnswerLogic.list_all_for_user(session, username)
+            for answer in answers:
+                out.append({
+                    'id': answer.id,
+                    'username': answer.user,
+                    'number': answer.number
+                })
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
         return out
+
 
 
     @staticmethod
@@ -75,14 +80,18 @@ class AnswersServices():
         """
         out: List[Dict] = []
         session: Session = schema.new_session()
-        answers: List[Answer] = AnswerLogic.list_all_for_question(session, questionId)
-        for answer in answers:
-            out.append({
-                'id': answer.id,
-                'username': answer.user,
-                'number': answer.number
-            })
-        schema.remove_session()
+        try:
+            answers: List[Answer] = AnswerLogic.list_all_for_question(session, questionId)
+            for answer in answers:
+                out.append({
+                    'id': answer.id,
+                    'username': answer.user,
+                    'number': answer.number
+                })
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
         return out
 
 
@@ -98,8 +107,12 @@ class AnswersServices():
             - bool: True if question has answers, False if not
         """
         session: Session = schema.new_session()
-        answer: bool = AnswerLogic.question_has_answers(auth_service,token_info,session, questionId)
-        schema.remove_session()
+        try:
+            answer: bool = AnswerLogic.question_has_answers(auth_service,token_info,session, questionId)
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
         return answer
 
     @staticmethod
@@ -116,9 +129,13 @@ class AnswersServices():
         """
         session: Session = schema.new_session()
         out: Dict = {}
-        answer: Answer = AnswerLogic.get_answer(session, user, id)
-        out['id'] = answer.id
-        out['username'] = answer.user
-        out['number'] = answer.number
-        schema.remove_session()
-        return out
+        try:
+            answer: Answer = AnswerLogic.get_answer(session, user, id)
+            out['id'] = answer.id
+            out['username'] = answer.user
+            out['number'] = answer.number
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return answer

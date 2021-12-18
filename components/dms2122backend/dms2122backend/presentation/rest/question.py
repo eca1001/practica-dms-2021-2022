@@ -35,6 +35,7 @@ def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Opt
           new question data and a code 200 OK. On error, a description message and code:
             - 400 BAD REQUEST when a mandatory argument is missing.
             - 403 FORBIDDEN when the requestor does not have the rights to create the question.
+            - 409 CONFLICT when there is already a question with this data
     """
     with current_app.app_context():
         try:
@@ -48,6 +49,8 @@ def create_question(body: Dict, token_info: Dict) -> Tuple[Union[Dict, str], Opt
                 'Current user has not enough privileges to create a question',
                 HTTPStatus.FORBIDDEN.value
             )
+        except QuestionExistsError:
+            return ('There is already a question with this data', HTTPStatus.CONFLICT.value)
     return (question, HTTPStatus.OK.value)
 
 def get_question_by_id(id: int) -> Tuple[Union[Dict, str], Optional[int]]:

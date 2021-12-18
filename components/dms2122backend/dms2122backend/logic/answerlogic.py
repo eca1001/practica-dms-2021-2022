@@ -51,7 +51,10 @@ class AnswerLogic():
         Returns:
             - List[Answer]: A list of Answer with the answers' data.
         """
-        return Answers.list_all_for_user(session, user)
+        try:
+            return Answers.list_all_for_user(session, user)
+        except Exception as ex:
+            raise ex
 
     @staticmethod
     def list_all_for_question(session: Session,id: int) -> List[Answer]:
@@ -64,7 +67,10 @@ class AnswerLogic():
         Returns:
             - List[Answer]: A list of Answer with the answers' data.
         """
-        return Answers.list_all_for_question(session, id)
+        try:
+            return Answers.list_all_for_question(session, id)
+        except Exception as ex:
+            raise ex        
 
     @staticmethod
     def question_has_answers(auth_service: AuthService, token_info: Dict, session: Session,id: int) -> bool:
@@ -83,7 +89,11 @@ class AnswerLogic():
                                                 token_info['user_token']['user'], "Teacher")
         if response.is_successful() == False:
             raise ForbiddenOperationError
-        return Answers.question_has_answers(session,id)
+        try:
+            return Answers.question_has_answers(session,id)
+        except Exception as ex:
+            raise ex        
+
 
     @staticmethod
     def get_answer(session: Session ,user: str, id: int) -> Answer:

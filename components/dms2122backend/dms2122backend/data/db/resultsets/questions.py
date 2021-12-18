@@ -76,6 +76,8 @@ class Questions():
         Returns:
             - Optional[Question]: The created `Question` result.
         """
+        if not id:
+            raise ValueError('All fields are required.')
         try:
             query = session.query(Question).filter_by(id=id)
             question: Question = query.one()
@@ -101,6 +103,9 @@ class Questions():
         Returns:
             - Optional[Question]: The edited `Question` result.
         """
+        if not title or not body or not option1 or not option2 or not option3 or not correct_answer or not punctuation or not penalty:
+            raise ValueError('All fields are required.')
+            
         edit_question = Questions.get_question_by_id(session, id)
 
         if edit_question is not None:
