@@ -49,15 +49,6 @@ class TeacherEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
 
-        #test values until backfront is completed
-        questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
-                        "option1" : "A", "option2" : "B", "option3" : "C", 
-                        "correct_answer": 1, "punctuation": 1.5, "penalty": 0.5},
-                    {"title" : "Pregunta de prueba 2", "body" : "cuerpo pregunta 2",
-                        "option1" : "A", "option2" : "B", "option3" : "C", 
-                        "correct_answer": 3, "punctuation": 1, "penalty": 0.2}
-                   ]     
-
         return render_template('teacher/questions.html', name=name, roles=session['roles'], 
                                     questions=WebQuestion.list_questions(backend_service))
     
@@ -131,7 +122,7 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        id: int = int(request.args.get('questionid'))
+        id: int = int(str(request.args.get('questionid')))
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')
         return render_template('teacher/questions/edit.html', name=name, roles=session['roles'], 
             redirect_to=redirect_to, question = WebQuestion.get_question(backend_service ,id))
@@ -153,7 +144,7 @@ class TeacherEndpoints():
 
         successful: bool = True
         successful &= WebQuestion.edit_question(backend_service,
-                                                request.form['questionid'],
+                                                request.form['id'],
                                                 request.form['title'],
                                                 request.form['body'],
                                                 request.form['option1'],
@@ -163,7 +154,6 @@ class TeacherEndpoints():
                                                 request.form['punctuation'],
                                                 request.form['penalty']
                                                 )
-        session['questions'] = WebQuestion.get_question(backend_service, session['question'])
 
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')        
         return redirect(redirect_to)
@@ -184,10 +174,10 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        title: str = str(request.args.get('questiontitle'))
+        id: int = int(str(request.args.get('questionid')))
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')  
         return render_template('teacher/questions/preview.html', name=name, roles=session['roles'],
-                                redirect_to=redirect_to, title=title)
+                                redirect_to=redirect_to, question=WebQuestion.get_question(backend_service ,id))
     
     @staticmethod
     def get_teacher_questions_stats(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:

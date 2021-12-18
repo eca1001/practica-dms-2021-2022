@@ -46,7 +46,7 @@ class WebQuestion():
 
     @staticmethod
     def edit_question(backend_service: BackendService, id: int, title: str,  body: str, option1: str, option2: str, 
-            option3: str, correct_answer: int, punctuation: float, penalty: float) -> Optional[Dict]:
+            option3: str, correct_answer: int, punctuation: float, penalty: float) -> bool:
         """ Edits a question in the backend service.
 
         Args:
@@ -59,7 +59,7 @@ class WebQuestion():
         response: ResponseData = backend_service.edit_question(session.get('token'), id, title, body, option1, option2,
                         option3, correct_answer, punctuation, penalty)
         WebUtils.flash_response_messages(response)
-        return response.get_content()
+        return response.is_successful()
 
     @staticmethod
     def get_question(backend_service: BackendService, id: int) -> Optional[Dict]:

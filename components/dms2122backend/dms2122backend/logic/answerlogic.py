@@ -40,6 +40,7 @@ class AnswerLogic():
             raise ex
         return new_answer
 
+    @staticmethod
     def list_all_for_user(session: Session,user: str) -> List[Answer]:
         """Lists the existing questions.
 
@@ -52,6 +53,7 @@ class AnswerLogic():
         """
         return Answers.list_all_for_user(session, user)
 
+    @staticmethod
     def list_all_for_question(session: Session,id: int) -> List[Answer]:
         """Lists the existing questions.
 
@@ -64,6 +66,7 @@ class AnswerLogic():
         """
         return Answers.list_all_for_question(session, id)
 
+    @staticmethod
     def question_has_answers(auth_service: AuthService, token_info: Dict, session: Session,id: int) -> bool:
         """Return True or False if a certain question has answers.
 
@@ -82,6 +85,7 @@ class AnswerLogic():
             raise ForbiddenOperationError
         return Answers.question_has_answers(session,id)
 
+    @staticmethod
     def get_answer(session: Session ,user: str, id: int) -> Answer:
         """Return a answer of a certain question and user.
 

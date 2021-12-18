@@ -28,7 +28,7 @@ class QuestionsServices():
         try:
             question = QuestionLogic.get_question_by_id(session, id)
             if question is not None:
-                out['id'] = question.id
+                out['id'] = question.id     # type: ignore
                 out['title'] = question.title
                 out['body'] = question.body
                 out['option1'] = question.option1
@@ -58,7 +58,7 @@ class QuestionsServices():
         questions: List[Question] = QuestionLogic.list_all(session)
         for question in questions:
             out.append({
-                'id': question.id,
+                'id': question.id,     # type: ignore
                 'title': question.title,
                 'body': question.body,
                 'option1': question.option1,
@@ -102,7 +102,7 @@ class QuestionsServices():
         try:
             new_question: Question = QuestionLogic.create(auth_service, token_info, session, title, body, option1, 
                                         option2, option3, correct_answer, punctuation, penalty)
-            out['id'] = new_question.id
+            out['id'] = new_question.id     # type: ignore
             out['title'] = new_question.title
             out['body'] = new_question.body
             out['option1'] = new_question.option1
@@ -143,7 +143,7 @@ class QuestionsServices():
         try:
             question = QuestionLogic.edit(auth_service, token_info, session, id, title, body, option1, option2, 
                             option3, correct_answer, punctuation, penalty)
-            out['id'] = question.id
+            out['id'] = question.id     # type: ignore
             out['title'] = question.title
             out['body'] = question.body
             out['option1'] = question.option1

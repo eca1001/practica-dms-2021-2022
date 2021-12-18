@@ -5,46 +5,39 @@
     {% block questioncontent %}
     <form action="/teacher/questions/new" method="post">
         <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
-        <input type="hidden" name="title" value="{{ title }}" />
-        <input type="hidden" name="body" value="{{ body }}" />
-        <input type="hidden" name="option1" value="{{ option1 }}" />
-        <input type="hidden" name="option2" value="{{ option2 }}" />
-        <input type="hidden" name="option3" value="{{ option3 }}" />
-        <input type="hidden" name="correct_answer" value="{{ correct_answer }}" />
-        <input type="hidden" name="punctuation" value="{{ punctuation }}" />
-        <input type="hidden" name="penalty" value="{{ penalty }}" />
+        <input type="hidden" name="id" value="{{ question['id'] }}" />
         <dl>
             <dt>Title</dt>
             <dd>
-                <input type="text" name="title" value= "{{ title }}"  />
+                <input type="text" name="title" value= "{{ question['title'] }}"  />
             </dd>
             <dt>Body</dt>
             <dd>
-                <textarea name="Body" rows="10" cols="50"> {{ body }} </textarea> 
+                <textarea name="body" rows="10" cols="50"> {{ question['body'] }} </textarea> 
             </dd>
             <dt>Option 1</dt>
             <dd>
-                <input type="text" name="option1" value= "{{ option1 }}"  />
+                <input type="text" name="option1" value= "{{ question['option1'] }}"  />
             </dd>
             <dt>Option 2</dt>
             <dd>
-                <input type="text" name="option2" value= "{{ option2 }}"  />
+                <input type="text" name="option2" value= "{{ question['option2'] }}"  />
             </dd>
             <dt>Option 3</dt>
             <dd>
-                <input type="text" name="option3" value= "{{ option3 }}" />
+                <input type="text" name="option3" value= "{{ question['option3'] }}" />
             </dd>
             <dt>Number of the correct answer</dt>
             <dd>
-                <input type="number" name="correct_answer" min="1", max="3", value= "{{ correct_answer }}"  />
+                <input type="number" name="correct_answer" min="1", max="3", value= "{{ question['correct_answer'] }}"  />
             </dd>
             <dt>Punctuation</dt>
             <dd>
-                <input type="number" name="punctuation", step="0.1", min="0", max="10.0", value= "{{ punctuation }}" />
+                <input type="number" name="punctuation", step="0.1", min="0", max="10.0", value= "{{ question['punctuation'] }}" />
             </dd>
             <dt>Penalty</dt>
             <dd>
-                <input type="number" name="penalty", step="0.1", min="0", max="10.0", value= "{{ penalty }}" />
+                <input type="number" name="penalty", step="0.1", min="0", max="10.0", value= "{{ question['penalty'] }}" />
             </dd>
         </dl>
         </dl>
