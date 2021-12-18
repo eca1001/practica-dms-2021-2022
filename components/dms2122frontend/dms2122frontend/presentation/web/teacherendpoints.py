@@ -2,7 +2,7 @@
 """
 
 from typing import Text, Union
-from flask import redirect, url_for, session, render_template, request
+from flask import redirect, url_for, session, render_template, request, flash
 from werkzeug.wrappers import Response
 from dms2122common.data import Role
 from dms2122frontend.data.rest.backendservice import BackendService
@@ -103,8 +103,26 @@ class TeacherEndpoints():
             return redirect(url_for('get_login'))
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
-
-        redirect_to = request.args.get('redirect_to', default='/teacher/questions')        
+        
+        if not request.form['correct_answer'] or not request.form['punctuation'] or not request.form['penalty']:
+            flash('A mandatory argument is missing', 'error')
+            return redirect(url_for('get_teacher_questions_new'))
+            
+        new_question = WebQuestion.create_question(backend_service,
+                                                request.form['title'],
+                                                request.form['body'],
+                                                request.form['option1'],
+                                                request.form['option2'],
+                                                request.form['option3'],
+                                                int(request.form['correct_answer']),
+                                                float(request.form['punctuation']),
+                                                float(request.form['penalty'])
+                                                )
+        if not new_question:
+            return redirect(url_for('get_teacher_questions_new'))
+        redirect_to = request.form['redirect_to']
+        if not redirect_to:
+            redirect_to = url_for('get_teacher_questions')
         return redirect(redirect_to)
     
     @staticmethod

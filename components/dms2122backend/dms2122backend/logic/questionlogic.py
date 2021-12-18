@@ -43,10 +43,10 @@ class QuestionLogic():
             - Question: The created `Question` result.
         """
 
-        response: ResponseData = auth_service.get_user_has_role(session.get('token'), 
+        '''response: ResponseData = auth_service.get_user_has_role(session.get('token'), 
                                                 token_info['user_token']['user'], "Teacher")
         if response.is_successful() == False:
-            raise ForbiddenOperationError
+            raise ForbiddenOperationError'''
         try:
             new_question: Question = Questions.create(session, title, body, option1, 
                                     option2, option3, correct_answer, punctuation, penalty)
