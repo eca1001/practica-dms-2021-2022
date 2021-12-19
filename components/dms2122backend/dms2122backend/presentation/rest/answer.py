@@ -71,7 +71,7 @@ def list_answers() -> Tuple[List[Dict], Optional[int]]:
           and a code 200 OK.
     """
     with current_app.app_context():
-        answers: List[Dict] = AnswersServices.list_questions(current_app.db)
+        answers: List[Dict] = AnswersServices.list_answers(current_app.db)
     return (answers, HTTPStatus.OK.value)
 
 def list_all_for_question(id: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
