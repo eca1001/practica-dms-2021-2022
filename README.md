@@ -56,7 +56,7 @@ Los permisos a cada usuario deben darse desde Admin, seleccionando el usuario al
  
 Los profesores, desde la ventana “Teacher” puede ver y crear preguntas desde “Question management” o ver el progreso de los alumnos desde “Student progress”. La primera opción nos permite ver una pregunta como si fuésemos un estudiante y contestarla (no cuanta para las estadísticas) con la opción “Preview”, editar una pregunta si todavía no ha sido contestado con la opción “Edit” y crear nuevas preguntas con “Create new question”.
 
-![image](https://user-images.githubusercontent.com/56863859/144721035-30eb9f31-59cd-4cb8-b2ca-916a99e200d2.png)
+![image](https://user-images.githubusercontent.com/56863859/146693688-25021145-37e7-472a-be4f-9f6382ae06aa.png)
  
 Para crear una pregunta se deben rellenar todos los campos, los cuales son: un título, el cuerpo de la pregunta, 3 opciones, indicador de la opción correcta, puntuación de la pregunta, y penalización de esta.
 
