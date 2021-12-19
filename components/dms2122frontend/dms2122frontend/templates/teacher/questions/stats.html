@@ -2,6 +2,28 @@
 {% block contentsubheading %}View question statistics{% endblock %}
 {% block teachercontent %}
     {% block questioncontent %}
-    <p class="yellowbg">Under construction</p>
+    <table class="fillwidth highlightrows">
+        <tbody>
+            <tr>
+                <th class="alignleft">Question Title</th><th></th>
+                <th class="alignleft">Total Answers</th><th></th>
+                <th class="alignleft">Option 1</th><th></th>
+                <th class="alignleft">Option 2</th><th></th>
+                <th class="alignleft">Option 3</th><th></th>
+                <th class="alignleft">Average</th><th></th>
+            </tr>
+        
+            {% for stat in stats %}
+            <tr>
+                <td class="alignleft">{{ stat['title'] }}</td>
+                <td class="alignleft">{{ stat['n_answers'] }}</td>
+                <td class="alignleft">{{ stat['n_opcion1'] }}</td>
+                <td class="alignleft">{{ stat['n_opcion2'] }}</td>
+                <td class="alignleft">{{ stat['n_opcion3'] }}</td>
+                <td class="alignleft">{{ stat['avg_punctuation'] }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endblock %}
 {% endblock %}

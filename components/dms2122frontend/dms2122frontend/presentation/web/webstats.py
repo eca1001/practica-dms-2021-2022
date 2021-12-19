@@ -26,4 +26,17 @@ class WebStats():
         response: ResponseData = backend_service.user_stats(session.get('token'), username)
         WebUtils.flash_response_messages(response)
         return response.get_content()
-    
+
+    @staticmethod
+    def question_stats(backend_service: BackendService) -> Optional[Dict]:
+        """ Get a question's stats.
+
+        Args:
+            - backend_service (BackendService): The backend service.
+
+        Returns:
+            - Dict: A dictionary of statistics data dictionaries (the dict may be empty)
+        """
+        response: ResponseData = backend_service.question_stats(session.get('token'))
+        WebUtils.flash_response_messages(response)
+        return response.get_content()

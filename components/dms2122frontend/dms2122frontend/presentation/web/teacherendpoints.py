@@ -217,4 +217,5 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('teacher/questions/stats.html', name=name, roles=session['roles'])
+        return render_template('teacher/questions/stats.html', name=name, 
+                    stats=WebStats.question_stats(backend_service), roles=session['roles'])
