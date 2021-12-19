@@ -151,7 +151,7 @@ class AnswersServices():
     @staticmethod
     def answer_punctuation(answer:Answer,schema: Schema)-> Optional[float]:
         session: Session = schema.new_session()   
-        punctuation: float =0     
+        punctuation: Optional[float] =0     
         try:
             if punctuation is not None:
                 punctuation = AnswerLogic.answer_punctuation(session,answer)    
