@@ -30,3 +30,11 @@ def questions_stats() -> Tuple[Union[List[Dict], str], Optional[int]]:
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (questions_sta, HTTPStatus.OK.value)
+
+def users_stats() -> Tuple[Union[List[Dict], str], Optional[int]]:
+    with current_app.app_context():
+        try:
+            users_stats: List[Dict]  = StatsServices.users_stats(current_app.db )
+        except ValueError:
+            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
+    return (users_stats, HTTPStatus.OK.value)

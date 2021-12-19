@@ -98,5 +98,22 @@ class StatsLogic():
         
     @staticmethod
     def users_stats(session: Session) -> List[Dict]:
-        """
-        """
+        try:
+            values: List = []
+            answers:List[Answer]=AnswerLogic.list_all(session)
+            all_users:List=[]
+            for answer in answers:
+                user:str=answer.user
+                if not user in all_users:
+                    all_users.append(user)
+            
+            for user in all_users:
+                dic:Dict=StatsLogic.user_stats(session,user)
+                values.append(dic)
+
+            return values
+        except Exception as ex:
+            raise ex
+
+
+

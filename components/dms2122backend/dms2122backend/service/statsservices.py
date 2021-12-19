@@ -31,4 +31,16 @@ class StatsServices():
             raise ex
         finally:
             schema.remove_session()
-        return out      
+        return out  
+
+    @staticmethod
+    def users_stats(schema: Schema)-> List[Dict]:
+        session: Session = schema.new_session()
+        out: List[Dict] = []
+        try:
+            out = StatsLogic.users_stats(session)
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return out  
