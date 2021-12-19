@@ -233,7 +233,7 @@ class BackendService():
 
         response_data: ResponseData = ResponseData()
         response: requests.Response = requests.post(
-            self.__base_url() + f'/question/{id}/answer{username}',
+            self.__base_url() + f'/question/{id}/answer/{username}',
             json={
                 'username': username,
                 'number': number,

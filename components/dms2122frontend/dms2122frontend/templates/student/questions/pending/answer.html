@@ -11,9 +11,9 @@
                 {{ question['body'] }}
             </dd>
             <dd id="questiondd">
-                <input type="radio" name="option" value="opcion1" >{{ question['option1'] }}<br>
-                <input type="radio" name="option" value="opcion2" >{{ question['option2'] }}<br>
-                <input type="radio" name="option" value="opcion3" >{{ question['option3'] }}<br>
+                <input type="radio" name="option" value="option1" required>{{ question['option1'] }}<br>
+                <input type="radio" name="option" value="option2" >{{ question['option2'] }}<br>
+                <input type="radio" name="option" value="option3" >{{ question['option3'] }}<br>
             </dd>
         </dl>
         <p class="alignright">{{ submit_button('bluebg', 'Answer Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>

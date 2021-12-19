@@ -13,7 +13,7 @@ class AnswerLogic():
     """ Monostate class that provides logic-level operations to handle answer-related use cases.
     """
     @staticmethod
-    def create(auth_service: AuthService, token_info: Dict, session: Session, user: str, number: int, id: int) -> Answer:
+    def create(auth_service: AuthService, session: Session, user: str, number: int, id: int, token_info: Dict) -> Answer:
         """ Creates a new answer record.
 
         Note:
@@ -30,10 +30,10 @@ class AnswerLogic():
         Returns:
             - Answer: The created `Answer` result.
         """
-        response: ResponseData = auth_service.get_user_has_role(session.get('token'), 
+        '''response: ResponseData = auth_service.get_user_has_role(session.get('token'), 
                                                 token_info['user_token']['user'], "Student")
         if response.is_successful() == False:
-            raise ForbiddenOperationError
+            raise ForbiddenOperationError'''
         try:
             new_answer: Answer = Answers.answer(session, user, number, id)
         except Exception as ex:
@@ -57,7 +57,7 @@ class AnswerLogic():
             raise ex
 
     @staticmethod
-    def list_all_for_question(session: Session,id: int) -> List[Answer]:
+    def list_all_for_question3(session: Session, id: int) -> List[Answer]:
         """Lists the existing questions.
 
         Args:
@@ -68,7 +68,7 @@ class AnswerLogic():
             - List[Answer]: A list of Answer with the answers' data.
         """
         try:
-            return Answers.list_all_for_question(session, id)
+            return Answers.list_all_for_question4(session, id)
         except Exception as ex:
             raise ex        
 

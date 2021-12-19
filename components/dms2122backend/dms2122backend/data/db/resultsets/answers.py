@@ -8,7 +8,6 @@ from sqlalchemy.orm.session import Session  # type: ignore
 from sqlalchemy.orm.exc import NoResultFound  # type: ignore
 from dms2122backend.data.db.results import Answer
 from dms2122backend.data.db.exc.questionorusernotfounderror import QuestionOrUserNotFoundError
-from dms2122backend.data.db.exc import UserNotFoundError
 
 class Answers():
     """ Class responsible of table-level answers operations.
@@ -28,7 +27,6 @@ class Answers():
 
         Raises:  
             - ValueError: If any field is empty.
-            - UserNotFoundError: If the user who answers the question does not exist.
             - QuestionNotFoundError: If the question to be answered does not exist.
 
         Returns:
@@ -70,7 +68,7 @@ class Answers():
         return query.all()
 
     @staticmethod
-    def list_all_for_question(session: Session, id: int) -> List[Answer]:
+    def list_all_for_question4(session: Session, id: int) -> List[Answer]:
         """Lists the `answers made to a certain question.
 
         Args:

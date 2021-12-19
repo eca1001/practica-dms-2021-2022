@@ -17,4 +17,5 @@ Questions.create(session, "Pregunta de prueba 1", "cuerpo pregunta 1",
                         "A", "B", "C", 1, 1.5, 0.5)
 Questions.create(session, "Pregunta de prueba 2", "cuerpo pregunta 2",
                         "A", "B", "C", 3, 1, 0.2)
+Answers.answer(session, "admin", 2, 1)
 db.remove_session()

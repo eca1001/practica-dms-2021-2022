@@ -274,9 +274,9 @@ paths:
         '200':
           description: The question has been answered.
           content:
-            'text/plain':
+            'application/json':
               schema:
-                type: string
+                $ref: '#/components/schemas/AnswerFullModel'
         '400':
           description: A mandatory parameter was not given.
           content:
@@ -335,7 +335,7 @@ paths:
   /answers/{id}:
     get:
       summary: Gets all answers to a question.
-      operationId: dms2122backend.presentation.rest.answer.list_all_for_question
+      operationId: dms2122backend.presentation.rest.answer.list_all_for_question1
       parameters:
         - name: id
           in: path

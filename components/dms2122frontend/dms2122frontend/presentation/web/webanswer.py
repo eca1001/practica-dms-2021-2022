@@ -18,11 +18,11 @@ class WebAnswer():
         Args:
             - backend_service (BackendService): The backend service.
             - id: Question id
-            - number: Number of the correct answer
+            - number: Number of the selected answer
             - username: Students' username
 
         Returns:
-            - Dict: A dictionary with the newly created question if successful.
+            - Dict: A dictionary with the newly created answer if successful.
             - None: Nothing on error.
         """
         response: ResponseData = backend_service.answer_question(session.get('token'), id, number, username)
