@@ -77,6 +77,7 @@ class StatsLogic():
                         punt = AnswerLogic.answer_punctuation(session,ans)
                         if punt is not None:
                             question_punctuation=question_punctuation+punt
+                    dic['title']=ques.title
                     dic['n_answers']=n_answers
                     dic['n_opcion1']=n_opcion1
                     dic['n_opcion2']=n_opcion2
@@ -84,6 +85,7 @@ class StatsLogic():
                     dic['avg_punctuation']=question_punctuation/(n_answers)
                     values.append(dic)
                 else:
+                    dic['title']=ques.title
                     dic['n_answers']=0
                     dic['n_opcion1']=0
                     dic['n_opcion2']=0
