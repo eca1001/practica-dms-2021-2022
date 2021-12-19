@@ -394,12 +394,12 @@ paths:
         - answers
       security:
         - api_key: []
-  /stats/{username}:
+  /stats/{user}:
     get:
       summary: Gets the stats for a user.
       operationId: dms2122backend.presentation.rest.stats.user_stats
       parameters:
-        - name: username
+        - name: user
           in: path
           required: true
           schema:
@@ -410,7 +410,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/AnswersFullListModel'
+                $ref: '#/components/schemas/StatsUserModel'
         '400':
           description: Errors in the request.
           content:
@@ -528,6 +528,23 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/AnswerFullModel'
+    
+    StatsUserModel:
+      type: object
+      properties:
+        n_answers:
+          type: integer
+        user_punctuation:
+          type: number
+        score_answered:
+          type: number
+        score_all_questions:
+          type: number
+      required:
+        - n_answers
+        - user_punctuation
+        - score_answered
+        - score_all_questions
 
   securitySchemes:
     api_key:

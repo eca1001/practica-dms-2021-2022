@@ -5,7 +5,7 @@ from dms2122backend.service import StatsServices
 from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 
-def user_stats(user: str)->Tuple[Union[List, str], Optional[int]]:
+def user_stats(user: str)->Tuple[Union[Dict, str], Optional[int]]:
     """Get a user stats.
 
     Args:
@@ -18,7 +18,7 @@ def user_stats(user: str)->Tuple[Union[List, str], Optional[int]]:
     """
     with current_app.app_context():
         try:
-            user_stats: List = StatsServices.user_stats(
+            user_stats: Dict = StatsServices.user_stats(
                 user, current_app.db
             )
         except ValueError:
