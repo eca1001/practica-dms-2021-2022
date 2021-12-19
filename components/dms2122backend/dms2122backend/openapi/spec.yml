@@ -48,7 +48,6 @@ paths:
         - questions
       security:
         - api_key: []
-
   /questions/{username}/pending:
     get:
       summary: Gets a listing of pending questions for a user.
@@ -76,7 +75,6 @@ paths:
         - questions
       security:
         - api_key: []
-
   /questions/{username}/answered:
     get:
       summary: Gets a listing of answered questions for a user.
@@ -93,7 +91,7 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/QuestionsFullListModel'
+                $ref: '#/components/schemas/AnsweredQuestionsListModel'
         '400':
           description: Errors in the request.
           content:
@@ -104,7 +102,6 @@ paths:
         - questions
       security:
         - api_key: []
-
   /question/new:
     post:
       summary: Creates a new question.
@@ -332,6 +329,21 @@ paths:
         - answers
       security:
         - api_key: []
+  /answers:
+    get:
+      summary: Gets a listing of answers.
+      operationId: dms2122backend.presentation.rest.answer.list_answers
+      responses:
+        '200':
+          description: A list of answers.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersFullListModel'
+      tags:
+        - questions
+      security:
+        - api_key: []
   /answers/{id}:
     get:
       summary: Gets all answers to a question.
@@ -394,6 +406,50 @@ paths:
         - answers
       security:
         - api_key: []
+  /stats/questions:
+    get:
+      summary: Gets the stats for all the questions.
+      operationId: dms2122backend.presentation.rest.stats.questions_stats
+      responses:
+        '200':
+          description: The list of stats for questions.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatsQuestionFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
+  /stats/users:
+    get:
+      summary: Gets the stats for all user.
+      operationId: dms2122backend.presentation.rest.stats.users_stats
+      responses:
+        '200':
+          description: The list of stats for that user.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatsUserFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
   /stats/{username}:
     get:
       summary: Gets the stats for a user.
@@ -422,65 +478,7 @@ paths:
         - answers
       security:
         - api_key: []
-  /stats/questions:
-    get:
-      summary: Gets the stats for all the questions.
-      operationId: dms2122backend.presentation.rest.stats.questions_stats
-      responses:
-        '200':
-          description: The list of stats for questions.
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/StatsQuestionFullListModel'
-        '400':
-          description: Errors in the request.
-          content:
-            'text/plain':
-              schema:
-                type: string
-      tags:
-        - questions
-        - answers
-      security:
-        - api_key: []
-  /answers:
-    get:
-      summary: Gets a listing of answers.
-      operationId: dms2122backend.presentation.rest.answer.list_answers
-      responses:
-        '200':
-          description: A list of answers.
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/AnswersFullListModel'
-      tags:
-        - questions
-      security:
-        - api_key: []
-  /stats/users:
-    get:
-      summary: Gets the stats for all user.
-      operationId: dms2122backend.presentation.rest.stats.users_stats
-      responses:
-        '200':
-          description: The list of stats for that user.
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/StatsUserFullListModel'
-        '400':
-          description: Errors in the request.
-          content:
-            'text/plain':
-              schema:
-                type: string
-      tags:
-        - questions
-        - answers
-      security:
-        - api_key: []
+
 
 components:
   schemas:
@@ -554,6 +552,8 @@ components:
           type: number
         penalty:
           type: number
+        answered:
+          type: integer
       required:
         - id
         - title
@@ -568,6 +568,44 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/QuestionFullIdModel'
+    
+    AnsweredQuestionModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        option1:
+          type: string
+        option2:
+          type: string
+        option3:
+          type: string
+        correct_answer:
+          type: integer
+        punctuation:
+          type: number
+        penalty:
+          type: number
+        answer_result:
+          type: number
+      required:
+        - id
+        - title
+        - body
+        - option1
+        - option2
+        - option3
+        - correct_answer
+        - punctuation
+        - penalty
+    AnsweredQuestionsListModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/AnsweredQuestionModel'
 
     AnswerFullModel:
       type: object

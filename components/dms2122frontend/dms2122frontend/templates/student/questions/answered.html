@@ -12,7 +12,7 @@
                 {% for question in questions %}
                     <tr class="highlightable">
                         <td class="alignleft">{{ question['title'] }}</td>
-                        <td class="aligncenter">{{ question['score'] }}</td>
+                        <td class="aligncenter">{{ question['answer_result'] }}</td>
                         <td class="alignright">{{ button('bluebg', '/student/questions/answered/view?questionid=' + question['id']|string + '&redirect_to=/student/questions/answered', 'View') }}</td>                        
                     </tr>
                 {% endfor %}

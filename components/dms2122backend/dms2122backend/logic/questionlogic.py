@@ -58,7 +58,7 @@ class QuestionLogic():
         return new_question
 
     @staticmethod
-    def list_all(session: Session) -> List[Question]:
+    def list_all(session: Session) -> List[List]:
         """Lists every question.
 
         Args:
@@ -67,7 +67,14 @@ class QuestionLogic():
         Returns:
             - List[Question]: A list of `Question` registers.
         """
-        return Questions.list_all(session)
+        questions = Questions.list_all(session)
+        list_of_questions : List[List] = []
+        for question in questions:
+            if (Answers.question_has_answers(session, question.id)):     # type: ignore
+                list_of_questions.append([question, 1])
+            else:
+                list_of_questions.append([question, 0])
+        return list_of_questions
 
     @staticmethod
     def get_question_by_id(session: Session, id: int,) -> Optional[Question]:
@@ -142,7 +149,7 @@ class QuestionLogic():
         return pending
 
     @staticmethod
-    def list_answered_for_user(session: Session, user: str) -> List[Question]:
+    def list_answered_for_user(session: Session, user: str) -> List[List]:
         """Lists the answered questions for a user.
 
         Args:
@@ -154,12 +161,12 @@ class QuestionLogic():
         """
         try:
             questions = Questions.list_all(session)
-            answered = []
+            answered: List[List] = []
             for question in questions:
-                ans = Answers.get_answer(session, user, question.id)
-                if ans is not None:     # type: ignore
+                ans = Answers.get_answer(session, user, question.id)    # type: ignore
+                if ans is not None: 
                     punctuation = AnswerLogic.answer_punctuation(session, ans)
-                    answered.append(list(question,punctuation))
+                    answered.append([question,punctuation])
         except Exception as ex:
             raise ex
         return answered

@@ -8,8 +8,8 @@ from dms2122backend.data.db.results import Answer
 from dms2122backend.data.db.resultsets import Answers
 from dms2122backend.logic.exc.forbiddenoperationerror import ForbiddenOperationError
 from dms2122common.data.rest import ResponseData
-from dms2122backend.logic.questionlogic import QuestionLogic
 from dms2122backend.data.db.results import Question
+from dms2122backend.data.db.resultsets import Questions
 
 
 class AnswerLogic():
@@ -131,7 +131,7 @@ class AnswerLogic():
     @staticmethod
     def answer_punctuation(session: Session,answer:Answer)->Optional[float]:
         try:
-            question: Optional[Question] = QuestionLogic.get_question_by_id(session,answer.id)
+            question: Optional[Question] = Questions.get_question_by_id(session,answer.id)
             if question is not None:
                 if question.correct_answer==answer.number:
                     return question.punctuation
