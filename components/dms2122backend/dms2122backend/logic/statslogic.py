@@ -19,8 +19,8 @@ class StatsLogic():
         return total_punctuation
 
     @staticmethod
-    def user_stats(session: Session, user: str)-> List[int,float, float, float]:
-        values = []
+    def user_stats(session: Session, user: str)-> List:
+        values: List = []
         try:
             user_answers:List[Answer]=AnswerLogic.list_all_for_user(session,user)
 
@@ -40,8 +40,13 @@ class StatsLogic():
             
             score_answered=user_punctuation/answered_questions_punctuation*10
             score_all_questions=user_punctuation/StatsLogic.all_questions_puntuation*10
-            values.append(n_answers,user_punctuation,score_answered,score_all_questions)
+            values.append(n_answers)
+            values.append(user_punctuation)
+            values.append(score_answered)
+            values.append(score_all_questions)
+            
+            return values
         except Exception as ex:
             raise ex
-        return values
+        
         
