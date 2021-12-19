@@ -54,7 +54,7 @@ class TeacherEndpoints():
                                     questions=WebQuestion.list_questions(backend_service))
     
     @staticmethod
-    def get_teacher_students(auth_service: AuthService) -> Union[Response, Text]:
+    def get_teacher_students(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
         """ Handles the GET requests to the student progress endpoint.
 
         Args:
@@ -68,7 +68,8 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('teacher/students.html', name=name, roles=session['roles'])
+        return render_template('teacher/students.html', name=name, 
+        stats=WebStats.users_stats(backend_service),roles=session['roles'])
 
     
     @staticmethod

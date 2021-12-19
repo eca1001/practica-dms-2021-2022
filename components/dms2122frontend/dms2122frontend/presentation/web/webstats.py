@@ -28,15 +28,33 @@ class WebStats():
         return response.get_content()
 
     @staticmethod
-    def question_stats(backend_service: BackendService) -> Optional[Dict]:
+    def question_stats(backend_service: BackendService) -> Optional[List[Dict]]:
         """ Get a question's stats.
 
         Args:
             - backend_service (BackendService): The backend service.
 
         Returns:
-            - Dict: A dictionary of statistics data dictionaries (the dict may be empty)
+            - List[Dict]: A list of dictionary of statistics data dictionaries (the dict may be empty)
         """
         response: ResponseData = backend_service.question_stats(session.get('token'))
         WebUtils.flash_response_messages(response)
-        return response.get_content()
+        if response.get_content() is not None and isinstance(response.get_content(), list):
+            return list(response.get_content())
+        return []
+    
+    @staticmethod
+    def users_stats(backend_service: BackendService) -> Optional[List[Dict]]:
+        """ Get a users's stats.
+
+        Args:
+            - backend_service (BackendService): The backend service.
+
+        Returns:
+            - List[Dict]: A list of dictionary of statistics data dictionaries (the dict may be empty)
+        """
+        response: ResponseData = backend_service.users_stats(session.get('token'))
+        WebUtils.flash_response_messages(response)
+        if response.get_content() is not None and isinstance(response.get_content(), list):
+            return list(response.get_content())
+        return []

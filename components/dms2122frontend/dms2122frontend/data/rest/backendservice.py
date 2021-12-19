@@ -428,3 +428,29 @@ class BackendService():
             response_data.add_message(response.content.decode('ascii'))
             response_data.set_content([])
         return response_data
+
+    def users_stats(self, token: Optional[str]) -> ResponseData:
+        """ Get question's stats.
+
+        Args:
+            - token (Optional[str]): The user session token.
+
+        Returns:
+            - ResponseData: If successful, the contents hold a list of stat data dictionaries.
+              Otherwise, the contents will be an empty list.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f'/stats/users',
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+            response_data.set_content([])
+        return response_data
