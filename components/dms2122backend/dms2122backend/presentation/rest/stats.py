@@ -20,5 +20,5 @@ def user_stats(username: str)->Tuple[Union[Dict, str], Optional[int]]:
         try:
             user_stats: Dict = StatsServices.user_stats( username, current_app.db )
         except ValueError as ex:
-            return (ex.args, HTTPStatus.BAD_REQUEST.value)        
+            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (user_stats, HTTPStatus.OK.value)
