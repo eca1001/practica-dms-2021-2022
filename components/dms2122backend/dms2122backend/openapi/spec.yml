@@ -444,7 +444,21 @@ paths:
         - answers
       security:
         - api_key: []
-
+  /answers:
+    get:
+      summary: Gets a listing of answers.
+      operationId: dms2122backend.presentation.rest.answer.list_answers
+      responses:
+        '200':
+          description: A list of answers.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersFullListModel'
+      tags:
+        - questions
+      security:
+        - api_key: []
 
 components:
   schemas:
