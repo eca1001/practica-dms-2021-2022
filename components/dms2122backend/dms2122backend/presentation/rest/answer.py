@@ -63,6 +63,16 @@ def list_all_for_user(username: str) -> Tuple[Union[List[Dict], str], Optional[i
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answers, HTTPStatus.OK.value)
 
+def list_answers() -> Tuple[List[Dict], Optional[int]]:
+    """Lists the existing questions.
+
+    Returns:
+        - Tuple[List[Dict], Optional[int]]: A tuple with a list of dictionaries for the questions' data
+          and a code 200 OK.
+    """
+    with current_app.app_context():
+        answers: List[Dict] = AnswersServices.list_questions(current_app.db)
+    return (answers, HTTPStatus.OK.value)
 
 def list_all_for_question(id: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.

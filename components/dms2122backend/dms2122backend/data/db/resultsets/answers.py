@@ -129,3 +129,16 @@ class Answers():
             user=user, id=id
         )
         return query.one_or_none()
+
+    @staticmethod
+    def list_all(session: Session) -> List[Answer]:
+        """Lists every answer.
+
+        Args:
+            - session (Session): The session object.
+
+        Returns:
+            - List[Answer]: A list of `Answer` registers.
+        """
+        query = session.query(Answer)
+        return query.all()

@@ -42,6 +42,18 @@ class AnswerLogic():
         except Exception as ex:
             raise ex
         return new_answer
+    
+    @staticmethod
+    def list_all(session: Session) -> List[Answer]:
+        """Lists every question.
+
+        Args:
+            - session (Session): The session object.
+
+        Returns:
+            - List[Question]: A list of `Question` registers.
+        """
+        return Answers.list_all(session)
 
     @staticmethod
     def list_all_for_user(session: Session,user: str) -> List[Answer]:

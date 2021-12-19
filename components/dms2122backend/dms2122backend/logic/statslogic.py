@@ -96,3 +96,7 @@ class StatsLogic():
         except Exception as ex:
             raise ex
         
+    @staticmethod
+    def users_stats(session: Session) -> List[Dict]:
+        """
+        """

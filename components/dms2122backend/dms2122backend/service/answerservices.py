@@ -45,6 +45,28 @@ class AnswersServices():
         return out
 
     @staticmethod
+    def list_answers(schema: Schema) -> List[Dict]:
+        """Lists the existing answers.
+
+        Args:
+            - schema (Schema): A database handler where the answers are mapped into.
+
+        Returns:
+            - List[Dict]: A list of dictionaries with the answers' data.
+        """
+        out: List[Dict] = []
+        session: Session = schema.new_session()
+        answers: List[Answer] = AnswerLogic.list_all(session)
+        for answ in answers:
+            out.append({
+                'id': answ.id,     
+                'number': answ.number,
+                'user': answ.user,
+            })
+        schema.remove_session()
+        return out
+
+    @staticmethod
     def list_all_for_user(username: str, schema: Schema) -> List[Dict]:
         """Lists the existing questions.
 
