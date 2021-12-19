@@ -394,12 +394,12 @@ paths:
         - answers
       security:
         - api_key: []
-  /stats/{user}:
+  /stats/{username}:
     get:
       summary: Gets the stats for a user.
       operationId: dms2122backend.presentation.rest.stats.user_stats
       parameters:
-        - name: user
+        - name: username
           in: path
           required: true
           schema:

@@ -1,15 +1,15 @@
 """ REST API controllers responsible of handling the stats operations.
 """
 from flask import current_app, session
-from dms2122backend.service import StatsServices
+from dms2122backend.service.statsservices import StatsServices
 from typing import Tuple, Union, Optional, List, Dict
 from http import HTTPStatus
 
-def user_stats(user: str)->Tuple[Union[Dict, str], Optional[int]]:
+def user_stats(username: str)->Tuple[Union[Dict, str], Optional[int]]:
     """Get a user stats.
 
     Args:
-        - user (str): A user whose statistics we want to know.
+        - username (str): A user whose statistics we want to know.
 
     Returns:
         - Tuple[Union[List, str], Optional[int]]: On success, a tuple with the dictionary of the
@@ -18,9 +18,7 @@ def user_stats(user: str)->Tuple[Union[Dict, str], Optional[int]]:
     """
     with current_app.app_context():
         try:
-            user_stats: Dict = StatsServices.user_stats(
-                user, current_app.db
-            )
-        except ValueError:
-            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
+            user_stats: Dict = StatsServices.user_stats( username, current_app.db )
+        except ValueError as ex:
+            return (ex.args, HTTPStatus.BAD_REQUEST.value)        
     return (user_stats, HTTPStatus.OK.value)

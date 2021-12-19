@@ -160,17 +160,21 @@ class TeacherEndpoints():
         if Role.Teacher.name not in session['roles']:
             return redirect(url_for('get_home'))
 
+        if not request.form['correct_answer'] or not request.form['punctuation'] or not request.form['penalty']:
+            flash('A mandatory argument is missing', 'error')
+            return redirect(url_for('get_teacher_questions'))
+
         successful: bool = True
         successful &= WebQuestion.edit_question(backend_service,
-                                                request.form['id'],
+                                                int(request.form['id']),
                                                 request.form['title'],
                                                 request.form['body'],
                                                 request.form['option1'],
                                                 request.form['option2'],
                                                 request.form['option3'],
-                                                request.form['correct_amswer'],
-                                                request.form['punctuation'],
-                                                request.form['penalty']
+                                                int(request.form['correct_amswer']),
+                                                float(request.form['punctuation']),
+                                                float(request.form['penalty'])
                                                 )
 
         redirect_to = request.args.get('redirect_to', default='/teacher/questions')        

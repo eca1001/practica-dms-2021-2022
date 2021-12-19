@@ -10,11 +10,11 @@ class StatsServices():
     """
 
     @staticmethod
-    def user_stats(user: str, schema: Schema)-> Dict:
+    def user_stats(username: str, schema: Schema)-> Dict:
         session: Session = schema.new_session()
         out: Dict = {}
         try:
-            out = StatsLogic.user_stats(session,user)
+            out = StatsLogic.user_stats(session, username)
         except Exception as ex:
             raise ex
         finally:

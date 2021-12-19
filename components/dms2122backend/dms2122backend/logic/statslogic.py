@@ -5,6 +5,7 @@ from sqlalchemy.orm.session import Session  # type: ignore
 from dms2122backend.logic.answerlogic import AnswerLogic
 from dms2122backend.logic.questionlogic import QuestionLogic
 from dms2122backend.data.db.results import Answer, Question
+from dms2122backend.data.db.resultsets import Answers
 
 class StatsLogic():
     """ Monostate class that provides logic-level operations to handle statistics-related use cases.
@@ -22,7 +23,7 @@ class StatsLogic():
     def user_stats(session: Session, user: str)-> Dict:
         values: Dict = {}
         try:
-            user_answers:List[Answer]=AnswerLogic.list_all_for_user(session,user)
+            user_answers:List[Answer]=Answers.list_all_for_user(session, user)
 
             n_answers: int = len(user_answers)
             user_punctuation:float = 0

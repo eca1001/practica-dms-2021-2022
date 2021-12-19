@@ -323,7 +323,7 @@ class BackendService():
             - ResponseData: If successful, the contents hold the new question's data.
         """
         response_data: ResponseData = ResponseData()
-        response: requests.Response = requests.post(
+        response: requests.Response = requests.put(
             self.__base_url() + f'/question/{id}',
             json={
                 'id': id,
