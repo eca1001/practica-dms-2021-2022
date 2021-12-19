@@ -73,6 +73,10 @@ Los alumnos, pueden acceder a “Questions” donde pueden contestar las pregunt
 En la ventana de "Student progress” el usuario podrá ver información a cerca de las preguntas que ha respondido, su puntuación total y su puntuación en base 10 de aquellas preguntas que ha respondido, y por último, la nota sobre 10 con respectoa todas la preguntas que tiene que respondeer.
 ![image](https://user-images.githubusercontent.com/56863859/146692592-17ac2bbd-9b88-4b87-b832-cd7df7035c82.png)
 
+Además, los alumnos, pueden acceder a “Answered Questions” donde pueden ver las preguntas que han sido contestadas, junto a su puntuación y la revisión de esta.
+
+![image](https://user-images.githubusercontent.com/56863859/146693300-fb3bc6a3-a554-4a65-b8fc-c4757cf90a5d.png)
+
 ## Components
 
 The source code of the components is available under the `components` direcotry.
