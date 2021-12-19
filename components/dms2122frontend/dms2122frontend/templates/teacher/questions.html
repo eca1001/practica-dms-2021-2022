@@ -5,13 +5,17 @@
 <table class="fillwidth highlightrows">
     <tbody>
         <tr>
-            <th class="alignleft">Question Title</th><th></th>
+            <th class="alignleft">Question Title</th><th></th><th></th>
         </tr>
         {% for question in questions %}
             <tr class="highlightable">
                 <td class="alignleft">{{ question['title'] }}</td>
-                <td class="alignright">{{ button('yellowbg', '/teacher/questions/preview?questionid=' + question['id']|string + '&redirect_to=/teacher/questions', 'Preview') }}
-                                        {{ button('bluebg', '/teacher/questions/edit?questionid=' + question['id']|string + '&redirect_to=/teacher/questions', 'Edit') }}</td>
+                <td class="alignright">{{ button('yellowbg', '/teacher/questions/preview?questionid=' + question['id']|string + '&redirect_to=/teacher/questions', 'Preview') }}</td>
+                {%if question['answered'] == 0 %}
+                    <td class="alignright">{{ button('bluebg', '/teacher/questions/edit?questionid=' + question['id']|string + '&redirect_to=/teacher/questions', 'Edit') }}</td>
+                {%else%}
+                    <td class="alignright"></td>
+                {%endif%}
             </tr>
         {% endfor %}
     </tbody>

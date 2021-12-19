@@ -209,7 +209,7 @@ class QuestionsServices():
         out: List[Dict] = []
         session: Session = schema.new_session()
         try:
-            questions: List[Question,float] = QuestionLogic.list_answered_for_user(session, user)
+            questions: List[List] = QuestionLogic.list_answered_for_user(session, user)
             for list_entry in questions:
                 question: Question = list_entry[0]
                 punctuation: float = list_entry[1] 

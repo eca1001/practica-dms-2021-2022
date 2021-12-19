@@ -13,10 +13,11 @@ class StatsLogic():
 
     @staticmethod
     def all_questions_puntuation(session: Session)->float:
-        questions:List[Question]=QuestionLogic.list_all(session)
+        questions:List[List]=QuestionLogic.list_all(session)
         total_punctuation:float=0
         for ques in questions:
-            total_punctuation=total_punctuation+ques.punctuation
+            question: Question = ques[0]
+            total_punctuation=total_punctuation+question.punctuation
         return total_punctuation
 
     @staticmethod
@@ -53,10 +54,11 @@ class StatsLogic():
     @staticmethod
     def questions_stats(session: Session)-> List[Dict]:
         try:
-            questions:List[Question]=QuestionLogic.list_all(session)
+            questions:List[List]=QuestionLogic.list_all(session)
             values: List = []
             for ques in questions:
-                answers: List[Answer] = AnswerLogic.list_all_for_question(session,ques.id) # type: ignore
+                question: Question = ques[0]
+                answers: List[Answer] = AnswerLogic.list_all_for_question(session,question.id) # type: ignore
                 n_answers=len(answers)
                 dic: Dict={}
                 if n_answers >0:
@@ -77,7 +79,7 @@ class StatsLogic():
                         punt = AnswerLogic.answer_punctuation(session,ans)
                         if punt is not None:
                             question_punctuation=question_punctuation+punt
-                    dic['title']=ques.title
+                    dic['title']=question.title
                     dic['n_answers']=n_answers
                     dic['n_opcion1']=n_opcion1
                     dic['n_opcion2']=n_opcion2
@@ -85,7 +87,7 @@ class StatsLogic():
                     dic['avg_punctuation']=question_punctuation/(n_answers)
                     values.append(dic)
                 else:
-                    dic['title']=ques.title
+                    dic['title']=question.title
                     dic['n_answers']=0
                     dic['n_opcion1']=0
                     dic['n_opcion2']=0
