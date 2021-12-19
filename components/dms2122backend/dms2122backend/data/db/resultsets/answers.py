@@ -68,7 +68,7 @@ class Answers():
         return query.all()
 
     @staticmethod
-    def list_all_for_question4(session: Session, id: int) -> List[Answer]:
+    def list_all_for_question(session: Session, id: int) -> List[Answer]:
         """Lists the `answers made to a certain question.
 
         Args:

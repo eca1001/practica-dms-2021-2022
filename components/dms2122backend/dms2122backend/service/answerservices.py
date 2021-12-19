@@ -12,7 +12,7 @@ class AnswersServices():
     """
 
     @staticmethod
-    def answer(auth_service: AuthService, username: str, number: int, questionId: int, schema: Schema, token_info: Dict) -> None:
+    def answer(auth_service: AuthService, username: str, number: int, questionId: int, schema: Schema, token_info: Dict) -> Dict:
         """Answer a question.
 
         Args:
@@ -30,7 +30,7 @@ class AnswersServices():
         """
 
         session: Session = schema.new_session()
-        out = {}
+        out: Dict = {}
         try:
             answer = AnswerLogic.create(auth_service, session, username, number, questionId, token_info)
             if answer is not None:
@@ -74,7 +74,7 @@ class AnswersServices():
 
 
     @staticmethod
-    def list_all_for_question2(questionId: int, schema: Schema) -> List[Dict]:
+    def list_all_for_question(questionId: int, schema: Schema) -> List[Dict]:
         """Lists the existing questions.
 
         Args:
@@ -87,7 +87,7 @@ class AnswersServices():
         out: List[Dict] = []
         session: Session = schema.new_session()
         try:
-            answers: List[Answer] = AnswerLogic.list_all_for_question3(session, questionId)
+            answers: List[Answer] = AnswerLogic.list_all_for_question(session, questionId)
             for answer in answers:
                 out.append({
                     'id': answer.id,

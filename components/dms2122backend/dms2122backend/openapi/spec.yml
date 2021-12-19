@@ -335,7 +335,7 @@ paths:
   /answers/{id}:
     get:
       summary: Gets all answers to a question.
-      operationId: dms2122backend.presentation.rest.answer.list_all_for_question1
+      operationId: dms2122backend.presentation.rest.answer.list_all_for_question
       parameters:
         - name: id
           in: path

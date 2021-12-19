@@ -64,7 +64,7 @@ def list_all_for_user(username: str) -> Tuple[Union[List[Dict], str], Optional[i
     return (answers, HTTPStatus.OK.value)
 
 
-def list_all_for_question1(id: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
+def list_all_for_question(id: int) -> Tuple[Union[List[Dict], str], Optional[int]]:
     """List all answers of an specific question if the requestor has the Teacher role.
 
     Args:
@@ -78,7 +78,7 @@ def list_all_for_question1(id: int) -> Tuple[Union[List[Dict], str], Optional[in
     """
     with current_app.app_context():
         try:
-            answers: List[Dict] = AnswersServices.list_all_for_question2(
+            answers: List[Dict] = AnswersServices.list_all_for_question(
                 id, current_app.db
             )
         except ValueError:

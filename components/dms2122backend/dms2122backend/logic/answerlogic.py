@@ -57,7 +57,7 @@ class AnswerLogic():
             raise ex
 
     @staticmethod
-    def list_all_for_question3(session: Session, id: int) -> List[Answer]:
+    def list_all_for_question(session: Session, id: int) -> List[Answer]:
         """Lists the existing questions.
 
         Args:
@@ -68,7 +68,7 @@ class AnswerLogic():
             - List[Answer]: A list of Answer with the answers' data.
         """
         try:
-            return Answers.list_all_for_question4(session, id)
+            return Answers.list_all_for_question(session, id)
         except Exception as ex:
             raise ex        
 
