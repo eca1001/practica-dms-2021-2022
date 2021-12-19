@@ -139,10 +139,10 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        title: str = str(request.args.get('questiontitle'))
+        id: int = int(str(request.args.get('questionid')))
         redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
         return render_template('student/questions/pending/answer.html', name=name, 
-                                roles=session['roles'], redirect_to=redirect_to, title=title)
+            roles=session['roles'], redirect_to=redirect_to, question = WebQuestion.get_question(backend_service ,id))
 
     @staticmethod
     def post_student_questions_pending_answer(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
