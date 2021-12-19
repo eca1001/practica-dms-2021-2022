@@ -115,5 +115,6 @@ Por último, las clases de la capa de presentación que implementan las funciona
 
 La estructura de templates está dividida por carpetas, en la que cada una de ellas representa un rol dentro de la aplicación (a excepción de macros). Dentro de estas carpetas se divide a su vez en más carpetas según las funcionalidades que vayan necesitando, simulando la estructura de URLs de la página web. En cuanto al formato y estilo de los componentes, se maneja en el fichero `style.css` de la carpeta `static`. En su interior se encuentra definido el estilo que va a tomar la web, indicando los colores y la separación de la parte superior, el menú de navegación, márgenes... Además, también incluye el estilo de las tablas, los botones e incluso el menú de login. 
 
+
 Por último, indicar que queríamos realizar macros para los formularios de responder preguntas y listar preguntas con el fin de evitar repetir código, pero no hemos tenido el tiempo necesario como para poder implementarlos sin errores.
 
