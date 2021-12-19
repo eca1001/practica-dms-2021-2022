@@ -117,9 +117,9 @@ class AnswerLogic():
         return answer
 
     @staticmethod
-    def answer_punctuation(session: Session,answer:Answer)->int:
+    def answer_punctuation(session: Session,answer:Answer)->float:
         try:
-            question: Question = QuestionLogic.get_question_by_id(answer.id)
+            question: Optional[Question] = QuestionLogic.get_question_by_id(session,answer.id)
             if question.correct_answer==answer.number:
                 return question.punctuation
             return -question.penalty

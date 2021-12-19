@@ -149,9 +149,9 @@ class AnswersServices():
 
 
     @staticmethod
-    def answer_punctuation(answer:Answer,schema: Schema)->int:
+    def answer_punctuation(answer:Answer,schema: Schema)->float:
         session: Session = schema.new_session()   
-        punctuation: int=0     
+        punctuation: float=0     
         try:
             punctuation = AnswerLogic.answer_punctuation(session,answer)
             schema.remove_session()
