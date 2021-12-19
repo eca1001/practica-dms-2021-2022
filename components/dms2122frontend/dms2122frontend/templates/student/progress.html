@@ -6,16 +6,16 @@
     <table class="fillwidth highlightrows">
         <tbody>
             <tr>
-                <th class="alignleft">Total answered questions</th>
+                <th class="alignleft">Total answered questions:</th>
+                <th class="alignleft">Total unctuation:</th>
+                <th class="alignleft">Punctuation out of 10 over all questions:</th>
+                <th class="alignleft">Punctuation out of 10 over answered questions:</th>
             </tr>
             <tr>
-                <th class="alignleft">Punctuation</th>
-            </tr>
-            <tr>
-                <th class="alignleft">Punctuation over all questions</th>
-            </tr>
-            <tr>
-                <th class="alignleft">Punctuation over answered questions</th>
+                <td class="alignleft">{{ stats['n_answers'] }}</th>
+                <td class="alignleft">{{ stats['user_punctuation'] }}</th>
+                <td class="alignleft">{{ stats['score_all_questions'] }}</th>
+                <td class="alignleft">{{ stats['score_answered'] }}</th>
             </tr>
         </tbody>
     </table>

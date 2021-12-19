@@ -4,6 +4,8 @@
 from .webauth import WebAuth
 from .webuser import WebUser
 from .webquestion import WebQuestion
+from .webanswer import WebAnswer
+from .webstats import WebStats
 from .webutils import WebUtils
 
 from .adminendpoints import AdminEndpoints

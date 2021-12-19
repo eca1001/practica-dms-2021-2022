@@ -10,6 +10,7 @@ from dms2122frontend.data.rest.authservice import AuthService
 from .webauth import WebAuth
 from .webquestion import WebQuestion
 from .webanswer import WebAnswer
+from .webstats import WebStats
 
 
 class TeacherEndpoints():

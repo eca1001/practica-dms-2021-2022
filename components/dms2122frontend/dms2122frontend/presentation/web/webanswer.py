@@ -35,9 +35,10 @@ class WebAnswer():
 
         Args:
             - backend_service (BackendService): The backend service.
+            - id (int): the question's id
 
         Returns:
-            - List: A list of user data dictionaries (the list may be empty)
+            - List: A list of answer data dictionaries (the list may be empty)
         """
         response: ResponseData = backend_service.list_all_for_question(session.get('token'), id)
         WebUtils.flash_response_messages(response)
@@ -51,9 +52,10 @@ class WebAnswer():
 
         Args:
             - backend_service (BackendService): The backend service.
+            - username (str): the user's name
 
         Returns:
-            - List: A list of user data dictionaries (the list may be empty)
+            - List: A list of answer data dictionaries (the list may be empty)
         """
         response: ResponseData = backend_service.list_all_for_user(session.get('token'), username)
         WebUtils.flash_response_messages(response)

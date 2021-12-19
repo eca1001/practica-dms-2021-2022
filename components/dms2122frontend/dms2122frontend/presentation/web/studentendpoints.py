@@ -10,6 +10,7 @@ from dms2122frontend.data.rest.backendservice import BackendService
 from .webauth import WebAuth
 from .webquestion import WebQuestion
 from .webanswer import WebAnswer
+from .webstats import WebStats
 
 
 class StudentEndpoints():
@@ -64,7 +65,8 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        return render_template('student/progress.html', name=name, roles=session['roles'])
+        return render_template('student/progress.html', name=name, 
+                    stats=WebStats.user_stats(backend_service, name), roles=session['roles'])
 
     @staticmethod
     def get_student_questions_answered(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
