@@ -394,6 +394,34 @@ paths:
         - answers
       security:
         - api_key: []
+  /stats/{username}:
+    get:
+      summary: Gets the stats for a user.
+      operationId: dms2122backend.presentation.rest.stats.user_stats
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The list of stats for that user.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AnswersFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
 
 
 components:
