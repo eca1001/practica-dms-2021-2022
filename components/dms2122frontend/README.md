@@ -97,21 +97,23 @@ The following macros/components are provided:
 
 ## Architecture 
 
-El diseño de frontend de la página web se divide en las siguientes partes: 
+El diseño de frontend de la página web consiste en una arquitectura de 2 capas, con una capa de origen de datos y otra capa de presentación. Se divide en las siguientes partes: 
 
 - Manejo de endpoints: 
 
-Los endpoints se declaran en el fichero de python dms2122frontend situado en la carpeta bin. Cada uno de estos endpoints tendrá una función que llamará a la función correspondiente de ficheros situados en la carpeta `presentation/web`. Esos ficheros serán `adminendpoints.py`, `commonendpoints.py`, `sessionendpoints.py`, `teacherendpoints.py` y `studentendpoints.py`, cada uno con las funciones correspondientes a su nombre. La estructura es así para poder mantener los principios SOLID de Single Responsibility e Interface Segregation, de modo que cada clase tenga solo sus responsabilidades de una parte concreta de la página web, y que dependa solamente de los métodos y clases necesarios para su funcionamiento. 
+Los endpoints se declaran en el fichero de python dms2122frontend situado en la carpeta bin. Cada uno de estos endpoints tendrá una función que llamará a la función correspondiente de ficheros situados en capa de presentación. Esos ficheros serán `adminendpoints.py`, `commonendpoints.py`, `sessionendpoints.py`, `teacherendpoints.py` y `studentendpoints.py`, cada uno con las funciones correspondientes a su nombre. La estructura es así para poder mantener los principios SOLID de Single Responsibility e Interface Segregation, de modo que cada clase tenga solo sus responsabilidades de una parte concreta de la página web, y que dependa solamente de los métodos y clases necesarios para su funcionamiento. 
 
 - Comunicación con el backend: 
 
-Para las operaciones de creación, listado, edición y similares sobre usuarios, el frontend utiliza dos partes importantes. La primera es la clase `authservice.py` de la carpeta `data/rest`, que utiliza el patrón adaptador para comunicarse con los diferentes métodos del servicio dms2122auth que manejan los usuarios y la base de datos, y adaptarlos para poder ser usados en el frontend. La segunda parte consiste en las clases de la carpeta `presentation/web` llamadas `WebAuth` y `WebUser`, que una vez más son implementación del patrón adaptador para obtener la información de la clase authservice y permitir su uso en los diferentes endpoints de los usuarios. Una vez más, están divididas estas funcionalidades en varias clases para respetar los principios SOLID. 
+Para las operaciones de manejo de usuarios, el frontend deberá acceder al servicio de autenticación, y para las operaciones sobre preguntas y respuestas, al servicio de backend. Esto se hará posible a través de las clases 'authservice.py' y 'backendservice.py'. Estas clases llamarán a las diferentes url de los servicios de autenticación y backend, obteniendo sus resultados. Estas clases formarán parte de la capa de datos, al ser las encargadas de obtener los datos de los otros servicios.
 
-Como en esta primera entrega solamente había que realizar el frontend sin nada de backend, no lo hemos implementado aún, pero su comunicación para el manejo de preguntas y respuestas seguiría la misma estructura, utilizando esta vez la clase `backendservice.py` y creando nuevas clases en el estilo de WebAuth y WebUser. 
+A continuación, en la capa de presentación, las clases llamadas `WebAuth` y `WebUser` se encargarán de las operaciones sobre usuarios, y utilizarán el authservice, mientras que 'WebQuestion', 'WebAnswer' y 'WebStats' manejarán las operaciones sobre preguntas y sus respuestas, utilizando el backend. Todas estas clases se encargarán de obtener los resultados de la capa de datos, extraer los posibles mensajes de error, y extraer sus contenidos a tipos de datos más comunes como diccionarios o listas. Una vez más, están divididas estas funcionalidades en varias clases para respetar los principios SOLID. 
+
+Por último, las clases de la capa de presentación que implementan las funcionalidades de los endpoints (explicadas anteriormente) llamarán a los métodos de estas clases para obtener los datos, y pasárselos a las diferentes templates.
 
 - Ficheros HTML: 
 
 La estructura de templates está dividida por carpetas, en la que cada una de ellas representa un rol dentro de la aplicación (a excepción de macros). Dentro de estas carpetas se divide a su vez en más carpetas según las funcionalidades que vayan necesitando, simulando la estructura de URLs de la página web. En cuanto al formato y estilo de los componentes, se maneja en el fichero `style.css` de la carpeta `static`. En su interior se encuentra definido el estilo que va a tomar la web, indicando los colores y la separación de la parte superior, el menú de navegación, márgenes... Además, también incluye el estilo de las tablas, los botones e incluso el menú de login. 
 
-Por último, indicar que queríamos realizar plantillas para los formularios de responder preguntas y listar preguntas con el fin de evitar repetir código, pero inicialmente hemos centrado nuestros esfuerzos en que cada rol pueda cumplir con los requisitos establecidos y ya en posteriores entregas mejorar este aspecto, pues hay bastantes diferencias de código entre los tres formularios en el momento lo que dificulta el uso de plantillas. 
+Por último, indicar que queríamos realizar macros para los formularios de responder preguntas y listar preguntas con el fin de evitar repetir código, pero no hemos tenido el tiempo necesario como para poder implementarlos sin errores.
 
