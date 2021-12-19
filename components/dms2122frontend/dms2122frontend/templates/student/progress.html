@@ -1,7 +1,23 @@
 {% extends "student.html" %}
+{% from "macros/buttons.html" import button, submit_button %}
 {% block contentsubheading %}Student progress{% endblock %}
 {% block studentcontent %}
     {% block progresscontent %}
-    <p class="yellowbg">Under construction</p>
+    <table class="fillwidth highlightrows">
+        <tbody>
+            <tr>
+                <th class="alignleft">Total answered questions</th>
+            </tr>
+            <tr>
+                <th class="alignleft">Punctuation</th>
+            </tr>
+            <tr>
+                <th class="alignleft">Punctuation over all questions</th>
+            </tr>
+            <tr>
+                <th class="alignleft">Punctuation over answered questions</th>
+            </tr>
+        </tbody>
+    </table>
     {% endblock %}
 {% endblock %}
