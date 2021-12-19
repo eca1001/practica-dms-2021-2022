@@ -206,18 +206,19 @@ class QuestionsServices():
         out: List[Dict] = []
         session: Session = schema.new_session()
         try:
-            questions: List[Question] = QuestionLogic.list_answered_for_user(session, user)
+            questions: List[Question,float] = QuestionLogic.list_answered_for_user(session, user)
             for question in questions:
-                out.append({
-                    'id': question.id,     # type: ignore
-                    'title': question.title,
-                    'body': question.body,
-                    'option1': question.option1,
-                    'option2': question.option2,
-                    'option3': question.option3,
-                    'correct_answer': question.correct_answer,
-                    'punctuation': question.punctuation,
-                    'penalty': question.penalty
+                out.append({ 'question':{
+                    'id': question[0].id,     # type: ignore
+                    'title': question[0].title,
+                    'body': question[0].body,
+                    'option1': question[0].option1,
+                    'option2': question[0].option2,
+                    'option3': question[0].option3,
+                    'correct_answer': question[0].correct_answer,
+                    'punctuation': question[0].punctuation,
+                    'penalty': question[0].penalty},
+                'punctuation': question[1]
                 })
         except Exception as ex:
             raise ex

@@ -4,10 +4,11 @@ from typing import List, Dict, Optional
 from sqlalchemy.orm.session import Session  # type: ignore
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.rest import AuthService
-from dms2122backend.data.db.results import Question
+from dms2122backend.data.db.results import Question, answer
 from dms2122backend.data.db.resultsets import Questions
 from dms2122backend.data.db.results import Answer
 from dms2122backend.data.db.resultsets import Answers
+from dms2122backend.logic.answerlogic import AnswerLogic
 from dms2122backend.logic.exc.forbiddenoperationerror import ForbiddenOperationError
 from dms2122common.data.rest import ResponseData
 
@@ -155,8 +156,10 @@ class QuestionLogic():
             questions = Questions.list_all(session)
             answered = []
             for question in questions:
-                if Answers.get_answer(session, user, question.id) is not None:     # type: ignore
-                    answered.append(question)
+                ans = Answers.get_answer(session, user, question.id)
+                if ans is not None:     # type: ignore
+                    punctuation = AnswerLogic.answer_punctuation(session, ans)
+                    answered.append(list(question,punctuation))
         except Exception as ex:
             raise ex
         return answered
