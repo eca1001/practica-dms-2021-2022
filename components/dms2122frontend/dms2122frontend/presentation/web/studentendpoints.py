@@ -83,7 +83,8 @@ class StudentEndpoints():
         name = session['user']
 
         return render_template('student/questions/answered.html', name=name, roles=session['roles'],
-                                questions=WebQuestion.list_answered_for_user(backend_service, name))
+                                questions=WebQuestion.list_answered_for_user(backend_service, name),
+                                redirect_to = '/student/questions')
 
     @staticmethod
     def get_student_questions_answered_view(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
@@ -126,7 +127,8 @@ class StudentEndpoints():
         name = session['user']
 
         return render_template('student/questions/pending.html', name=name, roles=session['roles'],
-                            questions=WebQuestion.list_pending_for_user(backend_service,name))
+                            questions=WebQuestion.list_pending_for_user(backend_service,name),
+                            redirect_to = '/student/questions')
 
     @staticmethod
     def get_student_questions_pending_answer(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
