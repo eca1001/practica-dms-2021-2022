@@ -8,6 +8,9 @@ from dms2122backend.data.db.results import Answer
 from dms2122backend.data.db.resultsets import Answers
 from dms2122backend.logic.exc.forbiddenoperationerror import ForbiddenOperationError
 from dms2122common.data.rest import ResponseData
+from dms2122backend.logic.questionlogic import QuestionLogic
+from dms2122backend.data.db.results import Question
+
 
 class AnswerLogic():
     """ Monostate class that provides logic-level operations to handle answer-related use cases.
@@ -112,4 +115,14 @@ class AnswerLogic():
         except Exception as ex:
             raise ex
         return answer
+
+    @staticmethod
+    def answer_punctuation(session: Session,answer:Answer)->int:
+        try:
+            question: Question = QuestionLogic.get_question_by_id(answer.id)
+            if question.correct_answer==answer.number:
+                return question.punctuation
+            return -question.penalty
+        except Exception as ex:
+            raise ex
 

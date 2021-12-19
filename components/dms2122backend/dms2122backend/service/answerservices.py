@@ -146,3 +146,17 @@ class AnswersServices():
         finally:
             schema.remove_session()
         return out
+
+
+    @staticmethod
+    def answer_punctuation(answer:Answer,schema: Schema)->int:
+        session: Session = schema.new_session()   
+        punctuation: int=0     
+        try:
+            punctuation = AnswerLogic.answer_punctuation(session,answer)
+            schema.remove_session()
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return punctuation
