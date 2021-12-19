@@ -61,17 +61,17 @@ Los profesores, desde la ventana “Teacher” puede ver y crear preguntas desde
 Para crear una pregunta se deben rellenar todos los campos, los cuales son: un título, el cuerpo de la pregunta, 3 opciones, indicador de la opción correcta, puntuación de la pregunta, y penalización de esta.
 
 Desde el botón "View Statistics" el profesor podrá ver todas las preguntas que ha creado, junto con el número de respuestas que tiene, las veces que se ha seleccionado cada opción y la media de puntuación de esa pregunta.
-### Foto
+![image](https://user-images.githubusercontent.com/56863859/146692563-4fc46a89-4293-43cd-b0e1-c70797bf1725.png)
 
 Por otro lado, el profesor desde la ventana de “Student progress” podrá ver una tabla donde se muestran todos los usuarios que han respondido alguna pregunta. Además, pordrá ver información sobre el total de preguntas que ha respondido, su puntuación total o su puntuación sobre 10 de las preguntas que lleva responddias y su nota sobre 10 teniendo en cuanta todas la preguntas (tanto las respondidas como las que no lo estan).
-### Foto
+![image](https://user-images.githubusercontent.com/56863859/146692575-612447e2-f1a8-4f76-be31-118d2db9a15e.png)
 
 Los alumnos, pueden acceder a “Questions” donde pueden contestar las preguntas y “Student progress” para consultar su progreso. La primera opción nos permite ver que preguntas faltan por contestar y cuales han sido contestadas. Para contestar una pregunta pincharemos en “Answer”.
  
 ![image](https://user-images.githubusercontent.com/56863859/144721023-8e219f3c-7ee9-4568-9d96-375df559a6b6.png)
 
 En la ventana de "Student progress” el usuario podrá ver información a cerca de las preguntas que ha respondido, su puntuación total y su puntuación en base 10 de aquellas preguntas que ha respondido, y por último, la nota sobre 10 con respectoa todas la preguntas que tiene que respondeer.
-### Foto
+![image](https://user-images.githubusercontent.com/56863859/146692592-17ac2bbd-9b88-4b87-b832-cd7df7035c82.png)
 
 ## Components
 
