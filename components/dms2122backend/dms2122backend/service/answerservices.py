@@ -131,9 +131,10 @@ class AnswersServices():
         out: Dict = {}
         try:
             answer: Answer = AnswerLogic.get_answer(session, user, id)
-            out['id'] = answer.id
-            out['username'] = answer.user
-            out['number'] = answer.number
+            if answer is not None:
+                out['id'] = answer.id
+                out['username'] = answer.user
+                out['number'] = answer.number
         except Exception as ex:
             raise ex
         finally:

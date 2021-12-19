@@ -19,9 +19,43 @@ class WebQuestion():
             - backend_service (BackendService): The backend service.
 
         Returns:
-            - List: A list of user data dictionaries (the list may be empty)
+            - List: A list of question data dictionaries (the list may be empty)
         """
         response: ResponseData = backend_service.list_questions(session.get('token'))
+        WebUtils.flash_response_messages(response)
+        if response.get_content() is not None and isinstance(response.get_content(), list):
+            return list(response.get_content())
+        return []
+
+    @staticmethod
+    def list_pending_for_user(backend_service: BackendService, username: str) -> List:
+        """ Gets the list of pending questions for a user from the backend service.
+
+        Args:
+            - backend_service (BackendService): The backend service.
+            - username (str): the user name
+
+        Returns:
+            - List: A list of question data dictionaries (the list may be empty)
+        """
+        response: ResponseData = backend_service.list_pending_for_user(session.get('token'), username)
+        WebUtils.flash_response_messages(response)
+        if response.get_content() is not None and isinstance(response.get_content(), list):
+            return list(response.get_content())
+        return []
+
+    @staticmethod
+    def list_answered_for_user(backend_service: BackendService, username: str) -> List:
+        """ Gets the list of answered questions for a user from the backend service.
+
+        Args:
+            - backend_service (BackendService): The backend service.
+            - username (str): the user name
+
+        Returns:
+            - List: A list of question data dictionaries (the list may be empty)
+        """
+        response: ResponseData = backend_service.list_answered_for_user(session.get('token'), username)
         WebUtils.flash_response_messages(response)
         if response.get_content() is not None and isinstance(response.get_content(), list):
             return list(response.get_content())
@@ -79,7 +113,7 @@ class WebQuestion():
 
     @staticmethod
     def question_has_answers(backend_service: BackendService, id: int) -> bool:
-        """ Updates the user roles in the authentication service.
+        """ Checks if a question has been answered by someone.
 
         Args:
             - backend_service (BackendService): The backend service.

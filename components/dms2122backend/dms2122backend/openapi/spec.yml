@@ -48,6 +48,63 @@ paths:
         - questions
       security:
         - api_key: []
+
+  /questions/{username}/pending:
+    get:
+      summary: Gets a listing of pending questions for a user.
+      operationId: dms2122backend.presentation.rest.question.list_pending_for_user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of questions.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionsFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+
+  /questions/{username}/answered:
+    get:
+      summary: Gets a listing of answered questions for a user.
+      operationId: dms2122backend.presentation.rest.question.list_answered_for_user
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of questions.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/QuestionsFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+      security:
+        - api_key: []
+
   /question/new:
     post:
       summary: Creates a new question.
@@ -326,8 +383,8 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/AnswersFullListModel'
-        '403':
-          description: The requesting user has no permission to do this operation.
+        '400':
+          description: Errors in the request.
           content:
             'text/plain':
               schema:

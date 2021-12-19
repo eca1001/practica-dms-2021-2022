@@ -58,9 +58,7 @@ def list_all_for_user(username: str) -> Tuple[Union[List[Dict], str], Optional[i
     """
     with current_app.app_context():
         try:
-            answers: List[Dict] = AnswersServices.list_all_for_user(
-                username, current_app.db
-            )
+            answers: List[Dict] = AnswersServices.list_all_for_user(username, current_app.db)
         except ValueError:
             return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)        
     return (answers, HTTPStatus.OK.value)

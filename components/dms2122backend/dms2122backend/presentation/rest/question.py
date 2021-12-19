@@ -103,3 +103,38 @@ def edit_question(body: Dict, id: int, token_info: Dict) -> Tuple[Union[Dict, st
             )
     return (question, HTTPStatus.OK.value)
 
+def list_pending_for_user(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
+    """Lists the pending questions for a user.
+
+    Args:
+        - username (str): The user name string.
+
+    Returns:
+        - Tuple[Union[List[Dict], str], Optional[int]]: A tuple with a list of dictionaries for the questions' data
+          and a code 200 OK.
+            - 400 BAD REQUEST when a mandatory argument is missing.
+    """
+    with current_app.app_context():
+        try:
+            questions: List[Dict] = QuestionsServices.list_pending_for_user(current_app.db, username)
+        except ValueError:
+            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)   
+    return (questions, HTTPStatus.OK.value)
+
+def list_answered_for_user(username: str) -> Tuple[Union[List[Dict], str], Optional[int]]:
+    """Lists the answered questions for a user.
+
+    Args:
+        - username (str): The user name string.
+        
+    Returns:
+        - Tuple[Union[List[Dict], str], Optional[int]]: A tuple with a list of dictionaries for the questions' data
+          and a code 200 OK.
+            - 400 BAD REQUEST when a mandatory argument is missing.
+    """
+    with current_app.app_context():
+        try:
+            questions: List[Dict] = QuestionsServices.list_answered_for_user(current_app.db, username)
+        except ValueError:
+            return ('A mandatory argument is missing', HTTPStatus.BAD_REQUEST.value)   
+    return (questions, HTTPStatus.OK.value)

@@ -6,6 +6,8 @@ from dms2122backend.data.db import Schema
 from dms2122backend.data.rest import AuthService
 from dms2122backend.data.db.results import Question
 from dms2122backend.data.db.resultsets import Questions
+from dms2122backend.data.db.results import Answer
+from dms2122backend.data.db.resultsets import Answers
 from dms2122backend.logic.exc.forbiddenoperationerror import ForbiddenOperationError
 from dms2122common.data.rest import ResponseData
 
@@ -115,4 +117,47 @@ class QuestionLogic():
         except Exception as ex:
             raise ex
         return question
+
+
+    @staticmethod
+    def list_pending_for_user(session: Session, user: str) -> List[Question]:
+        """Lists the pending questions for a user.
+
+        Args:
+            - session (Session): The session object.
+            - user (str): The user name string.
+
+        Returns:
+            - List[Question]: A list of questions.
+        """
+        try:
+            questions = Questions.list_all(session)
+            pending = []
+            for question in questions:
+                if Answers.get_answer(session, user, question.id) is None:     # type: ignore
+                    pending.append(question)
+        except Exception as ex:
+            raise ex
+        return pending
+
+    @staticmethod
+    def list_answered_for_user(session: Session, user: str) -> List[Question]:
+        """Lists the answered questions for a user.
+
+        Args:
+            - session (Session): The session object.
+            - user (str): The user name string.
+
+        Returns:
+            - List[Question]: A list of questions.
+        """
+        try:
+            questions = Questions.list_all(session)
+            answered = []
+            for question in questions:
+                if Answers.get_answer(session, user, question.id) is not None:     # type: ignore
+                    answered.append(question)
+        except Exception as ex:
+            raise ex
+        return answered
 

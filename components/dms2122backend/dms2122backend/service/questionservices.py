@@ -157,3 +157,70 @@ class QuestionsServices():
         finally:
             schema.remove_session()
         return out
+
+
+    @staticmethod
+    def list_pending_for_user(schema: Schema, user: str) -> List[Dict]:
+        """Lists the pending questions for a user.
+
+        Args:
+            - schema (Schema): A database handler where the questions are mapped into.
+            - user (str): The user name string.
+
+        Returns:
+            - List[Dict]: A list of dictionaries with the questions' data.
+        """
+        out: List[Dict] = []
+        session: Session = schema.new_session()
+        try:
+            questions: List[Question] = QuestionLogic.list_pending_for_user(session, user)
+            for question in questions:
+                out.append({
+                    'id': question.id,     # type: ignore
+                    'title': question.title,
+                    'body': question.body,
+                    'option1': question.option1,
+                    'option2': question.option2,
+                    'option3': question.option3,
+                    'correct_answer': question.correct_answer,
+                    'punctuation': question.punctuation,
+                    'penalty': question.penalty
+                })
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return out
+
+    @staticmethod
+    def list_answered_for_user(schema: Schema, user: str) -> List[Dict]:
+        """Lists the answered questions for a user.
+
+        Args:
+            - schema (Schema): A database handler where the questions are mapped into.
+            - user (str): The user name string.
+
+        Returns:
+            - List[Dict]: A list of dictionaries with the questions' data.
+        """
+        out: List[Dict] = []
+        session: Session = schema.new_session()
+        try:
+            questions: List[Question] = QuestionLogic.list_answered_for_user(session, user)
+            for question in questions:
+                out.append({
+                    'id': question.id,     # type: ignore
+                    'title': question.title,
+                    'body': question.body,
+                    'option1': question.option1,
+                    'option2': question.option2,
+                    'option3': question.option3,
+                    'correct_answer': question.correct_answer,
+                    'punctuation': question.punctuation,
+                    'penalty': question.penalty
+                })
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return out

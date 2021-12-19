@@ -68,6 +68,60 @@ class BackendService():
             response_data.set_content([])
         return response_data
 
+    def list_pending_for_user(self, token: Optional[str], username: str) -> ResponseData:
+        """ Requests a list of pending questions for a user.
+
+        Args:
+            - token (Optional[str]): The user session token.
+            - username (str): the user's name
+
+        Returns:
+            - ResponseData: If successful, the contents hold a list of question data dictionaries.
+              Otherwise, the contents will be an empty list.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f'/questions/{username}/pending',
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+            response_data.set_content([])
+        return response_data
+
+    def list_answered_for_user(self, token: Optional[str], username: str) -> ResponseData:
+        """ Requests a list of answered questions for a user.
+
+        Args:
+            - token (Optional[str]): The user session token.
+            - username (str): the user's name
+
+        Returns:
+            - ResponseData: If successful, the contents hold a list of question data dictionaries.
+              Otherwise, the contents will be an empty list.
+        """
+        response_data: ResponseData = ResponseData()
+        response: requests.Response = requests.get(
+            self.__base_url() + f'/questions/{username}/answered',
+            headers={
+                'Authorization': f'Bearer {token}',
+                self.__apikey_header: self.__apikey_secret
+            }
+        )
+        response_data.set_successful(response.ok)
+        if response_data.is_successful():
+            response_data.set_content(response.json())
+        else:
+            response_data.add_message(response.content.decode('ascii'))
+            response_data.set_content([])
+        return response_data
+
     def create_question(self, token: Optional[str], title: str,  body: str, option1: str, option2: str, option3: str,
              correct_answer: int, punctuation: float, penalty: float) -> ResponseData:
         """ Requests a question creation.
@@ -227,7 +281,8 @@ class BackendService():
         """ Requests a list of answers for a certain user.
 
         Args:
-            token (Optional[str]): The user session token.
+            - token (Optional[str]): The user session token.
+            - username (str): the user's name
 
         Returns:
             - ResponseData: If successful, the contents hold a list of question data dictionaries.

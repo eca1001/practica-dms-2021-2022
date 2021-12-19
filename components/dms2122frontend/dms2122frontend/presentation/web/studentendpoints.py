@@ -82,10 +82,8 @@ class StudentEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
 
-        #test values until backfront is completed
-        answers=[ {"title" : "Pregunta de prueba 3", "score" : "1"}]
         return render_template('student/questions/answered.html', name=name, roles=session['roles'],
-                                answers=WebAnswer.list_all_for_user(backend_service, name))
+                                answers=WebQuestion.list_answered_for_user(backend_service,name))
 
     @staticmethod
     def get_student_questions_answered_view(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
@@ -123,17 +121,8 @@ class StudentEndpoints():
             return redirect(url_for('get_home'))
         name = session['user']
 
-        #test values until backfront is completed
-        questions=[ {"title" : "Pregunta de prueba 1", "body" : "cuerpo pregunta 1",
-                        "option1" : "A", "option2" : "B", "option3" : "C", 
-                        "correct_answer": 1},
-                    {"title" : "Pregunta de prueba 2", "body" : "cuerpo pregunta 2",
-                        "option1" : "A", "option2" : "B", "option3" : "C", 
-                        "correct_answer": 3}
-                   ] 
-        redirect_to = request.args.get('redirect_to', default='/student/questions/pending')
         return render_template('student/questions/pending.html', name=name, roles=session['roles'],
-                            questions=questions)
+                            questions=WebQuestion.list_pending_for_user(backend_service,name))
 
     @staticmethod
     def get_student_questions_pending_answer(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:

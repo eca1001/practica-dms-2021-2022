@@ -10,7 +10,7 @@
                 {% for question in questions %}
                     <tr class="highlightable">
                         <td class="alignleft">{{ question['title'] }}</td>
-                        <td class="alignright">{{ button('bluebg', '/student/questions/pending/answer?questiontitle=' + question['title'] + '&redirect_to=/student/questions/pending', 'Answer') }}</td>                        
+                        <td class="alignright">{{ button('bluebg', '/student/questions/pending/answer?questionid=' + question['id']|string + '&redirect_to=/student/questions/pending', 'Answer') }}</td>                        
                     </tr>
                 {% endfor %}
             </tbody>
