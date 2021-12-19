@@ -31,18 +31,16 @@ class StatsLogic():
             score_all_questions:float=0
             punt: Optional[float] = 0
             for ans in user_answers:
-                question: Question = QuestionLogic.get_question_by_id(ans.id)
-                punt = AnswerLogic.answer_punctuation(session,ans)
-                if punt is not None:
-                    user_punctuation=user_punctuation+punt
-                answered_questions_punctuation=answered_questions_punctuation+question.punctuation
+                question: Optional[Question] = QuestionLogic.get_question_by_id(session,ans.id)
+                if question is not None:
+                    punt = AnswerLogic.answer_punctuation(session,ans)
+                    if punt is not None:
+                        user_punctuation=user_punctuation+punt
+                    answered_questions_punctuation=answered_questions_punctuation+question.punctuation
             
             score_answered=user_punctuation/answered_questions_punctuation*10
             score_all_questions=user_punctuation/StatsLogic.all_questions_puntuation*10
-            values.append(n_answers)
-            values.append(user_punctuation)
-            values.append(score_answered)
-            values.append(score_all_questions)
+            values.append(n_answers,user_punctuation,score_answered,score_all_questions)
         except Exception as ex:
             raise ex
         return values
