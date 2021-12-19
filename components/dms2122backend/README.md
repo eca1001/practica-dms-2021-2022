@@ -52,7 +52,7 @@ As some operations required in the authentication service require a user session
 
 ## Comunicaciones entre servicios y arquitectura
 
-El backend contiene una arquitectura de 4 capas, con capas de datos, lógica, servicios y presentación.
+El backend contiene una arquitectura de 4 capas, con capas de datos, lógica, servicios y presentación. Esto nos permite mantender las responsabilidades separadas atendiendo al principio SOLID de Single Responsibility, y reducir el número de dependencias de cada clase.
 
 Para poder acceder a los diferentes datos desde el frontend, se especifica en el archivo `openapi/spec.yml` las diferentes rutas que forman este servicio, y los métodos get, post y put de cada una de ellas. Al entrar a una ruta, esta llamará al método correspondiente de la capa de presentación, pasándole los parámetros indicados, ya sea aquellos incluidos en la url o aquellos guardados en un paquete json. 
 
