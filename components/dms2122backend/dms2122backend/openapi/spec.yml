@@ -422,6 +422,28 @@ paths:
         - answers
       security:
         - api_key: []
+  /stats/questions:
+    get:
+      summary: Gets the stats for all the questions.
+      operationId: dms2122backend.presentation.rest.stats.questions_stats
+      responses:
+        '200':
+          description: The list of stats for questions.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatsQuestionFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
 
 
 components:
@@ -546,6 +568,29 @@ components:
         - score_answered
         - score_all_questions
 
+    StatsQuestionFullModel:
+      type: object
+      properties:
+        n_answers:
+          type: integer
+        n_opcion1:
+          type: integer
+        n_opcion2:
+          type: integer
+        n_opcion3:
+          type: integer         
+        avg_punctuation:
+          type: number
+      required:
+        - n_answers
+        - n_opcion1
+        - n_opcion2
+        - n_opcion3
+        - avg_punctuation
+    StatsQuestionFullListModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/StatsQuestionFullModel'
   securitySchemes:
     api_key:
       type: apiKey

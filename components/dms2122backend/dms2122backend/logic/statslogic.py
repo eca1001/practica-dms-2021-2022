@@ -58,13 +58,13 @@ class StatsLogic():
             for ques in questions:
                 answers: List[Answer] = AnswerLogic.list_all_for_question(session,ques.id) # type: ignore
                 n_answers=len(answers)
+                dic: Dict={}
                 if n_answers >0:
                     n_opcion1:int=0
                     n_opcion2:int=0
                     n_opcion3:int=0
                     punt: Optional[float] = 0
-                    question_punctuation:float = 0
-                    dic: Dict={}
+                    question_punctuation:float = 0                    
                     avg_punctuation:float=0
                     for ans in answers:
                         opcion:int=ans.number
@@ -82,6 +82,7 @@ class StatsLogic():
                     dic['n_opcion2']=n_opcion2
                     dic['n_opcion3']=n_opcion3
                     dic['avg_punctuation']=question_punctuation/(n_answers)
+                    values.append(dic)
                 else:
                     dic['n_answers']=0
                     dic['n_opcion1']=0
