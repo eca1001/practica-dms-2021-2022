@@ -2,6 +2,26 @@
 {% block contentsubheading %}Student progress{% endblock %}
 {% block teachercontent %}
     {% block studentcontent %}
-    <p class="yellowbg">Under construction</p>
+    <table class="fillwidth highlightrows">
+        <tbody>
+            <tr>
+                <th class="alignleft">Username</th>
+                <th class="alignleft">Total Answers</th>
+                <th class="alignleft">User Punctuation</th>
+                <th class="alignleft">Punctuation out of 10 over answered questions</th>
+                <th class="alignleft">Punctuation out of 10 over all questions</th>
+            </tr>
+        
+            {% for stat in stats %}
+            <tr>
+                <td class="alignleft">{{ stat['username'] }}</td>
+                <td class="alignleft">{{ stat['n_answers'] }}</td>
+                <td class="alignleft">{{ stat['user_punctuation'] }}</td>
+                <td class="alignleft">{{ stat['score_answered'] }}</td>
+                <td class="alignleft">{{ stat['score_all_questions'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endblock %}
 {% endblock %}
