@@ -1,6 +1,6 @@
 """ AnswerServices class module.
 """
-from typing import List, Dict
+from typing import List, Dict, Optional
 from sqlalchemy.orm.session import Session  # type: ignore
 from dms2122backend.data.db import Schema 
 from dms2122backend.data.db.results import Answer
@@ -149,14 +149,16 @@ class AnswersServices():
 
 
     @staticmethod
-    def answer_punctuation(answer:Answer,schema: Schema)->float:
+    def answer_punctuation(answer:Answer,schema: Schema)-> Optional[float]:
         session: Session = schema.new_session()   
-        punctuation: float=0     
+        punctuation: float =0     
         try:
-            punctuation = AnswerLogic.answer_punctuation(session,answer)
-            schema.remove_session()
+            if punctuation is not None:
+                punctuation = AnswerLogic.answer_punctuation(session,answer)    
+                return punctuation
+            return None        
         except Exception as ex:
             raise ex
         finally:
             schema.remove_session()
-        return punctuation
+        
