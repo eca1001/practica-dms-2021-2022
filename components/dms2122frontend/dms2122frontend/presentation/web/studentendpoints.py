@@ -161,18 +161,14 @@ class StudentEndpoints():
         
         name = session['user']
 
-        if request.form['option'] is not None:
-            selected = str(request.form['option'])
-            number_selected = 0
-            if selected == 'option1':
-                number_selected = 1
-            elif selected == 'option2':
-                number_selected = 2
-            elif selected == 'option3':
-                number_selected = 3
-        else:
-            flash('A mandatory argument is missing', 'error')
-            return redirect(url_for('get_student_questions_pending'))
+        selected = str(request.form['option'])
+        number_selected = 0
+        if selected == 'option1':
+            number_selected = 1
+        elif selected == 'option2':
+            number_selected = 2
+        elif selected == 'option3':
+            number_selected = 3
 
         new_answer = WebAnswer.answer_question(backend_service,
                                                 int(request.form['id']),
@@ -180,7 +176,7 @@ class StudentEndpoints():
                                                 str(name))
 
         if not new_answer:
-            return redirect(url_for('get_student_questions'))
+            return redirect(url_for('get_student_questions_pending'))
         redirect_to = request.form['redirect_to']
         if not redirect_to:
             redirect_to = url_for('get_student_questions_pending')

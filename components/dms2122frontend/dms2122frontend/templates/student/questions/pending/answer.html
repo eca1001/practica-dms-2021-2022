@@ -11,11 +11,15 @@
                 {{ question['body'] }}
             </dd>
             <dd id="questiondd">
-                <input type="radio" name="option" value="option1" required>{{ question['option1'] }}<br>
-                <input type="radio" name="option" value="option2" >{{ question['option2'] }}<br>
-                <input type="radio" name="option" value="option3" >{{ question['option3'] }}<br>
+                <input type="radio" name="option" value="option1" required="required">{{ question['option1'] }}<br>
+                <input type="radio" name="option" value="option2" required="required">{{ question['option2'] }}<br>
+                <input type="radio" name="option" value="option3" required="required">{{ question['option3'] }}<br>
             </dd>
+            <dd id="questiondd">
+                <input class="button bluebg" type="submit" name="submit" value="Answer Question"><br>
+            </dd>
+            
         </dl>
-        <p class="alignright">{{ submit_button('bluebg', 'Answer Question') }}{{ button('redbg', redirect_to, 'Cancel') }}</p>
+        <p class="alignright">{{ button('redbg', redirect_to, 'Cancel') }}</p>
     </form>
 {% endblock %}
