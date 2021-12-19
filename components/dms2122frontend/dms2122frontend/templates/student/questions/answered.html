@@ -9,11 +9,11 @@
                     <th class="aligncenter">Score</th><th></th>
                     <th class="alignright"></th><th></th>
                 </tr>
-                {% for answer in answers %}
+                {% for question in questions %}
                     <tr class="highlightable">
-                        <td class="alignleft">{{ answer['title'] }}</td>
-                        <td class="aligncenter">{{ answer['score'] }}</td>
-                        <td class="alignright">{{ button('bluebg', '/student/questions/answered/view?questiontitle=' + answer['title'] + '&redirect_to=/student/questions/answered', 'View') }}</td>                        
+                        <td class="alignleft">{{ question['title'] }}</td>
+                        <td class="aligncenter">{{ question['score'] }}</td>
+                        <td class="alignright">{{ button('bluebg', '/student/questions/answered/view?questionid=' + question['id']|string + '&redirect_to=/student/questions/answered', 'View') }}</td>                        
                     </tr>
                 {% endfor %}
             </tbody>

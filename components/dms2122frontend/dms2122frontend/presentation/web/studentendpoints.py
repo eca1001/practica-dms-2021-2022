@@ -83,7 +83,7 @@ class StudentEndpoints():
         name = session['user']
 
         return render_template('student/questions/answered.html', name=name, roles=session['roles'],
-                                answers=WebQuestion.list_answered_for_user(backend_service,name))
+                                questions=WebQuestion.list_answered_for_user(backend_service, name))
 
     @staticmethod
     def get_student_questions_answered_view(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:
@@ -100,10 +100,14 @@ class StudentEndpoints():
         if Role.Student.name not in session['roles']:
             return redirect(url_for('get_home'))
         name = session['user']
-        title: str = str(request.args.get('questiontitle'))
+        id: int = int(str(request.args.get('questionid')))
         redirect_to = request.args.get('redirect_to', default='/student/questions/answered')
+
         return render_template('student/questions/answered/view.html', name=name, 
-                                roles=session['roles'], redirect_to=redirect_to, title=title)
+                                roles=session['roles'], redirect_to=redirect_to, 
+                                question = WebQuestion.get_question(backend_service ,id),
+                                answer=WebAnswer.get_answer(backend_service, name, id) 
+                                )
 
     @staticmethod
     def get_student_questions_pending(auth_service: AuthService, backend_service: BackendService) -> Union[Response, Text]:

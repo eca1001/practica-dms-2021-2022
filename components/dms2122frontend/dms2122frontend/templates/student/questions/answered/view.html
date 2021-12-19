@@ -5,14 +5,26 @@
     <form action="/student/questions/pending/answer" method="post">
         <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
         <dl>
-            <dt>{{ title }}</dt>
+            <dt>{{ question['title'] }}</dt>
             <dd id="questiondd">
-                Aquí irá el cuerpo de cada pregunta una vez tengamos el backend
+                {{ question['body'] }}
             </dd>
             <dd id="questiondd">
-                <input type="radio" name="option" value="opcion1" disabled>Esta será la opción 1<br>
-                <input type="radio" name="option" value="opcion2" checked>Esta será la opción 2<br>
-                <input type="radio" name="option" value="opcion3" disabled>Esta será la opción 3<br>
+                {% if answer['number'] == 1 %}
+                <input type="radio" name="option" value="option1" checked>{{ question['option1'] }}<br>
+                {% else %}
+                <input type="radio" name="option" value="option1" disabled>{{ question['option1'] }}<br>
+                {% endif %}
+                {% if answer['number'] == 2 %}
+                <input type="radio" name="option" value="option2" checked>{{ question['option2'] }}<br>
+                {% else %}
+                <input type="radio" name="option" value="option2" disabled>{{ question['option2'] }}<br>
+                {% endif %}
+                {% if answer['number'] == 3 %}
+                <input type="radio" name="option" value="option3" checked>{{ question['option3'] }}<br>
+                {% else %}
+                <input type="radio" name="option" value="option3" disabled>{{ question['option3'] }}<br>
+                {% endif %}
             </dd>
         </dl>
         <p class="alignright">{{ button('redbg', redirect_to, 'Back') }}</p>
