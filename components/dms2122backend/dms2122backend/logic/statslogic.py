@@ -109,6 +109,7 @@ class StatsLogic():
             
             for user in all_users:
                 dic:Dict=StatsLogic.user_stats(session,user)
+                dic['username']=user
                 values.append(dic)
 
             return values

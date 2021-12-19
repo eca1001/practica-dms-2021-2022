@@ -459,6 +459,28 @@ paths:
         - questions
       security:
         - api_key: []
+  /stats/users:
+    get:
+      summary: Gets the stats for all user.
+      operationId: dms2122backend.presentation.rest.stats.users_stats
+      responses:
+        '200':
+          description: The list of stats for that user.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/StatsUserFullListModel'
+        '400':
+          description: Errors in the request.
+          content:
+            'text/plain':
+              schema:
+                type: string
+      tags:
+        - questions
+        - answers
+      security:
+        - api_key: []
 
 components:
   schemas:
@@ -576,11 +598,17 @@ components:
           type: number
         score_all_questions:
           type: number
+        username:
+          type: string
       required:
         - n_answers
         - user_punctuation
         - score_answered
         - score_all_questions
+    StatsUserFullListModel:
+      type: array
+      items:
+        $ref: '#/components/schemas/StatsUserModel'
 
     StatsQuestionFullModel:
       type: object
@@ -595,6 +623,8 @@ components:
           type: integer         
         avg_punctuation:
           type: number
+        title:
+          type: string
       required:
         - n_answers
         - n_opcion1
