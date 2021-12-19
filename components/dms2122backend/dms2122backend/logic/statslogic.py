@@ -39,12 +39,12 @@ class StatsLogic():
                     answered_questions_punctuation=answered_questions_punctuation+question.punctuation
             
             score_answered=user_punctuation/answered_questions_punctuation*10
-            score_all_questions=user_punctuation/StatsLogic.all_questions_puntuation*10
+            score_all_questions=user_punctuation/StatsLogic.all_questions_puntuation(session)*10
             values.append(n_answers)
             values.append(user_punctuation)
             values.append(score_answered)
             values.append(score_all_questions)
-            
+
             return values
         except Exception as ex:
             raise ex
