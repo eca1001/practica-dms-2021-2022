@@ -49,5 +49,47 @@ class StatsLogic():
             return values
         except Exception as ex:
             raise ex
-        
+
+    @staticmethod
+    def questions_stats(session: Session)-> List[Dict]:
+        try:
+            questions:List[Question]=QuestionLogic.list_all(session)
+            values: List = []
+            for ques in questions:
+                answers: List[Answer] = AnswerLogic.list_all_for_question(session,ques.id) # type: ignore
+                n_answers=len(answers)
+                if n_answers >0:
+                    n_opcion1:int=0
+                    n_opcion2:int=0
+                    n_opcion3:int=0
+                    punt: Optional[float] = 0
+                    question_punctuation:float = 0
+                    dic: Dict={}
+                    avg_punctuation:float=0
+                    for ans in answers:
+                        opcion:int=ans.number
+                        if opcion==1:
+                            n_opcion1=n_opcion1+1
+                        elif opcion==2:
+                            n_opcion2=n_opcion2+1
+                        else:
+                            n_opcion3=n_opcion3+1
+                        punt = AnswerLogic.answer_punctuation(session,ans)
+                        if punt is not None:
+                            question_punctuation=question_punctuation+punt
+                    dic['n_answers']=n_answers
+                    dic['n_opcion1']=n_opcion1
+                    dic['n_opcion2']=n_opcion2
+                    dic['n_opcion3']=n_opcion3
+                    dic['avg_punctuation']=question_punctuation/(n_answers)
+                else:
+                    dic['n_answers']=0
+                    dic['n_opcion1']=0
+                    dic['n_opcion2']=0
+                    dic['n_opcion3']=0
+                    dic['avg_punctuation']=0
+                    values.append(dic)
+            return dic   
+        except Exception as ex:
+            raise ex
         

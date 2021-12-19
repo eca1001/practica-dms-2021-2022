@@ -20,3 +20,15 @@ class StatsServices():
         finally:
             schema.remove_session()
         return out
+
+    @staticmethod
+    def questions_stats(schema: Schema) -> List[Dict]:
+        session: Session = schema.new_session()
+        out: List[Dict] = []
+        try:
+            out = StatsLogic.questions_stats(session)
+        except Exception as ex:
+            raise ex
+        finally:
+            schema.remove_session()
+        return out      
