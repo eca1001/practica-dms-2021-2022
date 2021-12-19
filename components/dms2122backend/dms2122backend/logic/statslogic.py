@@ -89,7 +89,7 @@ class StatsLogic():
                     dic['n_opcion3']=0
                     dic['avg_punctuation']=0
                     values.append(dic)
-            return dic   
+            return values   
         except Exception as ex:
             raise ex
         
